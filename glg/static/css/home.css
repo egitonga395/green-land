@@ -1,0 +1,93 @@
+*{
+        background-color: #90EE90;
+        margin: 0;
+}
+body{
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: 0.5fr 1.8fr 0.5fr;
+        min-height: 100vh;
+        grid-gap: 20px;
+        margin: 0 50px 0 50px;
+
+        
+}
+nav{
+        grid-column: 1/5;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0px;
+        gap: 0.8em;
+        
+
+}
+
+
+img{
+        grid-column:1/3;
+        grid-row: 2/3;
+        max-width: 100%;
+        min-height: 72%;
+        
+}
+.describing{
+        grid-column: 3/5;
+        grid-row: 2/3;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding-top: 0.3em;
+        
+
+
+}
+.sign{
+        grid-column: 2/4;
+        grid-row: 3/4;
+}
+
+h2{
+        font-size: 2em/*37.7px*/;
+} 
+h5{
+        font-size: 1em;
+        font-weight: normal;
+}
+
+.signup{
+        padding-left: 0.3em;
+}
+.sign>h5{
+        padding: 0.8em 0 0.8em 0;
+}
+.sign{
+        margin: 0 auto;
+}
+
+
+.shop_button, .describing>h5:nth-child(2){
+        /* max-width: 72%; */
+        align-self: center;
+}
+.describing{
+        max-width: 80%
+}
+.describing>h5:nth-child(2){max-width: 72%;}
+
+button{
+        background-color: #FFBA00;
+        border-radius: 10%;
+        border-color: #FFBA00;
+        box-shadow: 4px 4px 0.3em ;
+}
+button>h2, button>h3{
+        background-color: #FFBA00;
+}
+.nav>a {
+        all: unset;
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+   }
+

@@ -1,0 +1,151 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Aclonica&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Aclonica&family=Poppins:ital,wght@0,100;0,200;
+    0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/shop_css.css' %}">
+</head>
+<body>
+    <nav>
+        <h2 class="logo">GREEN LAND<BR>GOAL</h2>
+        <h2>HOME</h2>
+        <h2>PRODUCTS</h2>
+        <h2>BLOG</h2>
+        <h2>ABOUT</h2>
+    </nav>
+    <aside>
+        <h1>Cartegories</h1>
+        <div class="options"><h3>All</h3>
+            <h3>Flowers</h3>
+            <h3>Trees</h3>
+            <h3>Pots</h3></div>
+
+        <h2>Price range</h2>
+        <div class="prices"><p style="display: inline;">From:</p><textarea name="first" id="" cols="1" rows="1" style="display: inline;">100</textarea>
+            <p style="display: inline;">to:</p><textarea name="first" id="" cols="1" rows="1" style="display: inline;">200</textarea></div>
+            <a href=""><button><p>Search</p></button></a>
+    </aside>
+    <main>
+        <!-- <div class="onsale"> -->
+            <!-- <div class="products">
+                <div>
+                    <img src="{% static 'image/45186561_958354954335242_9146592336728293376_n-01.jpeg'%}" alt="">
+                </div>
+                <div class="details">
+                    <p>Desription</p>
+                    <p>Price</p>
+                </div>
+            </div>
+            <div class="products">
+                <div>
+                    <img src="{% static 'image/45186561_958354954335242_9146592336728293376_n-01.jpeg'%}" alt="">
+                </div>
+                <div class="details">
+                    <p>Desription</p>
+                    <p>Price</p>
+                </div>
+            </div>
+            <div class="products">
+                <div>
+                    <img src="{% static 'image/45186561_958354954335242_9146592336728293376_n-01.jpeg'%}" alt="">
+                </div>
+                <div class="details">
+                    <p>Desription</p>
+                    <p>Price</p>
+                </div>
+            </div>
+            <div class="products">
+                <div>
+                    <img src="{% static 'image/45186561_958354954335242_9146592336728293376_n-01.jpeg'%}" alt="">
+                </div>
+                <div class="details">
+                    <p>Desription</p>
+                    <p>Price</p>
+                </div>
+            </div>
+            <div class="products">
+                <div>
+                    <img src="{% static 'image/45186561_958354954335242_9146592336728293376_n-01.jpeg'%}" alt="">
+                </div>
+                <div class="details">
+                    <p>Desription</p>
+                    <p>Price</p>
+                </div>
+            </div>
+            <div class="products">
+                <div>
+                    <img src="{% static 'image/45186561_958354954335242_9146592336728293376_n-01.jpeg'%}" alt="">
+                </div>
+                <div class="details">
+                    <p>Desription</p>
+                    <p>Price</p>
+                </div>
+            </div>
+            <div class="products">
+                <div>
+                    <img src="{% static 'image/45186561_958354954335242_9146592336728293376_n-01.jpeg'%}" alt="">
+                </div>
+                <div class="details">
+                    <p>Desription</p>
+                    <p>Price</p>
+                </div>
+            </div>
+            <div class="products">
+                <div>
+                    <img src="{% static 'image/45186561_958354954335242_9146592336728293376_n-01.jpeg'%}" alt="">
+                </div>
+                <div class="details">
+                    <p>Desription</p>
+                    <p>Price</p>
+                </div>
+            </div>
+            <div class="products">
+                <div>
+                    <img src="{% static 'image/45186561_958354954335242_9146592336728293376_n-01.jpeg'%}" alt="">
+                </div>
+                <div class="details">
+                    <p>Desription</p>
+                    <p>Price</p>
+                </div>
+            </div>
+            <div class="products">
+                <div>
+                    <img src="{% static 'image/45186561_958354954335242_9146592336728293376_n-01.jpeg'%}" alt="">
+                </div>
+                <div class="details">
+                    <p>Desription</p>
+                    <p>Price</p>
+                </div>
+            </div>
+                     
+        </div> -->
+        <div class="regular_price">
+            {% for item in items %}
+            <a href="{{ item.get_absolute_url }}">
+                <div class="product">
+                    <div>
+                        <img src="{{ item.image.url }}" alt="{{item.product_id}}">
+                    </div>
+                    <div class="details">
+                        <p>{{item.name}}</p>
+                        <p>Ksh. {{item.price}}</p>
+                    </div>
+                </div>
+            </a>
+
+            {% endfor %}
+        </div>
+
+    </main>
+    
+</body>
+</html>
