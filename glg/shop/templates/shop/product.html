@@ -13,7 +13,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Aclonica&family=Poppins:ital,wght@0,100;0,200;
 0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{%static 'css/product_indiv.css' %}">
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+
 </head>
+
+    
 <body>
     <nav class="aclonica-regular">
         <h2 class="logo">GREEN LAND<BR>GOAL</h2>
@@ -22,8 +28,10 @@
             <h2>BLOG</h2>
             <h2>ABOUT</h2>
     </nav>
+
     <div style="background-color: aquamarine;" class="imagecontainer"><img src="{{item.image.url}}" class="fullimage" alt=""></div>
     <div class="description ">
+        {% include 'shop/messages.html' %}
         <h2 class="product-name">{{item.name}}</h2>
         <p>
             {{item.description}}
@@ -32,15 +40,23 @@
     <div class="price">
         <div><p>PRICE: KSH {{item.price}}</p></div>
         <div class="button">
-            <button type="button"><h3>ADD TO CART</h3></button></a>
-            <button type="button"><h3>BUY NOW!</h3></button></a>
-        </div>
+            <a href="{% url 'shop:addtocart' item.product_id %} "><button type="button" class="extras"><h3>ADD TO CART</h3></button></a>
+            <a><button type="button" class="extras"><h3>BUY NOW!</h3></button></a>
+        </div> 
     </div>
+    
     <div class="addphotos">
         {% for image1 in images %}
             <img src="{{image1.addphotos.url}}" alt="{{image1.display_name}}">
         {% endfor %}
 
     </div>
+    <!-- <script src="bootstrap.min.js"></script> -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>
+        function onButtonPress() {
+            $('.alert').alert('close');
+        }
+    </script>
 </body>
 </html>

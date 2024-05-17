@@ -5,7 +5,7 @@ from django.urls import reverse
 # Create your models here.
 class Item(models.Model):
     name = models.CharField(max_length = 250)
-    product_id = models.SlugField(max_length=250, unique_for_date= "recent")
+    product_id = models.IntegerField(unique=True)
     price = models.IntegerField()
     image = models.ImageField(upload_to="product_image/")
     description = models.TextField()
@@ -33,8 +33,7 @@ class Item_images(models.Model):
     addphotos = models.ImageField(upload_to="display_image/")
 
 #items on a cart for a given individual
-class wishlist(models.Model):
-    item_id = models.CharField(primary_key=True)
-    item_name = models.OneToOneField(Item)
+class Wishlist(models.Model):
+    item_name = models.OneToOneField(Item, primary_key=True, on_delete= models.CASCADE)
     quantity = models.IntegerField()
-    in_cart = models.BooleanField()
+    in_cart = models.BooleanField(default=False)
