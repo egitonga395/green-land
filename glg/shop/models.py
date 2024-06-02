@@ -35,5 +35,14 @@ class Item_images(models.Model):
 #items on a cart for a given individual
 class Wishlist(models.Model):
     item_name = models.OneToOneField(Item, primary_key=True, on_delete= models.CASCADE)
-    quantity = models.IntegerField()
+    quantity = models.PositiveIntegerField()
     in_cart = models.BooleanField(default=False)
+    def __str__(self):
+        return self.item_name
+
+class Transport(models.Model):
+    destination = models.CharField(max_length= 250)
+    price = models.PositiveIntegerField()
+    include_transport = models.BooleanField(default=False)
+    def __str__(self):
+        return self.destination

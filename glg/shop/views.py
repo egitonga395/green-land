@@ -3,6 +3,7 @@ from .models import Item,  Item_images, Wishlist
 from django.urls import reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
+from .forms import User_quantities
 
 
 # Create your views here.
@@ -55,13 +56,42 @@ def add_toCart(request, product_id):
     print(product_id, end="*")
     print(Item_to_add.product_id, end= "succesful")
     return HttpResponseRedirect(reverse('shop:itemrequested', kwargs={'year':Item_to_add.recent.year,'month': Item_to_add.recent.month, 'day': Item_to_add.recent.day, 'product_id': product_id}))
-
-
-
-
-
-
-
-
     
-    
+
+def display_cartitems(request):
+    cart_items = Wishlist.objects.all()
+    invoice_total = 0
+    forms = []
+    for cart_item in cart_items:
+        incartvalue = cart_item.item_name
+        itemtotal = incartvalue.price * cart_item.quantity
+        invoice_total = invoice_total + itemtotal
+        form =User_quantities(initial={"quantity":cart_item.quantity})
+        forms.append(form)
+        # print(form)
+
+    #     print(invoice_total)
+    #     print(cart_item, end="##")
+    #     print(form)
+    # print("\n final value")
+    # print(invoice_total)
+    # print("___")
+    # print(form)
+    # for form1 in forms:
+    #     print(form1)
+    context={"cart_items": cart_items, "invoice_total": invoice_total, "forms":forms}
+    if request.method == "POST":
+        name = request.POST.get("submit")
+        new_quantity = request.POST.get("quantity")
+        incart_item = Wishlist.objects.get(item_name__product_id=name)
+        print(f"The old quantity {incart_item.quantity}")
+        incart_item.quantity = new_quantity
+        print(f" The new quantity {incart_item.quantity}")
+        incart_item.save()
+        print("___________________")
+        print(incart_item.quantity)
+        return render(request, "shop/cart.html", context)
+        
+    else:
+
+         return render(request, "shop/cart.html", context)

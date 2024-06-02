@@ -1,0 +1,130 @@
+
+*{
+    margin: 0;
+}
+*, *::after, *::before{
+    box-sizing: border-box;
+}
+body
+{   
+    
+    background-color: rgba(255, 255, 255, 0.61);
+    display: grid;
+    grid-template-columns: repeat(11, minmax(0, 1fr));
+    grid-template-rows: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) ;
+    max-height: 100vh;
+    overflow: hidden;
+    
+    
+    
+}
+
+.container{
+    grid-area: 2/1/6/9;
+    margin-top:3em;
+    margin-left: 1.5em;
+    margin-bottom: 1em;
+    overflow-y: scroll;
+
+}
+section.bill
+{
+     grid-area:2/9/6/12;/*2/1/6/9 */
+     margin-left: 2em;
+
+}
+
+nav
+{
+    background-color:rgba(144, 238,144, 87%) ;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0px;
+    gap: 0.8em;
+    grid-area: 1/1/2/12;
+    padding: 0.2em;
+    font-size: 1.5em;
+    font-family: "Aclonica", sans-serif;
+    font-weight: lighter;
+    font-style: normal;
+}
+.item{
+    display: flex;
+    background-color: white;
+    border: solid rgb(141, 111, 111) 2px;  
+    justify-content: space-between;
+    max-height: 11vh;
+    align-items: center;
+    border-radius: 1em;
+    
+}
+.add_to_cart
+{
+    margin-right: 1em;
+
+}
+.items{
+    gap: 1em;
+ 
+}
+
+
+img{
+    max-height: 11vh;
+    border-top-left-radius: 1em;   
+    border-bottom-left-radius: 1em;
+    object-fit: contain;
+    object-position: center;
+}
+.items{
+    display: flex;
+    flex-direction: column;
+}
+
+.quantity>input{max-width: 4em;}
+
+
+.container_1{
+    display: flex;
+    flex-direction: column;
+    background-color: #D9D9D9;
+    gap: 2em;
+    padding: 1em;
+
+}
+button{
+    background-color: #FFBA00;
+    border-radius: 10%;
+    border-color: #FFBA00;
+    box-shadow: 4px 4px 0.3em ;
+    font-family: "Aclonica", sans-serif;
+
+
+}
+
+
+.button{
+    align-self: center;
+}
+.text{
+    color: #1D921D;
+}
+.transport>input{
+    max-width:6em;
+}
+.transport>div>button{
+    display:block
+}
+.check{display: inline;}
+.text_checkbox{
+    display: inline;
+    margin-right: 1em ;
+}
+.transport>div, .Grand_Total>p,.invoice>p{
+    position: relative;
+    left: 2em;
+}
+.transport>div>*, .invoice>p, .Grand_Total>p{
+    margin-top: 1em;
+}

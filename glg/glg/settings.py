@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     "shop.apps.ShopConfig",
     "blog.apps.BlogConfig",
     'bootstrap5',
+    "mathfilters",
 ]
 
 MIDDLEWARE = [

@@ -25,6 +25,7 @@ nav
     border-color: #FFBA00;
     box-shadow: 4px 4px 0.3em ;
     font-family: "Aclonica", sans-serif;
+    /* font-size: 0.7em; */
 
 }
 body{
@@ -51,6 +52,7 @@ max-height: 100vh;
 
 img.fullimage{
     max-width: 80%;
+    height:auto
  
     /* grid-area: 2/1/4/6;
     margin-left: 2em;
