@@ -79,17 +79,37 @@
             <div class="transport">
                 <h2>Transport</h2>
                 <div>
-                    <p style="display: inline;">To:</p><input type="text" class="resize-text-box">
-                    <button>search</button>
-                    <p>Price: <span class="text">Ksh 1200</span></p>
-                    <p class="text_checkbox">Include transport?</p><input type="checkbox" class="check">
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <p style="display: inline;">To:</p>
+                        <!-- <input type="text" class="resize-text-box"> -->
+                        
+                        {{order_include_transport.destitation}}
+                        <button type="submit" name="submit"
+                         value="transport"
+                        >search</button>
+                        <p>Price: <span class="text">Ksh {{transport_price}}</span></p>
+                    </form>
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <p class="text_checkbox">Include transport?</p>
+                        {{order_include_transport.include_transport}}
+                        <div class="button">
+                            <button type=" submit" name="submit"
+                            value="cart">Continue</button>
+                        </div>
+                    </form>
+                    
                 </div>
             </div>
             <div class="Grand_Total">
                 <h2>Grand Total:</h2>
-                <p class="text large">Ksh 13200</p>
+                <p class="text large">Ksh {{grand_total}}</p>
             </div>
-            <div class="button"><button>Continue</button></div>
+            <div class="button">
+                <a href="{% url 'shop:purchase_form' %} "><button >Done</button></a>
+            </div>
+            
         </div>
     </section>
 </body>

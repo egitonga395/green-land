@@ -32,17 +32,48 @@ class Item_images(models.Model):
     display_name = models.CharField(max_length = 250, default = "rose")
     addphotos = models.ImageField(upload_to="display_image/")
 
+
+
+
 #items on a cart for a given individual
+
+
+
+
+
+
+class Transport(models.Model):
+    places = ((
+    "Bahati","Bahati, Nakuru"),
+    ("Naka","Naka, Nakuru"),
+    ("Pipeline", "Pipeline, Nakuru"),
+)
+    destination = models.CharField(max_length= 250, choices=places, default="Naka", primary_key=True)
+    price = models.PositiveIntegerField()
+
+
+    def __str__(self):
+        return self.destination
+
+
+class Order(models.Model):
+    
+    order_number = models.SlugField(unique=True)
+    invoice_total = models.PositiveIntegerField()
+    destitation = models.ForeignKey(Transport, on_delete = models.SET_NULL, null=True)
+    transport_price = models.PositiveIntegerField(default=0)
+    grand_total = models.PositiveIntegerField()
+    include_transport = models.BooleanField(default=False)
+    created = models.DateTimeField(default=timezone.now)
+    completed = models.BooleanField(default = False)
+    def __str__(self):
+        return f"Order_{self.order_number}"
+
+
 class Wishlist(models.Model):
     item_name = models.OneToOneField(Item, primary_key=True, on_delete= models.CASCADE)
     quantity = models.PositiveIntegerField()
     in_cart = models.BooleanField(default=False)
+    order = models.ForeignKey(Order, on_delete=models.SET_NULL, null = True, blank=True)
     def __str__(self):
-        return self.item_name
-
-class Transport(models.Model):
-    destination = models.CharField(max_length= 250)
-    price = models.PositiveIntegerField()
-    include_transport = models.BooleanField(default=False)
-    def __str__(self):
-        return self.destination
+        return self.item_name.name
