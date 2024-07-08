@@ -15,17 +15,18 @@
         <link rel="stylesheet" href="{%static 'css/purchase_form.css' %}">
     </head>
     <body>
-        <nav class="aclonica-regular">
+        <!-- <nav class="aclonica-regular">
             <h2 class="logo">GREEN LAND<BR>GOAL</h2>
                 <h2>HOME</h2>
                 <h2>PRODUCTS</h2>
                 <h2>BLOG</h2>
                 <h2>ABOUT</h2>
-        </nav>
+        </nav> -->
+        {% include 'shop/nav.html' %}
         <div class="container">
             <div class="form_purchase">
                 <div>
-                    <p class="title">Order number:</p><p class="value">shbndjnji</p>
+                    <p class="title">Order number:</p><p class="value">{{order.order_number}}</p>
                 </div>
                 <table class="items">
                     <tr>
@@ -34,42 +35,28 @@
                         <th>qty:</th>
                         <th>Amount:</th>
                     </tr>
+                    {% for ordered_item in ordered_items %}
+                        <tr>
+                            <td>{{ordered_item.item_name}}</td>
+                            {% with ordered_item.item_name as  item %}
+                                <td>{{item.price}}</td>
+                            {% endwith %}
+                            <td>{{ordered_item.quantity}}</td>
+                            <td>40000</td>
+                        </tr>
+                    {% endfor %}
+            
                     <tr>
-                        <td>American cypress</td>
-                        <td>1000</td>
-                        <td>40</td>
-                        <td>40000</td>
-                    </tr>
-                    <tr>
-                        <td>American cypress</td>
-                        <td>1000</td>
-                        <td>40</td>
-                        <td>40000</td>
-                    </tr>
-                    <tr>
-                        <td>American cypress</td>
-                        <td>1000</td>
-                        <td>40</td>
-                        <td>40000</td>
-                    </tr>
-                    <tr>
-                        <td>American cypress</td>
-                        <td>1000</td>
-                        <td>40</td>
-                        <td>40000</td>
-                    </tr>
-                    <tr>
-                        <td>American cypress</td>
-                        <td>1000</td>
-                        <td>40</td>
-                        <td>40000</td>
+                        <td><strong>Total price:</strong></td>
+                        <td>{{order.invoice_total}}</td>
+                        
                     </tr>
                 </table>
                 
                 <div>
-                    <p class="title">Transport charges:</p><p class="value">Ksh 300</p></div>
+                    <p class="title">Transport charges:</p><p class="value">Ksh {{order.transport_price}}</p></div>
                 <div>
-                    <p class="title">Grandtotal:</p><p class="value">Ksh 40600</p>
+                    <p class="title">Grandtotal:</p><p class="value">Ksh {{order.grand_total}}</p>
                 </div>
                 <div>
                     <label for="mpesano" class="title">Mpesa no:</label><input  type="text" name="mpesano" id="mpesano" placeholder="0722693789">

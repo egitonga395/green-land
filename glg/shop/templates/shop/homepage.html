@@ -15,14 +15,15 @@
     <link rel="stylesheet" href="{% static 'css/home.css'%}">
 </head>
 <body>
-    <nav class="nav">
+    <!-- <nav class="nav">
             <h2 class="logo">GREEN LAND<BR>GOAL</h2>
             <a href="#"><h2>HOME</h2></a>
             <a href="{% url 'shop:products'%}"><h2>PRODUCTS</h2></a>
             <a href=""><h2>BLOG</h2></a>
             <a href=""><h2>ABOUT</h2></a>
             
-    </nav>
+    </nav> -->
+    {% include 'shop/nav.html' %}
     <img src="{% static 'image/image-removebg-preview.png' %}" alt="nature and girls">
     <div class="describing">
        <h2 class="description">Blossom with Nature's Finest: 

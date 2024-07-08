@@ -26,6 +26,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("shop/", include("shop.urls", namespace="shop")),
     path("blog/", include("blog.urls", namespace="blog")),
+    path("accounts/", include("django.contrib.auth.urls")),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,

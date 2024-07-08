@@ -18,7 +18,10 @@ nav
     font-family: "Aclonica", sans-serif;
     font-weight: lighter;
     font-style: normal;
+    max-height: 15vh;
 }
+
+
 .extras{
     background-color: #FFBA00;
     border-radius: 10%;

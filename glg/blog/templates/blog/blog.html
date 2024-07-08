@@ -16,30 +16,26 @@
     <link rel="stylesheet" href="{% static 'css/blog.css'%}">
 </head>
 <body>
-    <nav class="aclonica-regular">
-        <h2 class="logo">GREEN LAND<BR>GOAL</h2>
-            <h2>HOME</h2>
-            <h2>PRODUCTS</h2>
-            <h2>BLOG</h2>
-            <h2>ABOUT</h2>
-    </nav>
+    {% include 'shop/nav.html' %}
     <div class="main">
         <div class="content">
             <h1 class="title"></h1>
-            <p class="post">
             <div class="main_image"><img src="{{blog.image.url}}" ><figcaption>A palm in a vase</figcaption></div>
+            <p class="post">
                {{blog.content}} 
-    </p>
+            </p>
         </div>
     </div>
-    <div class="shop">
-        {% for item in shop %}
-            <div class="item">
-                <img src="{{item.image.url}}" class="fullimage" alt="">
-                <a href="{{ item.get_absolute_url }}"><button type="button">SHOP NOW!</button></a>
-            </div>
-        {% endfor %}
-        
+    <div class="shopcontainer">
+        <div class="shop">
+            {% for item in shop %}
+                <div class="item">
+                    <img src="{{item.image.url}}" class="fullimage" alt="">
+                    <a href="{{ item.get_absolute_url }}"><button type="button">SHOP NOW!</button></a>
+                </div>
+            {% endfor %}
+            
+        </div>
     </div>
     
 </body>

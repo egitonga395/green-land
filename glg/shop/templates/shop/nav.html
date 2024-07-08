@@ -1,0 +1,11 @@
+{% load static %}
+<head>
+    <link rel="stylesheet" href="{% static 'css/nav.css' %}">
+</head>
+<nav class="aclonica-regular">
+    <h2 class="logo">GREEN LAND<BR>GOAL</h2>
+        <a href="{% url 'shop:homepage' %}"><h2>HOME</h2></a>
+        <a href="{% url 'shop:products' %}"><h2>PRODUCTS</h2></a>
+        <a href="{% url 'blog:testblog' %}"><h2>BLOG</h2></a>
+        <a href=""><h2>ABOUT</h2></a>
+</nav>

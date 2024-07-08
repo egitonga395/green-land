@@ -78,96 +78,87 @@ def display_cartitems(request):
     "forms":forms,
     # "transport_form": transport_form,
     "order_include_transport":order_include_transport}
+    order = Order.objects.filter(completed = False)
+    if not order:
+        order1=Order.objects.create(order_number=order_number(), invoice_total=invoice_total, grand_total= invoice_total)
+        print(order1)
+        for cart_item1 in cart_items:
+            cart_item1.order = order1
+            cart_item1.save()
+
+            print("/n/n/n/n")
+            print("##########")
+            print(order1.wishlist_set.all())
+            print("##########")
+            
+            
+
+    else:
+        print(order)
+        order1, = order
+        print(order1)
+        values = order1.wishlist_set.all()
+        print("\n\n")
+        print(cart_items)
+        print("##########")
+        print("fuck")
+        print(values)
+        print("##########")
+        for cart_item1 in cart_items:
+            checklist = order1.wishlist_set.all()
+            if cart_item1 not in checklist:
+                cart_item1.order = order1
+                cart_item1.save()
+                print(f"{cart_item1} has been added to ")
+            print(checklist)
+
+    #dealing with submit buttons    
+
     if request.method == "POST":
         # the user can see the price of the transport
         if request.POST.get("submit") == "transport":
             print(request.POST)
             place = request.POST.get("destitation")
-            
             transport_object = Transport.objects.get(destination = place)
-            
             transport_price = transport_object.price
             context["transport_price"]=transport_price
             print("___________________________")
             print(transport_price)
             print("___________________________")
-            order = Order.objects.filter(completed = False)
-            if not order:
-                obj1=Order.objects.create(order_number=order_number(), invoice_total=invoice_total, transport_price = transport_price, grand_total= invoice_total)
-                print(obj1)
-                for cart_item1 in cart_items:
-                    cart_item1.order = obj1
-                    cart_item1.save()
+            order1, =Order.objects.filter(completed=False)
+            order1.transport_price = transport_price
 
-                print("/n/n/n/n")
-                print("##########")
-                print(obj1.wishlist_set.all())
-                print("##########")
-            
-            
-
-            else:
-                print(order)
-                order1, = order
-                print(order1)
-                modify_order_id = order1.order_number
-                modify_order = Order.objects.get(order_number=modify_order_id)
-                modify_order.transport_price = transport_price 
-                print("********************")
-                print(modify_order.transport_price)
-                print("********************")
-                modify_order.invoice_total = invoice_total
-                modify_order.grand_total = invoice_total
-                context["grand_total"]= modify_order.grand_total
-                print(modify_order)
-                modify_order.save()
-                values = modify_order.wishlist_set.all()
-                print("/n/n")
-                print(cart_items)
-                print("##########")
-                print("fuck")
-                print(values)
-                print("##########")
-                for cart_item1 in cart_items:
-                    checklist = modify_order.wishlist_set.all()
-                    if cart_item1 not in checklist:
-                        cart_item1.order = modify_order
-                        cart_item1.save()
-                        print(f"{cart_item1} has been added to ")
-
-                print(checklist)
-
+            order1.save()
+            print("___________________________")
+            print(order1.transport_price)
+            print("___________________________")
             # context["transport_price"]=transport_price
             # values["transport_price"]=transport_price
             # print(context.get("transport_price"))
             return render(request, "shop/cart.html", context)
         elif request.POST.get("submit") == "cart":
-            # the user can add the price of the transport
+            # the user can add the price of the transport to the order
             print("*****************************")
             name = request.POST.get("submit")
             print(request.POST)
             print("*********************")
-            order = Order.objects.filter(completed = False)
-            if order:
-                if request.POST.get("include_transport")=="on":
-                    order1, =order
-                    print(order1.transport_price)
-                    order1.grand_total = order1.invoice_total+order1.transport_price
-                    context["grand_total"]= order1.grand_total
-                    print("___++++++++++++++++++___________")
-                    print(order1.grand_total)
-                    order1.include_transport = True
-                    order1.save()
-                else:
-                    order1, =order
-                    order1.grand_total = order1.invoice_total
-                    context["grand_total"]= order1.grand_total
-                    print(order1.grand_total)
-                    order1.include_transport = False
-                    order1.save()
-            else:    
-                obj1=Order.objects.create(order_number=order_number(), invoice_total=invoice_total, transport_price = 0, grand_total= invoice_total)   
-
+            
+            if request.POST.get("include_transport")=="on":
+                order1, =Order.objects.filter(completed=False)
+                print(order1.transport_price)
+                order1.grand_total = order1.invoice_total+order1.transport_price
+                context["grand_total"]= order1.grand_total
+                print("___++++++++++++++++++___________")
+                print(order1.grand_total)
+                order1.include_transport = True
+                order1.save()
+            else:
+                order1, =Order.objects.filter(completed=False)
+                order1.grand_total = order1.invoice_total
+                context["grand_total"]= order1.grand_total
+                print(order1.grand_total)
+                order1.include_transport = False
+                order1.save()
             return render(request, "shop/cart.html", context)
         else:
             name = request.POST.get("submit")
@@ -187,7 +178,13 @@ def display_cartitems(request):
 
 
 def purchase_form(request):
-    return render(request, "shop/purchase_form.html")
+    order, = Order.objects.filter(completed = False)
+    ordered_items = order.wishlist_set.all()
+    context = {
+        "order": order,
+        "ordered_items": ordered_items,
+    }
+    return render(request, "shop/purchase_form.html", context)
 
 
 
