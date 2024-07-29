@@ -7,5 +7,6 @@
         <a href="{% url 'shop:homepage' %}"><h2>HOME</h2></a>
         <a href="{% url 'shop:products' %}"><h2>PRODUCTS</h2></a>
         <a href="{% url 'blog:testblog' %}"><h2>BLOG</h2></a>
-        <a href=""><h2>ABOUT</h2></a>
+        <a href="{% url 'shop:about' %}"><h2>ABOUT</h2></a>
+        <a href="{% url 'Users:signout' %}"><p>log out</p></a>
 </nav>

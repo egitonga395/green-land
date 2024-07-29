@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     'bootstrap5',
     "mathfilters",
     "users",
-    
+    "adminpanel",
 ]
 
 MIDDLEWARE = [

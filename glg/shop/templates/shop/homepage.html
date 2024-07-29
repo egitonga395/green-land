@@ -43,8 +43,8 @@
         <a href="{% url 'shop:products'%}" class="shop_button"><button type="button"><h2 class="shopnow">SHOP NOW!</h2></button></a>
     </div>
     <div class="sign">
-        <h5>I love the enviroment so I will: <a href="" class="signup"><button type="button"><h3>Sign Up</h3></button></a></h5>
-        <h5> am already a members so I will: <a href="" class="signup"><button type="button"><h3>Log in</h3></button></a></h5>
+        <h5>I love the enviroment so I will: <a href="{% url 'Users:signup'%}" class="signup"><button type="button"><h3>Sign Up</h3></button></a></h5>
+        <h5> am already a members so I will: <a href="{% url 'Users:signin'%}" class="signup"><button type="button"><h3>Log in</h3></button></a></h5>
     </div>
 </body>
 </html>

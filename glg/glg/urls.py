@@ -26,7 +26,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("shop/", include("shop.urls", namespace="shop")),
     path("blog/", include("blog.urls", namespace="blog")),
-    path("accounts/", include("django.contrib.auth.urls")),
+    path("adminpanel/", include("adminpanel.urls", namespace="adminpanel")),
+    # path("accounts/", include("django.contrib.auth.urls", 'users'), namespace = 'users'),
+    path('users/', include(('users.urls', 'users'), namespace ='users'))
+    
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,

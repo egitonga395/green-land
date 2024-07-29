@@ -177,6 +177,9 @@ def display_cartitems(request):
          return render(request, "shop/cart.html", context)
 
 
+
+
+
 def purchase_form(request):
     order, = Order.objects.filter(completed = False)
     ordered_items = order.wishlist_set.all()
@@ -186,6 +189,9 @@ def purchase_form(request):
     }
     return render(request, "shop/purchase_form.html", context)
 
+
+def about(request):
+    return render(request,"shop/about.html")
 
 
 
@@ -211,3 +217,4 @@ def order_number(id1 = ""):
 def randomalphabet(x):
     char=x[random.randint(0, 23)]
     return char
+

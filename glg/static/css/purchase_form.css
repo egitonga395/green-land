@@ -27,6 +27,7 @@ nav
     font-family: "Aclonica", sans-serif;
     font-weight: lighter;
     font-style: normal;
+    max-height: 20%;
 
 }
 .form_purchase>div>p{

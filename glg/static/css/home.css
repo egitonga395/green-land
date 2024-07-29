@@ -19,6 +19,7 @@ nav{
         align-items: center;
         margin: 0px;
         gap: 0.8em;
+        max-height: 20%;
         
 
 }

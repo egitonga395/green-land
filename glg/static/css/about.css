@@ -1,0 +1,87 @@
+body{
+    margin: 0;
+    background-color: rgba(202, 194, 194, 0.589);
+}
+nav
+{
+    background-color:rgba(144, 238,144, 87%) ;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0px;
+    gap: 0.8em;
+    grid-area: 1/1/2/11;
+    padding: 0.2em;
+    font-size: 1.5em;
+    font-family: "Aclonica", sans-serif;
+    font-weight: lighter;
+    font-style: normal;
+    max-height: 20vh;
+}
+.who-what, .vision-mission{
+  max-width: 45.5%;
+  margin-left: 1em;
+  height: 80vh;
+}
+
+.separator{ 
+    height: 70vh;
+    width: 0.5 px;
+    background-color: black;
+    border: 0.px black solid;
+    margin: 5vh 0 5vh 0 ;
+    width: 1.5px;
+    bottom: 100%;
+    
+
+}
+.separator, .who-what, .vision-mission{
+    float:left;
+    display: flex;
+}
+
+
+.who-what, .vision-mission{
+    flex-direction: column;
+    justify-content: center;
+}
+.who-what{
+    gap: 3em;
+}
+
+.container{
+    width: 90%;
+    margin: 0 auto;
+}
+
+img{
+    width:25%;
+    height: 25%;
+}
+
+/* .who, .what, .mission{
+    display: flex;
+}
+.who:nth-child(1){
+    justify-self: flex-start;
+} */
+.who>p{
+    display: inline;
+    text-align: center;
+}
+.image-text{
+    display: flex;
+    align-items: center;
+}
+
+.image-text>p, .image-text>div{
+    margin: 1em;
+    border-left: solid 1px #FFFFFF;
+    padding-left: 0.5em
+}
+.mission>h2{
+    margin-bottom: 0;
+}
+.image-text>div, .image-text>div>p{
+    margin-top: 0;
+}

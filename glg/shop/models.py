@@ -43,12 +43,8 @@ class Item_images(models.Model):
 
 
 class Transport(models.Model):
-    places = ((
-    "Bahati","Bahati, Nakuru"),
-    ("Naka","Naka, Nakuru"),
-    ("Pipeline", "Pipeline, Nakuru"),
-)
-    destination = models.CharField(max_length= 250, choices=places, default="Naka", primary_key=True)
+    
+    destination = models.CharField(max_length= 250, primary_key=True)
     price = models.PositiveIntegerField()
 
 

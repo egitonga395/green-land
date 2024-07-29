@@ -1,0 +1,20 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/signup.css'%}">
+    <title>sign up</title>
+</head>
+<body>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_table}}
+        <button type="submit">Sign up</button>
+        <div>
+            <p>Have an account sign in <a href="{% url 'users:signin' %}">here</a> instead</p>
+        </div>
+    </form>    
+</body>
+</html>
