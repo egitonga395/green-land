@@ -5,7 +5,7 @@ from django.urls import reverse
 # Create your models here.
 class Item(models.Model):
     name = models.CharField(max_length = 250)
-    product_id = models.IntegerField(unique=True)
+    product_id = models.IntegerField(unique=True, auto_created=True)
     price = models.IntegerField()
     image = models.ImageField(upload_to="product_image/")
     description = models.TextField()

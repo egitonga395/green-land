@@ -1,28 +1,39 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{%  static 'css/adminpanel.css' %}">
-    <title>Admin panel</title>
-</head>
+
+    <head>
+        
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{%  static 'css/adminpanel.css' %}">
+        {% block link%}
+        {% endblock%}
+        <title>Admin panel</title>
+        
+    </head>
+
 <body>
-    <nav class="aclonica-regular">
+    <!-- <nav class="aclonica-regular">
         <h2 class="logo">GREEN LAND<BR>GOAL</h2>
             <h2>HOME</h2>
             <h2>PRODUCTS</h2>
             <h2>BLOG</h2>
             <h2>ABOUT</h2>
-    </nav>
+    </nav> -->
+    {% include "shop/nav.html" %}
     <div class="sidebar">
-        <div class="options"><p><a href="{% url 'adminpanel:customerview'%}" id = "test1">CUSTOMERS</a></p></div>
+        <div class="options"><p><a href="" id = "test1">CUSTOMERS</a></p></div>
         <div class="options"><p><a href="">ORDER</a></p></div>
-        <div class="options"><p><a href="">TRANSPORT</a></p></div>
+        <div class="options"><p><a href="{% url 'adminpanel:customerview'%}">TRANSPORT</a></p></div>
         <div class="options"><p><a href="">BLOG</a></p></div>
-        <div class="options"><p><a href="">ITEMS</a></p></div>
+        <div class="options"><p><a href="{% url 'adminpanel:itemview'%}">ITEMS</a></p></div>
     </div>
-    <script>
+    {% block body %}
+
+    {% endblock %}
+    {% block script %}
+    <!-- <script>
         const new1 =document.getElementById("test1");
         new1.addEventListener("click", runtest)
         function runtest(e){
@@ -95,6 +106,7 @@
             
             e.preventDefault();
         }
-    </script>
+    </script> -->
+    {% endblock %}
 </body>
 </html>

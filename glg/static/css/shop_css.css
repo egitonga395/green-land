@@ -31,7 +31,7 @@ nav
     gap: 0.8em;
     grid-area: 1/1/2/11;
     padding: 0.2em;
-    max-height: 20%;
+    height: 15vh;
 }
 aside{
     background: rgba(217, 217, 217, 100%);

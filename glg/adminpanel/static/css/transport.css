@@ -1,0 +1,29 @@
+.displaydiv{
+    background-color: white;
+    width: 60vw;
+    float:left;
+    display: flex;
+    justify-content: center;
+    border-radius: 1em;
+    
+}
+table{
+    width: 80%;
+}
+
+.container{
+    display: flex;
+    justify-content: center;
+    margin-top: 1em;
+    
+}
+
+td, th{
+    width: 30%;
+    text-align: center;
+}
+
+#td-button{
+    display: flex;
+    justify-content: space-between;
+}

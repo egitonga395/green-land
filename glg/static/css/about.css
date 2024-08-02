@@ -16,7 +16,7 @@ nav
     font-family: "Aclonica", sans-serif;
     font-weight: lighter;
     font-style: normal;
-    max-height: 20vh;
+    height: 15vh;
 }
 .who-what, .vision-mission{
   max-width: 45.5%;

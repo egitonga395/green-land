@@ -1,0 +1,87 @@
+{% extends "adminpanel/adminpanel.html"%}
+{% load static %}
+
+{% block link %}
+    <link rel="stylesheet" href="{%  static 'css/transport.css' %}">
+{% endblock %}
+{% block body%}
+    <div class="container">
+        <div class="displaydiv">
+            <table id="table">
+                <tr>
+                    <th>Destination</th>
+                    <th>Price</th>
+                    <th></th>
+                </tr>
+                {% for place in transport %}
+                    <tr class="data-rows">
+                        <td>{{place.destination}}</td>
+                        <td>{{place.price}}</td>
+                        <td id  = "td-button">
+                            <button class="continue">Change</button>
+                            <button class="continue">Delete</button>
+                        </td>
+                    </tr>
+        </div>
+    </div>
+        {% endfor %}
+    </table>
+    <script>
+        setInterval(autorefresh, 10000);
+        function autorefresh(){
+            fetch("", {headers:{
+            'Accept': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest', 
+    },})
+    .then(response => {
+        console.log(`status:${response.status}`);
+    return response.json(); //Convert response to JSON
+    })
+    .then(data => {
+        console.log(data);
+        // const dataToRemove = document.getElementsByClassName("data-rows");
+        // dataToRemove.parentNode.removeChild(dataToRemove);
+        // var element = document.getElementsByClassName("data-rows");
+        // console.log(element);
+        // for (let i = 0; i<element.length; i++){
+        //     // element.item(i).parentNode.removeChild(element.item(i))
+        //     // element.parentNode.removeChild(element[i])
+        //     console.log(i)
+        //     // element[i].parentNode.removeChild(element[i]);
+        // }
+        document.querySelectorAll(".data-rows").forEach(el => el.remove());
+        const dataToDisplay = data.transport;
+        dataToDisplay.forEach((obj)=>{
+            let new_row = document.createElement("tr");
+            new_row.className = "data-rows";
+            console.log(obj.destination)
+            let data1 = document.createElement("td")
+            data1.innerHTML = obj.destination
+            let data2 = document.createElement("td");
+            data2.innerHTML = obj.price;
+            let button1 = document.createElement("button");
+            button1.className = "change";
+            button1.innerHTML="Change";
+            let button2 = document.createElement("button");
+            button2.className = "delete";
+            button2.innerHTML="delete";
+            let data3 = document.createElement("td");
+            data3.id = "td-button"
+            data3.appendChild(button1);
+            data3.appendChild(button2)
+            new_row.appendChild(data1);
+            new_row.appendChild(data2);
+            new_row.appendChild(data3);
+            table1 = document.getElementById("table");
+            console.log(table1)
+            console.log(new_row);
+            table1.appendChild(new_row);
+            
+        });
+       
+        //Perform actions with the response data from the view
+    })
+        }
+        
+    </script>
+{% endblock %}
