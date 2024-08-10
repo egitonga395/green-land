@@ -9,7 +9,8 @@
 {% block body %}
 <div class="container2">
     <div class="displaydiv">
-        {% for data in data_to_display %}
+        <form action="" method="get">
+            {% for data in data_to_display %}
         {% with dict1=data.item dict2=data.item_images %}
         <div class="item">
             
@@ -24,8 +25,8 @@
                         <p>{{ dict1.description|truncatewords:3 }}</p>
                     </div>
                     <div class="button">
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Change</button>
-                        <button>Continue</button>
+                        <button  id = "button{{ forloop.counter }}"class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" name="submit" value="{{dict1.product_id}}" type="submit">Change</button>
+                        <button >Continue</button>
                     </div>
 
                 </div>
@@ -39,12 +40,14 @@
         </div>
         {% endwith %}
         {% endfor %}
+        </form>
+        
         
 
     
     </div>
 </div>
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade modal-lg" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -62,4 +65,90 @@
     </div>
   </div>
   <script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- <script type="text/javascript">
+   let button_clicked = $("button").on("click", function () {
+   var clickedBtnID = $(this).attr('id'); // or var clickedBtnID = this.id
+   console.log(clickedBtnID);
+   console.log("hello");
+   return clickedBtnID;
+});
+    
+      $("form").submit(function(e){
+      e.preventDefault();
+      $.ajax({
+          type : 'GET',
+          data: $("form").serialize(),
+          url : "/adminpanel/item/",
+          success: function(data){
+          if (window.location.href.indexOf("?openmodal") > -1) {
+            const urlobj = new URL(window.location.href);
+            urlobj.search = '';
+            const result = urlobj.toString();
+            console.log($(button_clicked).attr('name'));
+            console.log($(button_clicked).attr('value'));
+            window.location = result + "?openmodal=1&" + $(button_clicked).attr('name') + "=" + $(button_clicked).attr('value');
+            console.log(window.location);
+
+         ;
+        }
+        else
+          { window.location = window.location.href + "?openmodal=1&" + $(button_clicked).attr('name') + "=" + $(button_clicked).attr('value');}
+}
+      });
+      return false;
+      });
+    </script> -->
+    <script type="text/javascript">
+      $(document).ready(function() {
+          let clickedBtnID = '';
+
+          // Store the ID of the clicked button
+          $("button").on("click", function () {
+              clickedBtnID = $(this).attr('id');
+              console.log(clickedBtnID);
+              console.log("hello");
+          });
+
+          $("form").submit(function(e){
+              e.preventDefault(); // Prevent the default form submission
+
+              $.ajax({
+                  type: 'GET',
+                  data: $("form").serialize(),
+                  url: "/adminpanel/item/",
+                  success: function(data){
+                      if (window.location.href.indexOf("?openmodal") > -1) {
+                          const urlobj = new URL(window.location.href);
+                          urlobj.search = '';
+                          const result = urlobj.toString();
+                          console.log($("#" + clickedBtnID).attr('name'));
+                          console.log($("#" + clickedBtnID).attr('value'));
+                          window.location = result + "?openmodal=1&" + $("#" + clickedBtnID).attr('name') + "=" + $("#" + clickedBtnID).attr('value');
+                          console.log(window.location);
+                      } else {
+                          window.location = window.location.href + "?openmodal=1&" + $("#" + clickedBtnID).attr('name') + "=" + $("#" + clickedBtnID).attr('value');
+                      }
+                  }
+              });
+              return false;
+          });
+      });
+  </script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        if (window.location.href.indexOf("?openmodal") > -1) {
+          $('#exampleModal').modal('show');
+          console.log("your url contains the name f?openmodal");
+        }
+      });
+      $('#my-modal').on('hidden.bs.modal', function () {
+  window.alert('hidden event fired!');
+});
+    </script>
+    
+    
+  
 {% endblock %}

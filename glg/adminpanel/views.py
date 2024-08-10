@@ -23,30 +23,37 @@ def order_view(request):
     pass
 
 def item_view(request):
-    items = Item.objects.all()
     
-    data_to_display = []
-    print(items)
-    for item in items:
-        dict1 = {}
-        print("Item:")
-        print(item)
-        item_images = item.item_images_set.all()
-        print("Item_images:")
-        print(item_images)
-        dict1["item"] = item  
-        dict1["item_images"] = item_images
-        print(dict1)
-        data_to_display.append(dict1)
-    print(data_to_display)
-    context = {"data_to_display": data_to_display}
-    return render(request, "adminpanel/item.html", context)
+        items = Item.objects.all()
+        data_to_display = []
+        print(items)
+        for item in items:
+            dict1 = {}
+            print("Item:")
+            print(item)
+            item_images = item.item_images_set.all()
+            print("Item_images:")
+            print(item_images)
+            dict1["item"] = item  
+            dict1["item_images"] = item_images
+            print(dict1)
+            data_to_display.append(dict1)
+        print(data_to_display)
+        context = {"data_to_display": data_to_display}
+        if request.GET.get("submit"):
+            print("yeah")
+            print(request.GET.get("submit"))
+            return render(request, "adminpanel/item.html", context)
+        else:
+            return render(request, "adminpanel/item.html", context)
+        
 
 
+
     
-    context = {"item": item,
-    "item_images": item_images}
-    return render(request, "adminpanel/item.html", context)
+    # context = {"item": item,
+    # "item_images": item_images}
+    # return render(request, "adminpanel/item.html", context)
 
 def customers_view(request):
     pass
