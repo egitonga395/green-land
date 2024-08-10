@@ -144,8 +144,14 @@
           console.log("your url contains the name f?openmodal");
         }
       });
-      $('#my-modal').on('hidden.bs.modal', function () {
-  window.alert('hidden event fired!');
+      $('#exampleModal').on('hidden.bs.modal', function () {
+    
+    console.log(window.location.href);
+    const urlobj = new URL(window.location.href);
+    urlobj.search = '';
+    const result = urlobj.toString();
+    console.log(result)
+    window.location = result
 });
     </script>
     
