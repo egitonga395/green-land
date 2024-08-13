@@ -92,3 +92,46 @@ h4{
     margin-left: 0.3em;
     
 }
+.arrangeContent{
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    align-items: flex-start;
+
+}
+.arrangeContent>div{
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+.containing_items {
+    display: flex;
+    width: 80%;
+    gap: 0.5em;
+}
+.image_modification {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5em;
+}
+.image_modification>p {
+    background-color: green;
+    border-radius: 1em;
+    padding: 0.1em;
+}
+
+.imagecontainer{
+    display: flex;
+    flex-direction: column;
+    margin-top: 0.1em;
+
+}
+.imagecontainer>p{
+    margin: 0;
+}
+.small-modal-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

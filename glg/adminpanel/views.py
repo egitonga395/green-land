@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from shop.models import *
 from django.http import JsonResponse
-from shop.models import Transport, Item, Item_images
+from .forms import *
 
 # Create your views here.
 def adminpanel(request):
@@ -43,7 +43,30 @@ def item_view(request):
         if request.GET.get("submit"):
             print("yeah")
             print(request.GET.get("submit"))
+            id = request.GET.get("submit")
+            print("______________________________________________________________")
+            item_to_be_modified = Item.objects.get(product_id=request.GET.get("submit"))
+            form1 = Itemform(instance = item_to_be_modified)
+            
+            print(item_to_be_modified)
+            item_to_be_modified_images =  item_to_be_modified.item_images_set.all()
+            
+            print(item_to_be_modified_images)
+            context["form1"] = form1
+            context["item"]=item_to_be_modified
+            print(context.get("form1"))
+            print("________________The end of form 1__________________________ ")
+            context["item_to_images"] = item_to_be_modified_images
             return render(request, "adminpanel/item.html", context)
+        if request.GET.get("edit_image"):
+            pk = request.GET.get("edit_image")
+            item_image_to_modify = Item_images.objects.get(item_id=pk)
+            imagesform = Itemimageform(instance=item_image_to_modify)
+            context["imagesform"]=imagesform
+            return render(request, "adminpanel/item.html", context)
+
+        if request.method == "POST":
+            pass
         else:
             return render(request, "adminpanel/item.html", context)
         

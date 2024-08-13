@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.urls import reverse
+import uuid
 
 # Create your models here.
 class Item(models.Model):
@@ -29,6 +30,7 @@ class Item(models.Model):
 
 class Item_images(models.Model):
     item_image_name = models.ForeignKey(Item, on_delete = models.CASCADE)
+    item_id = models.CharField(max_length=250,primary_key=True, default=uuid.uuid4,)
     display_name = models.CharField(max_length = 250, default = "rose")
     addphotos = models.ImageField(upload_to="display_image/")
 

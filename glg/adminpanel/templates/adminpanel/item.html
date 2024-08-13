@@ -9,7 +9,7 @@
 {% block body %}
 <div class="container2">
     <div class="displaydiv">
-        <form action="" method="get">
+        <form action="" method="get" class="formselected">
             {% for data in data_to_display %}
         {% with dict1=data.item dict2=data.item_images %}
         <div class="item">
@@ -25,7 +25,7 @@
                         <p>{{ dict1.description|truncatewords:3 }}</p>
                     </div>
                     <div class="button">
-                        <button  id = "button{{ forloop.counter }}"class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" name="submit" value="{{dict1.product_id}}" type="submit">Change</button>
+                        <button  id = "button{{ forloop.counter }}"class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" name="submit" value="{{dict1.product_id}}" >Change</button>
                         <button >Continue</button>
                     </div>
 
@@ -34,7 +34,12 @@
             <hr>
             <div class="lower">
                 {% for images in dict2 %}
-                    <img src="{{images.addphotos.url}}" alt="">
+                    <div class="imagecontainer">
+                      <img src="{{images.addphotos.url}}" alt="">
+                      <p>Name: {{images.display_name}}</p>
+                      <button type = "submit" name="edit_image" value="{{images.item_id}}" id = "edit{{forloop.counter}}">Change</button>
+                      <button type = button name="edit_image">Delete</button>
+                    </div>
                 {% endfor %}
             </div>
         </div>
@@ -42,65 +47,83 @@
         {% endfor %}
         </form>
         
-        
-
-    
     </div>
 </div>
 <div class="modal fade modal-lg" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <h5 class="modal-title" id="exampleModalLabel">{{item.name}}</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body">
-          ...
+        
+        <form action="" method="post" class="formselected">
+        <div class="modal-body arrangeContent">
+          <div>
+            {{form1.name.label}}:
+            {{form1.name}}
+          </div>
+          <div>
+            {{form1.price.label}}:
+            {{form1.price}}
+          </div>
+          <div>
+            {{form1.image.label}}:
+            
+            <img src="{{ form1.image.value.url }}" alt="">
+
+            <div>{{form1.image}}</div>
+          </div>
+          <div>
+            {{form1.description.label}}:
+            {{form1.description}}
+          </div>
+
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button type="submit" class="btn btn-primary">Save changes</button>
         </div>
+      </form>
+      
+      <!-- <form action="" method="post">
+        <div class="containing_items">
+          {% for item_to_image in item_to_images %}
+          <div class="image_modification">
+            <img src="{{item_to_image.addphotos.url}}" alt="">
+            <p>Name: {{item_to_image.display_name}}</p>
+            <button type="button" name="edit" value="{{item_to_image.item_id}}">Change</button>
+          </div>
+          {% endfor %}</div>
+      </form> -->
+        
+      
+     
       </div>
     </div>
+  </div>
+<!--
+    for editing the images
+-->
+  <div class="modal fade bd-example-modal-sm " tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="smallModal">
+    <div class="modal-dialog modal-sm modal-dialog-centered ">
+      <form action="" method="post">
+      <div class="modal-content small-modal-container
+      ">
+        {{imagesform.as_p}}
+        <div><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save changes</button></div>
+      </div>
+    </form>
+      
+    </div>
+    
   </div>
   <script src="{% static 'js/bootstrap.min.js' %}"></script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-<!-- <script type="text/javascript">
-   let button_clicked = $("button").on("click", function () {
-   var clickedBtnID = $(this).attr('id'); // or var clickedBtnID = this.id
-   console.log(clickedBtnID);
-   console.log("hello");
-   return clickedBtnID;
-});
-    
-      $("form").submit(function(e){
-      e.preventDefault();
-      $.ajax({
-          type : 'GET',
-          data: $("form").serialize(),
-          url : "/adminpanel/item/",
-          success: function(data){
-          if (window.location.href.indexOf("?openmodal") > -1) {
-            const urlobj = new URL(window.location.href);
-            urlobj.search = '';
-            const result = urlobj.toString();
-            console.log($(button_clicked).attr('name'));
-            console.log($(button_clicked).attr('value'));
-            window.location = result + "?openmodal=1&" + $(button_clicked).attr('name') + "=" + $(button_clicked).attr('value');
-            console.log(window.location);
 
-         ;
-        }
-        else
-          { window.location = window.location.href + "?openmodal=1&" + $(button_clicked).attr('name') + "=" + $(button_clicked).attr('value');}
-}
-      });
-      return false;
-      });
-    </script> -->
     <script type="text/javascript">
       $(document).ready(function() {
           let clickedBtnID = '';
@@ -112,7 +135,7 @@
               console.log("hello");
           });
 
-          $("form").submit(function(e){
+          $(".formselected").submit(function(e){
               e.preventDefault(); // Prevent the default form submission
 
               $.ajax({
@@ -126,10 +149,26 @@
                           const result = urlobj.toString();
                           console.log($("#" + clickedBtnID).attr('name'));
                           console.log($("#" + clickedBtnID).attr('value'));
+                          if (clickedBtnID.indexOf("button")>-1)
+                          {
                           window.location = result + "?openmodal=1&" + $("#" + clickedBtnID).attr('name') + "=" + $("#" + clickedBtnID).attr('value');
                           console.log(window.location);
+                        }
+                        else if(clickedBtnID.indexOf("edit")>-1){
+                          window.location = result + "?openmodal=2&" + $("#" + clickedBtnID).attr('name') + "=" + $("#" + clickedBtnID).attr('value');
+                        }
                       } else {
-                          window.location = window.location.href + "?openmodal=1&" + $("#" + clickedBtnID).attr('name') + "=" + $("#" + clickedBtnID).attr('value');
+                        const urlobj = new URL(window.location.href);
+                        urlobj.search = '';
+                        const result = urlobj.toString();
+                        if (clickedBtnID.indexOf("button")>-1)
+                          {
+                          window.location = result + "?openmodal=1&" + $("#" + clickedBtnID).attr('name') + "=" + $("#" + clickedBtnID).attr('value');
+                          console.log(window.location);
+                        }
+                        else if(clickedBtnID.indexOf("edit")>-1){
+                          window.location = result + "?openmodal=2&" + $("#" + clickedBtnID).attr('name') + "=" + $("#" + clickedBtnID).attr('value');
+                        }
                       }
                   }
               });
@@ -139,8 +178,12 @@
   </script>
     <script type="text/javascript">
       $(document).ready(function() {
-        if (window.location.href.indexOf("?openmodal") > -1) {
+        if (window.location.href.indexOf("?openmodal=1") > -1) {
           $('#exampleModal').modal('show');
+          console.log("your url contains the name f?openmodal");
+        }
+        else if (window.location.href.indexOf("?openmodal=2") > -1) {
+          $('#smallModal').modal('show');
           console.log("your url contains the name f?openmodal");
         }
       });
@@ -153,8 +196,21 @@
     console.log(result)
     window.location = result
 });
-    </script>
+$('#smallModal').on('hidden.bs.modal', function () {
     
+    console.log(window.location.href);
+    const urlobj = new URL(window.location.href);
+    urlobj.search = '';
+    const result = urlobj.toString();
+    console.log(result)
+    window.location = result
+});
+    </script>
+<!-- <script type="text/javascript">
+$(document).ready(
+
+);
+</script> -->
     
   
 {% endblock %}
