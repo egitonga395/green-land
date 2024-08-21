@@ -57,8 +57,9 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         
-        <form action="" method="post" class="formselected">
+        <form action="/adminpanel/item/" method="post" class="" enctype="multipart/form-data">
         <div class="modal-body arrangeContent">
+          {% csrf_token %}
           <div>
             {{form1.name.label}}:
             {{form1.name}}
@@ -78,13 +79,16 @@
             {{form1.description.label}}:
             {{form1.description}}
           </div>
+          <div>
+            {{form.errors}}
+          </div>
 
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Save changes</button>
+          <button type="submit" class="btn btn-primary" name="saveform1">Save changes</button>
         </div>
-      </form>
+        </form>
       
       <!-- <form action="" method="post">
         <div class="containing_items">
@@ -107,12 +111,13 @@
 -->
   <div class="modal fade bd-example-modal-sm " tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="smallModal">
     <div class="modal-dialog modal-sm modal-dialog-centered ">
-      <form action="" method="post">
+      <form action="/adminpanel/item/" method="post" enctype="multipart/form-data">
       <div class="modal-content small-modal-container
       ">
+        {% csrf_token %}
         {{imagesform.as_p}}
         <div><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Save changes</button></div>
+          <button type="submit" class="btn btn-primary" name="saveform2">Save changes</button></div>
       </div>
     </form>
       
