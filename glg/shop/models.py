@@ -6,7 +6,7 @@ import uuid
 # Create your models here.
 class Item(models.Model):
     name = models.CharField(max_length = 250)
-    product_id = models.IntegerField(unique=True, auto_created=True)
+    product_id = models.AutoField(primary_key=True, default=None)
     price = models.IntegerField()
     image = models.ImageField(upload_to="product_image/")
     description = models.TextField()

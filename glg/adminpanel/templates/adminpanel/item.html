@@ -10,7 +10,7 @@
 <div class="container2">
     <div class="displaydiv">
         <form action="" method="get" class="formselected">
-            {% for data in data_to_display %}
+        {% for data in data_to_display %}
         {% with dict1=data.item dict2=data.item_images %}
         <div class="item">
             
@@ -86,21 +86,10 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary" name="saveform1">Save changes</button>
+          <button type="submit" class="btn btn-primary" name="saveform1" value="{{item.product_id}}">Save changes</button>
         </div>
         </form>
-      
-      <!-- <form action="" method="post">
-        <div class="containing_items">
-          {% for item_to_image in item_to_images %}
-          <div class="image_modification">
-            <img src="{{item_to_image.addphotos.url}}" alt="">
-            <p>Name: {{item_to_image.display_name}}</p>
-            <button type="button" name="edit" value="{{item_to_image.item_id}}">Change</button>
-          </div>
-          {% endfor %}</div>
-      </form> -->
-        
+            
       
      
       </div>

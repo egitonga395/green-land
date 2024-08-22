@@ -26,6 +26,7 @@ def item_view(request):
     
         items = Item.objects.all()
         data_to_display = []
+        pk=""
         # print(items)
         for item in items:
             dict1 = {}
@@ -67,9 +68,12 @@ def item_view(request):
 
         if request.method == "POST":
             print("____________________post________________form")
-            # print(request.POST)
+            instance_id = request.POST.get("saveform1")
+            print(instance_id)
+            item_bound = Item.objects.get(product_id = instance_id)
             # print(request.FILES)
-            form = Itemform(request.POST, request.FILES)
+            form = Itemform(request.POST, request.FILES, instance=item_bound)
+            
             # print(form)
             if form.is_valid():
                 print("\n\n\n\n\n\n\nyes")
