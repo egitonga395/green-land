@@ -7,5 +7,6 @@ urlpatterns = [
     path("", views.adminpanel, name="adminpanel"),
     path("transport/", views.transport_view, name="customerview"),
     path("item/", views.item_view, name = "itemview"),
+    path('update/',views.updating_content,name='update'),
     
 ]

@@ -1,0 +1,38 @@
+<form action="" method="get" class="formselected" id="updatecontent">
+    {% for data in data_to_display %}
+    {% with dict1=data.item dict2=data.item_images %}
+    <div class="item" id="{{dict1.product_id}}">
+            
+        <div class="upper">
+            <img src="{{ dict1.image.url}}" alt="" class="cover">
+            <div>
+                <h4>Name:</h4>
+                <p>{{dict1.name}}</p>
+            </div>
+            <div>
+                <h4>Description:</h4>
+                <p>{{ dict1.description|truncatewords:3 }}</p>
+            </div>
+            <div class="button">
+                <button  id = "button{{ forloop.counter }}"class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" name="submit" value="{{dict1.product_id}}" >Change</button>
+                <button >Delete</button>
+            </div>
+    
+        </div>
+    
+    <hr>
+    <div class="lower">
+        {% for images in dict2 %}
+            <div class="imagecontainer">
+              <img src="{{images.addphotos.url}}" alt="">
+              <p>Name: {{images.display_name}}</p>
+              <button type = "submit" name="edit_image" value="{{images.item_id}}" id = "edit{{forloop.counter}}">Change</button>
+              <button type = button name="edit_image">Delete</button>
+            </div>
+        {% endfor %}
+    </div>
+    </div>
+      
+    {% endwith %}
+    {% endfor %}
+    </form>

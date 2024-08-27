@@ -25,13 +25,16 @@ def login_view(request):
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
             user = authenticate(request, email=email, password=password)
-            if user.is_superuser:
+            print(user)
+            print(user.is_superuser)
+            if not user.is_superuser:
+                print("yes")
+                login(request, user)
+                return redirect("shop:products")
+                
+            elif user.is_superuser:
                 login(request, user)    
                 return redirect("adminpanel:adminpanel")
-
-            elif user:
-                login(request, user)
-                return redirect('shop:homepage')
                 
     else:
         form = SigninForm()

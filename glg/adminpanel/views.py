@@ -9,18 +9,17 @@ def adminpanel(request):
 
 
 def transport_view(request):
-    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-        transport = Transport.objects.all().values()
-        data = {"transport": list(transport)}
-        
-        return JsonResponse(data)
-    else: 
-        transport  = Transport.objects.all()
-        context = {"transport":transport}
-        return render (request, "adminpanel/transport.html", context)
+    
+    transport  = Transport.objects.all()
+    context = {"transport":transport}
+    return render (request, "adminpanel/transport.html", context)
 
 def order_view(request):
-    pass
+    orders = Order.objects.all()
+    context = {
+        "orders":orders
+    }
+    return render(request, "adminpanel/transport.html", context)
 
 def item_view(request):
     
@@ -93,5 +92,28 @@ def item_view(request):
     # "item_images": item_images}
     # return render(request, "adminpanel/item.html", context)
 
-def customers_view(request):
+def users_view(request):
     pass
+
+
+
+
+def updating_content(request):
+    items = Item.objects.all()
+    data_to_display = []
+    pk=""
+    # print(items)
+    for item in items:
+        dict1 = {}
+        # print("Item:")
+        # print(item)
+        item_images = item.item_images_set.all()
+        # print("Item_images:")
+        # print(item_images)
+        dict1["item"] = item  
+        dict1["item_images"] = item_images
+        # print(dict1)
+        data_to_display.append(dict1)
+    # print(data_to_display)
+    context = {"data_to_display": data_to_display}
+    return render(request, "adminpanel/updating_itemhtml.html", context)

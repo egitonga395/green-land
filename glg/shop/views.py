@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
 from .models import Item,  Item_images, Wishlist, Transport, Order
 from django.urls import reverse
 from django.http import HttpResponse, HttpResponseRedirect
@@ -36,6 +37,7 @@ def itemrequested(request, product_id, year, month, day):
     context = {"item": item_requested, "images": display_images}
     return render(request, "shop/product.html", context)
 
+@login_required(login_url='users:signin')
 def add_toCart(request, product_id):
 
     Item_to_add = Item.objects.get(product_id = product_id)

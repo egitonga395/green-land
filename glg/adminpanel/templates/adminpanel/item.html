@@ -2,50 +2,19 @@
 {% extends 'adminpanel/adminpanel.html' %}
 {% load static %}
 {% block link %}
-     
+    
+
+    <script src="{% static 'js/htmx.min.js' %}"></script>
      <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
      <link rel="stylesheet" href="{% static 'css/item.css' %}">
+     
+     
+
 {% endblock%}
 {% block body %}
 <div class="container2">
-    <div class="displaydiv">
-        <form action="" method="get" class="formselected">
-        {% for data in data_to_display %}
-        {% with dict1=data.item dict2=data.item_images %}
-        <div class="item">
-            
-                <div class="upper">
-                    <img src="{{ dict1.image.url}}" alt="" class="cover">
-                    <div>
-                        <h4>Name:</h4>
-                        <p>{{dict1.name}}</p>
-                    </div>
-                    <div>
-                        <h4>Description:</h4>
-                        <p>{{ dict1.description|truncatewords:3 }}</p>
-                    </div>
-                    <div class="button">
-                        <button  id = "button{{ forloop.counter }}"class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" name="submit" value="{{dict1.product_id}}" >Change</button>
-                        <button >Continue</button>
-                    </div>
-
-                </div>
-            
-            <hr>
-            <div class="lower">
-                {% for images in dict2 %}
-                    <div class="imagecontainer">
-                      <img src="{{images.addphotos.url}}" alt="">
-                      <p>Name: {{images.display_name}}</p>
-                      <button type = "submit" name="edit_image" value="{{images.item_id}}" id = "edit{{forloop.counter}}">Change</button>
-                      <button type = button name="edit_image">Delete</button>
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
-        {% endwith %}
-        {% endfor %}
-        </form>
+    <div class="displaydiv" hx-get="{% url 'adminpanel:update' %}" hx-target="#updatecontent" hx-swap="innerHTML" hx-trigger="every 2s">
+      {% include "adminpanel/updating_itemhtml.html" %}
         
     </div>
 </div>
@@ -86,11 +55,14 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+
           <button type="submit" class="btn btn-primary" name="saveform1" value="{{item.product_id}}">Save changes</button>
+        
         </div>
         </form>
             
-      
+    
      
       </div>
     </div>
@@ -114,6 +86,7 @@
     
   </div>
   <script src="{% static 'js/bootstrap.min.js' %}"></script>
+ 
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
@@ -189,6 +162,7 @@
     const result = urlobj.toString();
     console.log(result)
     window.location = result
+   
 });
 $('#smallModal').on('hidden.bs.modal', function () {
     
@@ -198,6 +172,7 @@ $('#smallModal').on('hidden.bs.modal', function () {
     const result = urlobj.toString();
     console.log(result)
     window.location = result
+   
 });
     </script>
 <!-- <script type="text/javascript">
@@ -205,6 +180,4 @@ $(document).ready(
 
 );
 </script> -->
-    
-  
 {% endblock %}
