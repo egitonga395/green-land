@@ -1,4 +1,7 @@
 <form action="" method="get" class="formselected" id="updatecontent">
+    <div id="addbutton">
+        <button class="addnew" id="add_new" name="add" value="newItem">Add Item</button>
+      </div>
     {% for data in data_to_display %}
     {% with dict1=data.item dict2=data.item_images %}
     <div class="item" id="{{dict1.product_id}}">
@@ -15,19 +18,23 @@
             </div>
             <div class="button">
                 <button  id = "button{{ forloop.counter }}"class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" name="submit" value="{{dict1.product_id}}" >Change</button>
-                <button >Delete</button>
+                <button id = "delete{{ forloop.counter }}"  name="delete" value="{{dict1.product_id}}" data-bs-toggle="modal" data-bs-target="#exampleModal" >Delete</button>
             </div>
     
         </div>
     
     <hr>
     <div class="lower">
+        <div class="imagecontainer">
+            
+            <button type = "submit" name="addimage" value="{{dict1.product_id}}" id = "imageitem_new{{forloop.counter }}"> <i class="bi bi-plus-circle-fill" class="h1 addnew text-center"></i>Add new</button>
+          </div>
         {% for images in dict2 %}
             <div class="imagecontainer">
               <img src="{{images.addphotos.url}}" alt="">
               <p>Name: {{images.display_name}}</p>
               <button type = "submit" name="edit_image" value="{{images.item_id}}" id = "edit{{forloop.counter}}">Change</button>
-              <button type = button name="edit_image">Delete</button>
+              <button type = "submit" id="deleteimage{{forloop.couner}}" name="deleteImage" value="todelete">Delete</button>
             </div>
         {% endfor %}
     </div>

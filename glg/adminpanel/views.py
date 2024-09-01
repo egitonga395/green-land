@@ -58,29 +58,96 @@ def item_view(request):
             # print("________________The end of form 1__________________________ ")
             context["item_to_images"] = item_to_be_modified_images
             return render(request, "adminpanel/item.html", context)
+        #getting the id of item to be deleted
+        if request.GET.get("delete"):
+            # print("yeah")
+            # print(request.GET.get("submit"))
+            id = request.GET.get("delete")
+            # print("______________________________________________________________")
+            item_to_be_modified = Item.objects.get(product_id=request.GET.get("delete"))
+            context["item"]=item_to_be_modified
+            # print(context.get("form1"))
+            # print("________________The end of form 1__________________________ ")
+            return render(request, "adminpanel/item.html", context)
         if request.GET.get("edit_image"):
             pk = request.GET.get("edit_image")
             item_image_to_modify = Item_images.objects.get(item_id=pk)
             imagesform = Itemimageform(instance=item_image_to_modify)
             context["imagesform"]=imagesform
             return render(request, "adminpanel/item.html", context)
+        if request.GET.get("add"):
+            form1 = Itemform()
+            context["form1"] = form1
+            return render(request, "adminpanel/item.html", context)
+
+        if request.GET.get("addimage"):
+            imagesform = Itemimageform()
+            context["imagesform"] = imagesform
+            product_id = request.GET.get("addimage")
+            print(product_id)
+            context["product_id"] = product_id
+            return render(request, "adminpanel/item.html", context)
 
         if request.method == "POST":
-            print("____________________post________________form")
-            instance_id = request.POST.get("saveform1")
-            print(instance_id)
-            item_bound = Item.objects.get(product_id = instance_id)
-            # print(request.FILES)
-            form = Itemform(request.POST, request.FILES, instance=item_bound)
+            if request.POST.get("new") == "item1":
+                print("finally")
+                form = Itemform(request.POST, request.FILES)
+                # print(form)
+                if form.is_valid():
+                    print("\n\n\n\n\n\n\nyes")
+                    form.save()
+                    return render(request, "adminpanel/item.html", context)
+                else:
+                    print(form.errors.as_data())
+                    print("no")
+                    return render(request, "adminpanel/item.html", context)
+                return render(request, "adminpanel/item.html", context)
+            elif request.POST.get("saveform1"):
+                print("____________________post________________form")
+                instance_id = request.POST.get("saveform1")
+                print(instance_id)
+                item_bound = Item.objects.get(product_id = instance_id)
+                # print(request.FILES)
+                form = Itemform(request.POST, request.FILES, instance=item_bound)
+                
+                # print(form)
+                if form.is_valid():
+                    print("\n\n\n\n\n\n\nyes")
+                    form.save()
+                else:
+                    print(form.errors.as_data())
+                    print("no")
+                return render(request, "adminpanel/item.html", context)
+
             
-            # print(form)
-            if form.is_valid():
-                print("\n\n\n\n\n\n\nyes")
-                form.save()
-            else:
-                print(form.errors.as_data())
-                print("no")
-            return render(request, "adminpanel/item.html", context)
+            elif request.POST.get("delete"):
+                print(request.POST)
+                product_id = request.POST["delete"]
+                item_to_be_deleted = Item.objects.get(product_id=product_id).delete()
+                return render(request, "adminpanel/item.html", context)
+
+            elif request.POST.get("newImage"):
+                print("finally")
+                form = Itemimageform(request.POST, request.FILES)
+                # print(form)
+                if form.is_valid():
+                    print(request.POST)
+                    print(request.FILES)
+                    item_image = Item.objects.get(product_id=request.POST["newImage"])
+                    image_item = Item_images.objects.create(item_image_name=item_image, display_name=request.POST["display_name"],addphotos = request.FILES["addphotos"])
+                    print(image_item)
+                    image_item.save()
+
+                    print("\n\n\n\n\n\n\nyes")
+                    
+                    return render(request, "adminpanel/item.html", context)
+                else:
+                    print(form.errors.as_data())
+                    print("no")
+                    return render(request, "adminpanel/item.html", context)
+                return render(request, "adminpanel/item.html", context)
+
+    
         else:
             return render(request, "adminpanel/item.html", context)
         

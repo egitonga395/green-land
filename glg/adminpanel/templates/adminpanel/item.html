@@ -6,6 +6,8 @@
 
     <script src="{% static 'js/htmx.min.js' %}"></script>
      <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+     <!-- Option 1: Include in HTML -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
      <link rel="stylesheet" href="{% static 'css/item.css' %}">
      
      
@@ -13,7 +15,8 @@
 {% endblock%}
 {% block body %}
 <div class="container2">
-    <div class="displaydiv" hx-get="{% url 'adminpanel:update' %}" hx-target="#updatecontent" hx-swap="innerHTML" hx-trigger="every 2s">
+    <div class="displaydiv" hx-get="{% url 'adminpanel:update' %}" hx-target="#updatecontent" hx-swap="innerHTML" hx-trigger="every 200s">
+      
       {% include "adminpanel/updating_itemhtml.html" %}
         
     </div>
@@ -77,14 +80,90 @@
       ">
         {% csrf_token %}
         {{imagesform.as_p}}
-        <div><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <div><button type="button" class="btn btn-secondary" class="btn-close" data-bs-dismiss="modal" aria-label="Close">Close</button>
           <button type="submit" class="btn btn-primary" name="saveform2">Save changes</button></div>
       </div>
     </form>
-      
+   </div>  
+  </div>
+  <!--
+    for deleting items 
+    -->
+    <div class="modal fade bd-example-modal-sm " tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="deleteModal">
+      <div class="modal-dialog modal-sm modal-dialog-centered ">
+        <form action="/adminpanel/item/" method="post" enctype="multipart/form-data">
+        <div class="modal-content small-modal-container
+        ">
+          {% csrf_token %}
+          <p>Are you sure you want to delete {{item.name}}?</p>
+          <div><button type="button" class="btn btn-secondary" data-dismiss="modal" class="btn-close" data-bs-dismiss="modal" aria-label="Close">Close</button>
+            <button type="submit" class="btn btn-primary" name="delete" value="{{item.product_id}}">Yes</button></div>
+        </div>
+      </form>
+     </div>  
+    </div>
+
+    <!--
+    for adding new item
+     -->
+     <div class="modal fade modal-lg" id="addItemModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Add new</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          
+          <form action="/adminpanel/item/" method="post"  enctype="multipart/form-data">
+          <div class="modal-body arrangeContent">
+            {% csrf_token %}
+            {{form1.as_div}}
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+  
+  
+            <button type="submit" class="btn btn-primary" name="new" value="item1" >Save changes</button>
+          
+          </div>
+          </form>       
+        </div>
+      </div>
+    </div>
+
+    <!--
+    for  adding neww item images
+    -->
+    <div class="modal fade bd-example-modal-sm " tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="addItemImageModal">
+      <div class="modal-dialog modal-sm modal-dialog-centered ">
+        <form action="/adminpanel/item/" method="post" enctype="multipart/form-data">
+        <div class="modal-content small-modal-container
+        ">
+          {% csrf_token %}
+          {{imagesform.as_div}}
+          <div><button type="button" class="btn btn-secondary" class="btn-close" data-bs-dismiss="modal" aria-label="Close">Close</button>
+            <button type="submit" class="btn btn-primary" name="newImage" value="{{product_id}}">Save changes</button></div>
+        </div>
+      </form>
+     </div>  
+    </div>
+    <!--
+    for deleting items 
+    -->
+    <div class="modal fade bd-example-modal-sm " tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="deleteImageModal">
+      <div class="modal-dialog modal-sm modal-dialog-centered ">
+        <form action="/adminpanel/item/" method="post" enctype="multipart/form-data">
+        <div class="modal-content small-modal-container
+        ">
+          {% csrf_token %}
+          <p>Are you sure you want to delete {{item.name}}?</p>
+          <div><button type="button" class="btn btn-secondary" data-dismiss="modal" class="btn-close" data-bs-dismiss="modal" aria-label="Close">Close</button>
+            <button type="submit" class="btn btn-primary" name="delete" value="{{item.product_id}}">Yes</button></div>
+        </div>
+      </form>
+     </div>  
     </div>
     
-  </div>
   <script src="{% static 'js/bootstrap.min.js' %}"></script>
  
 
@@ -124,7 +203,22 @@
                         else if(clickedBtnID.indexOf("edit")>-1){
                           window.location = result + "?openmodal=2&" + $("#" + clickedBtnID).attr('name') + "=" + $("#" + clickedBtnID).attr('value');
                         }
-                      } else {
+                        else if(clickedBtnID.indexOf("delete")>-1){
+                          window.location = result + "?openmodal=3&" + $("#" + clickedBtnID).attr('name') + "=" + $("#" + clickedBtnID).attr('value');
+                        }
+                        else if(clickedBtnID.indexOf("add")>-1){
+                          window.location = result + "?openmodal=4&" + $("#" + clickedBtnID).attr('name') + "=" + $("#" + clickedBtnID).attr('value');
+                        }
+                        
+                        else if(clickedBtnID.indexOf("imageitem")>-1){
+                          window.location = result + "?openmodal=5&" + $("#" + clickedBtnID).attr('name') + "=" + $("#" + clickedBtnID).attr('value');
+                        }
+                        else if(clickedBtnID.indexOf("deleteimage")>-1){
+                          window.location = result + "?openmodal=6&" + $("#" + clickedBtnID).attr('name') + "=" + $("#" + clickedBtnID).attr('value');
+                        }
+                      
+                      } 
+                      else {
                         const urlobj = new URL(window.location.href);
                         urlobj.search = '';
                         const result = urlobj.toString();
@@ -135,6 +229,18 @@
                         }
                         else if(clickedBtnID.indexOf("edit")>-1){
                           window.location = result + "?openmodal=2&" + $("#" + clickedBtnID).attr('name') + "=" + $("#" + clickedBtnID).attr('value');
+                        }
+                        else if(clickedBtnID.indexOf("delete")>-1){
+                          window.location = result + "?openmodal=3&" + $("#" + clickedBtnID).attr('name') + "=" + $("#" + clickedBtnID).attr('value');
+                        }
+                        else if(clickedBtnID.indexOf("add")>-1){
+                          window.location = result + "?openmodal=4&" + $("#" + clickedBtnID).attr('name') + "=" + $("#" + clickedBtnID).attr('value');
+                        }
+                        else if(clickedBtnID.indexOf("imageitem")>-1){
+                          window.location = result + "?openmodal=5&" + $("#" + clickedBtnID).attr('name') + "=" + $("#" + clickedBtnID).attr('value');
+                        }
+                        else if(clickedBtnID.indexOf("deleteimage")>-1){
+                          window.location = result + "?openmodal=6&" + $("#" + clickedBtnID).attr('name') + "=" + $("#" + clickedBtnID).attr('value');
                         }
                       }
                   }
@@ -153,27 +259,63 @@
           $('#smallModal').modal('show');
           console.log("your url contains the name f?openmodal");
         }
+        else if (window.location.href.indexOf("?openmodal=3") > -1) {
+          $('#deleteModal').modal('show');
+          console.log("your url contains the name f?openmodal3");
+        }
+        else if (window.location.href.indexOf("?openmodal=4") > -1) {
+          $('#addItemModal').modal('show');
+          console.log("your url contains the name f?openmodal3");
+        }
+        else if (window.location.href.indexOf("?openmodal=5") > -1) {
+          $('#addItemImageModal').modal('show');
+          console.log("your url contains the name f?openmodal5");
+        }
+        else if (window.location.href.indexOf("?openmodal=6") > -1) {
+          $('#deleteImageModal').modal('show');
+          console.log("your url contains the name f?openmodal6");
+        }
       });
-      $('#exampleModal').on('hidden.bs.modal', function () {
+  $('#exampleModal').on('hidden.bs.modal', function () {
     
-    console.log(window.location.href);
-    const urlobj = new URL(window.location.href);
-    urlobj.search = '';
-    const result = urlobj.toString();
-    console.log(result)
-    window.location = result
+    dealingWithUrl();
    
 });
 $('#smallModal').on('hidden.bs.modal', function () {
     
+    dealingWithUrl();
+   
+});
+$('#deleteModal').on('hidden.bs.modal', function () {
+    
+    dealingWithUrl();
+   
+});
+$('#addItemModal').on('hidden.bs.modal', function () {
+    
+    dealingWithUrl();
+   
+});
+$('#addItemImageModal').on('hidden.bs.modal', function () {
+    
+    dealingWithUrl();
+   
+});
+$('#deleteImageModal').on('hidden.bs.modal', function () {
+    
+    dealingWithUrl();
+   
+});
+
+function dealingWithUrl() {
     console.log(window.location.href);
     const urlobj = new URL(window.location.href);
     urlobj.search = '';
     const result = urlobj.toString();
-    console.log(result)
-    window.location = result
-   
-});
+    console.log(result);
+    window.location = result;
+  
+}
     </script>
 <!-- <script type="text/javascript">
 $(document).ready(
