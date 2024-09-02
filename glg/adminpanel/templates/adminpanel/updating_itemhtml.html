@@ -34,7 +34,7 @@
               <img src="{{images.addphotos.url}}" alt="">
               <p>Name: {{images.display_name}}</p>
               <button type = "submit" name="edit_image" value="{{images.item_id}}" id = "edit{{forloop.counter}}">Change</button>
-              <button type = "submit" id="deleteimage{{forloop.couner}}" name="deleteImage" value="todelete">Delete</button>
+              <button type = "submit" id="removeimage{{forloop.couner}}" name="deleteImage" value="{{images.item_id}}">Delete</button>
             </div>
         {% endfor %}
     </div>

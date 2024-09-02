@@ -15,7 +15,7 @@
 {% endblock%}
 {% block body %}
 <div class="container2">
-    <div class="displaydiv" hx-get="{% url 'adminpanel:update' %}" hx-target="#updatecontent" hx-swap="innerHTML" hx-trigger="every 200s">
+    <div class="displaydiv" hx-get="{% url 'adminpanel:update' %}" hx-target="#updatecontent" hx-swap="innerHTML" hx-trigger="every 5s">
       
       {% include "adminpanel/updating_itemhtml.html" %}
         
@@ -81,7 +81,7 @@
         {% csrf_token %}
         {{imagesform.as_p}}
         <div><button type="button" class="btn btn-secondary" class="btn-close" data-bs-dismiss="modal" aria-label="Close">Close</button>
-          <button type="submit" class="btn btn-primary" name="saveform2">Save changes</button></div>
+          <button type="submit" class="btn btn-primary" name="saveform2" value="{{pk}}">Save changes</button></div>
       </div>
     </form>
    </div>  
@@ -148,7 +148,7 @@
      </div>  
     </div>
     <!--
-    for deleting items 
+    for deleting items image
     -->
     <div class="modal fade bd-example-modal-sm " tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="deleteImageModal">
       <div class="modal-dialog modal-sm modal-dialog-centered ">
@@ -156,9 +156,9 @@
         <div class="modal-content small-modal-container
         ">
           {% csrf_token %}
-          <p>Are you sure you want to delete {{item.name}}?</p>
+          <p>Are you sure you want to delete {{image_delete.display_name}}?</p>
           <div><button type="button" class="btn btn-secondary" data-dismiss="modal" class="btn-close" data-bs-dismiss="modal" aria-label="Close">Close</button>
-            <button type="submit" class="btn btn-primary" name="delete" value="{{item.product_id}}">Yes</button></div>
+            <button type="submit" class="btn btn-primary" name="delete_image" value="{{image_delete.item_id}}">Yes</button></div>
         </div>
       </form>
      </div>  
@@ -213,7 +213,7 @@
                         else if(clickedBtnID.indexOf("imageitem")>-1){
                           window.location = result + "?openmodal=5&" + $("#" + clickedBtnID).attr('name') + "=" + $("#" + clickedBtnID).attr('value');
                         }
-                        else if(clickedBtnID.indexOf("deleteimage")>-1){
+                        else if(clickedBtnID.indexOf("removeimage")>-1){
                           window.location = result + "?openmodal=6&" + $("#" + clickedBtnID).attr('name') + "=" + $("#" + clickedBtnID).attr('value');
                         }
                       
@@ -239,7 +239,7 @@
                         else if(clickedBtnID.indexOf("imageitem")>-1){
                           window.location = result + "?openmodal=5&" + $("#" + clickedBtnID).attr('name') + "=" + $("#" + clickedBtnID).attr('value');
                         }
-                        else if(clickedBtnID.indexOf("deleteimage")>-1){
+                        else if(clickedBtnID.indexOf("removeimage")>-1){
                           window.location = result + "?openmodal=6&" + $("#" + clickedBtnID).attr('name') + "=" + $("#" + clickedBtnID).attr('value');
                         }
                       }
