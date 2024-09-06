@@ -9,8 +9,15 @@ class CustomUser(AbstractUser):
 
     USERNAME_FIELD = 'email' # Here
     REQUIRED_FIELDS = [] # Here
-    
     objects = CustomUserManager()
+
+
+    class Meta:
+        permissions = [
+            ("promote", "Can change add a blog"),
+            ("demote", "Can edit a blog"),
+            ]
+
 
     def __str__(self):
         return self.email

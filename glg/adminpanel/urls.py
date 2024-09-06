@@ -8,5 +8,6 @@ urlpatterns = [
     path("transport/", views.transport_view, name="customerview"),
     path("item/", views.item_view, name = "itemview"),
     path('update/',views.updating_content,name='update'),
+    path('users/', views.users_view ,name='users')
     
 ]

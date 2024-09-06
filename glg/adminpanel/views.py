@@ -2,6 +2,7 @@ from django.shortcuts import render
 from shop.models import *
 from django.http import JsonResponse
 from .forms import *
+from users.models import *
 
 # Create your views here.
 def adminpanel(request):
@@ -197,12 +198,19 @@ def item_view(request):
     # "item_images": item_images}
     # return render(request, "adminpanel/item.html", context)
 
+
 def users_view(request):
-    pass
+    users = CustomUser.objects.all()
+    context = {
+        "users": users
+    }
+    return render(request, "adminpanel/users.html", context)
+
+    
 
 
 
-
+#using htmx
 def updating_content(request):
     items = Item.objects.all()
     data_to_display = []

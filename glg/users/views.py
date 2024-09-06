@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.models import Group, Permission
 from .forms import SignupForm, SigninForm
 
 # Create your views here.
@@ -11,7 +12,9 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('shop/')
+            buyer, created = Group.objects.get_or_create(name='Buyer')
+            user.groups.add(buyer)             
+            return redirect('shop:homepage')
     else:
         form = SignupForm()
     return render(request, 'users/signup.html', {'form': form})

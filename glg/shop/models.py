@@ -34,9 +34,6 @@ class Item_images(models.Model):
     display_name = models.CharField(max_length = 250, default = "rose")
     addphotos = models.ImageField(upload_to="display_image/")
 
-
-
-
 #items on a cart for a given individual
 
 
