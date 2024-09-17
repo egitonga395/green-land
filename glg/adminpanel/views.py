@@ -201,13 +201,18 @@ def item_view(request):
 
 def users_view(request):
     users = CustomUser.objects.all()
+    form  =  UserModificationForm()
+
     context = {
-        "users": users
+        "users": users, 
+        "form": form
     }
     return render(request, "adminpanel/users.html", context)
 
     
 
+def users_edit(request, id):
+    return render(request, "adminpanel/user_edit.html")
 
 
 #using htmx

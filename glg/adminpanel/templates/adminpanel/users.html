@@ -4,27 +4,43 @@
 {% block link %}
     <script src="{% static 'js/htmx.min.js' %}"></script>
     <link rel="stylesheet" href="{% static 'css/users.css' %}">
-{% endblock%}
+{% endblock %}
 {% block body %}
-<form action="{% url 'adminpanel:users' %}" method="post">
-    <table>
+<table>
+    <tbody>
         <tr>
             <th>Name:</th>
             <th>Email:</th>
-            <th>Level:</th>
+            <th>Buyer:</th>
+            <th>Employee</th>
             <th></th>
             <th></th>
         </tr>
         {% for user in users %}
+        
             <tr>
                 <td style="width: 1em;">{{user.first_name}}</td>
                 <td style="width: 1em;">{{user.email}}</td>
-                <td>{{user.}}</td>
-                <td><button>Edit</button></td>
-                <td><button>Delete</button></td>
+                
+                {% if user.groups.all.count > 1 %}
+                
+                    {% for group in user.groups.all %}
+                        <td> {{group}}</td>
+                    {% endfor %}
+                {% elif  user.groups.all.count == 1 %}
+                    {% for group in user.groups.all %}
+                        <td> {{group}}</td>
+                    {% endfor %}
+                    <td>--</td>
+                {% else %}
+                    <td>--</td>
+                    <td>--</td>
+                {% endif %}
+                <td><a href="{% url 'adminpanel:users_edit' id=user.id%}">Edit</a></td>
             </tr>
+        
         {% endfor %}
-    </table>
-</form>
+        </tbody>
+</table>
 
 {% endblock%}

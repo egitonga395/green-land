@@ -16,7 +16,3 @@ class SigninForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput)
 
 
-class UserModificationForm(forms.ModelForm):
-    class Meta:
-        model = CustomUser
-        fields = ["groups"]

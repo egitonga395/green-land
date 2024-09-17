@@ -1,5 +1,6 @@
 from shop.models import *
 from django.forms import ModelForm
+from django import forms
 
 
 class Itemform(ModelForm):
@@ -16,6 +17,9 @@ class Itemimageform(ModelForm):
     class Meta:
         model = Item_images
         exclude = ('item_image_name', 'item_id',)
+
         
+class UserModificationForm(forms.Form):
+    employee = forms.BooleanField()
 
     
