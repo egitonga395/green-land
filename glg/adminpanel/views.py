@@ -209,10 +209,16 @@ def users_view(request):
     }
     return render(request, "adminpanel/users.html", context)
 
+def users_edit(request, id):
+    user_info = CustomUser.objects.get(id = id)
+    user_profile = user_info.profile
+    context = {
+        "user_info": user_info,
+        "user_profile": user_profile
+    }
+    return render(request, "adminpanel/user_edit.html", context)
     
 
-def users_edit(request, id):
-    return render(request, "adminpanel/user_edit.html")
 
 
 #using htmx

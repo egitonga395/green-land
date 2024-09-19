@@ -1,0 +1,15 @@
+from .models import *
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+@receiver(post_save, sender=CustomUser, dispatch_uid='save_new_user_profile')
+def create_profile(sender, instance, created, **kwargs):
+    print("yes")
+    user = instance
+    if created:
+        profile = Profile.objects.create(owner=user)
+
+@receiver(post_save, sender=CustomUser)
+def save_profile(sender, instance, created, **kwargs):
+    print("done")
+    instance.profile.save()
+        

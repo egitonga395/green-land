@@ -18,6 +18,7 @@
         </tr>
         {% for user in users %}
         
+
             <tr>
                 <td style="width: 1em;">{{user.first_name}}</td>
                 <td style="width: 1em;">{{user.email}}</td>
@@ -37,6 +38,7 @@
                     <td>--</td>
                 {% endif %}
                 <td><a href="{% url 'adminpanel:users_edit' id=user.id%}">Edit</a></td>
+                <td><a href="{% url 'adminpanel:users_delete' id=user.id%}">Delete</a></td>
             </tr>
         
         {% endfor %}
