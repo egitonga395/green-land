@@ -1,4 +1,40 @@
 {% extends 'adminpanel/adminpanel.html' %}
 {% load static %}
 {% block link %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="{%  static 'css/user_edit.css' %}">
+
+{% endblock %}
+{% block body %}
+     <div class="container">
+        <div class="innerdiv">
+            <div class="innerdivupper">
+                <div class="profilepic">
+                    {% if not user2_profile.profilepicture %}
+                        <i class="bi bi-person h1"></i>
+                    {% else %}
+                        <img src="{{user2_profile.profilepicture.url
+                        }}" class="rounded-circle shadow-4-strong" alt="">
+                    {% endif %}
+                </div>
+                <div class="userinfo">
+                    <h2>Name:</h2><span>{{user_info.first_name}}</span>
+                    <h2>Email:</h2><span>{{user_info.email}}</span>
+                    <h2>phone number:</h2><span>{{user_profile.phone_number}}</span>
+                </div>
+            </div>
+            <div class="innerdivlower"></div>
+                    {% if employee in user_info.groups.all %}
+                        Already an employee: <button> Demote </button>
+                    {% else %}
+                    Just a Buyer: <button> Promote </button>
+                    {% endif %}
+                </div>
+            </div>
+        
+     </div>
+    {% block script %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    {% endblock %}
 {% endblock %}

@@ -1,0 +1,20 @@
+.container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    
+    
+}
+.innerdiv{
+    background-color: white;
+    height: 50vh;
+    width: 50vw;
+    border-radius: 1em; 
+    margin-top: 3em;
+    z-index: 2;
+}
+
+.innerdivupper{
+    display: flex;
+    flex-direction: row;
+}

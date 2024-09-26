@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import Group, Permission
 from .forms import SignupForm, SigninForm
-from .models import Profile
+from .models import Profile, CustomUser
 
 # Create your views here.
 
@@ -25,11 +25,14 @@ def signup(request):
 def login_view(request):
     if request.method == 'POST':
         form = SigninForm(request.POST)
+        print(form)
         if form.is_valid():
+            print("yes")
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
             user = authenticate(request, email=email, password=password)
-            profile, created = Profile.objects.get_or_create(owner=user)
+            user1 = CustomUser.objects.get(email=email)
+            profile, created = Profile.objects.get_or_create(owner=user1)
             print(profile)
             print("______________________________")
             print(created)
@@ -43,6 +46,10 @@ def login_view(request):
             elif user.is_superuser:
                 login(request, user)    
                 return redirect("adminpanel:adminpanel")
+        else:
+            print("no")
+            form = SigninForm(request.POST)
+            return render(request, 'users/signin.html', {'form': form})
                 
     else:
         form = SigninForm()

@@ -3,6 +3,7 @@ from shop.models import *
 from django.http import JsonResponse
 from .forms import *
 from users.models import *
+from django.contrib.auth.models import Group
 
 # Create your views here.
 def adminpanel(request):
@@ -212,9 +213,11 @@ def users_view(request):
 def users_edit(request, id):
     user_info = CustomUser.objects.get(id = id)
     user_profile = user_info.profile
+    employee = Group.objects.get(name="Employee")
     context = {
         "user_info": user_info,
-        "user_profile": user_profile
+        "user_profile": user_profile,
+        "employee": employee
     }
     return render(request, "adminpanel/user_edit.html", context)
     
