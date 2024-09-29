@@ -2,19 +2,22 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    
-    
+    max-width: 80vw;
+    float: left;
 }
 .innerdiv{
     background-color: white;
-    height: 50vh;
     width: 50vw;
     border-radius: 1em; 
     margin-top: 3em;
     z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .innerdivupper{
     display: flex;
     flex-direction: row;
 }
+

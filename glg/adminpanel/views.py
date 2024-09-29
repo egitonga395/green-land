@@ -211,6 +211,7 @@ def users_view(request):
     return render(request, "adminpanel/users.html", context)
 
 def users_edit(request, id):
+
     user_info = CustomUser.objects.get(id = id)
     user_profile = user_info.profile
     employee = Group.objects.get(name="Employee")
@@ -219,7 +220,26 @@ def users_edit(request, id):
         "user_profile": user_profile,
         "employee": employee
     }
+        
+    if request.method == "POST":
+        print(request.POST)
+        if request.POST.get("promote"):
+            employee_id = request.POST.get("promote")
+            new_employee = CustomUser.objects.get(id = employee_id)
+            group_employee = Group.objects.get(name="Employee")
+            new_employee.groups.add(group_employee)
+            return render(request, "adminpanel/user_edit.html", context)
+        elif request.POST.get("demote"):
+            employee_id = request.POST.get("demote")
+            bye_employee = CustomUser.objects.get(id = employee_id)
+            group_employee = Group.objects.get(name="Employee")
+            bye_employee.groups.remove(group_employee)
+            print(bye_employee.groups)
+            return render(request, "adminpanel/user_edit.html", context)
+    
     return render(request, "adminpanel/user_edit.html", context)
+            
+        
     
 
 
