@@ -83,11 +83,17 @@ class Order(models.Model):
 
 
 
-class Wishlist(models.Model):
+# class Wishlist(models.Model):
+#     item_name = models.OneToOneField(Item, primary_key=True, on_delete= models.CASCADE)
+#     buyer = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+#     quantity = models.PositiveIntegerField()
+#     in_cart = models.BooleanField(default=False)
+#     order = models.ForeignKey(Order, on_delete=models.SET_NULL, null = True, blank=True)
+#     def __str__(self):
+#         return self.item_name.name
+class Cart(models.Model):
     item_name = models.OneToOneField(Item, primary_key=True, on_delete= models.CASCADE)
-    buyer = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField()
-    in_cart = models.BooleanField(default=False)
-    order = models.ForeignKey(Order, on_delete=models.SET_NULL, null = True, blank=True)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
     def __str__(self):
         return self.item_name.name
