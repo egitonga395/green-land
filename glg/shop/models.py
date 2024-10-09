@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.urls import reverse
 import uuid
+from users.models import CustomUser
 
 # Create your models here.
 class Item(models.Model):
@@ -36,11 +37,6 @@ class Item_images(models.Model):
 
 #items on a cart for a given individual
 
-
-
-
-
-
 class Transport(models.Model):
     
     destination = models.CharField(max_length= 250, primary_key=True)
@@ -51,22 +47,45 @@ class Transport(models.Model):
         return self.destination
 
 
+#using order model as a cart and for making order
+#the status of the order will being a pending will be displayed in the cart
+
+
+
 class Order(models.Model):
     
-    order_number = models.SlugField(unique=True)
-    invoice_total = models.PositiveIntegerField()
-    destitation = models.ForeignKey(Transport, on_delete = models.SET_NULL, null=True)
-    transport_price = models.PositiveIntegerField(default=0)
-    grand_total = models.PositiveIntegerField()
+    # order_number = models.SlugField(unique=True)
+    # invoice_total = models.PositiveIntegerField()
+    # destitation = models.OneToOneField(Transport, on_delete = models.SET_NULL, null=True)
+    # transport_price = models.PositiveIntegerField(default=0)
+    # grand_total = models.PositiveIntegerField()
+    # include_transport = models.BooleanField(default=False)
+    # created = models.DateTimeField(default=timezone.now)
+    # completed = models.BooleanField(default = False)
+    # def __str__(self):
+    #     return f"Order_{self.order_number}"
+    STATUS_CHOICES = [
+    ("open", "OPEN"),
+    ("clearing", "CLEARING"),
+    ("closed", "CLOSED"),
+]
+    order_number = models.SlugField(unique=True, primary_key=True)
+    buyer =  models.OneToOneField(CustomUser, on_delete= models.CASCADE)
+    destitation = models.OneToOneField(Transport, on_delete = models.SET_NULL, null=True)
     include_transport = models.BooleanField(default=False)
+    invoice_total = models.PositiveIntegerField(default=0)
+    transport_price = models.PositiveIntegerField(default=0)
+    grand_total = models.PositiveIntegerField(default=0)
     created = models.DateTimeField(default=timezone.now)
-    completed = models.BooleanField(default = False)
+    status = models.CharField(choices=STATUS_CHOICES)
     def __str__(self):
         return f"Order_{self.order_number}"
 
 
+
 class Wishlist(models.Model):
     item_name = models.OneToOneField(Item, primary_key=True, on_delete= models.CASCADE)
+    buyer = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField()
     in_cart = models.BooleanField(default=False)
     order = models.ForeignKey(Order, on_delete=models.SET_NULL, null = True, blank=True)

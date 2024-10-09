@@ -41,13 +41,14 @@ def itemrequested(request, product_id, year, month, day):
 def add_toCart(request, product_id):
 
     Item_to_add = Item.objects.get(product_id = product_id)
- 
+ #ensure that an item already in cart will be incremented
     if (Wishlist.objects.filter(item_name__product_id=product_id).exists()):
         p = Wishlist.objects.get(item_name__product_id=product_id)
         p.quantity += 1
         p.save()
         messages.success(request, "One more item added")
     else:
+        #actually adds the item to the cart
         item = Item.objects.get(product_id = product_id)
         p = Wishlist.objects.create(item_name=item, quantity = 1)
         p.save()
@@ -81,6 +82,7 @@ def display_cartitems(request):
     # "transport_form": transport_form,
     "order_include_transport":order_include_transport}
     order = Order.objects.filter(completed = False)
+    
     if not order:
         order1=Order.objects.create(order_number=order_number(), invoice_total=invoice_total, grand_total= invoice_total)
         print(order1)
