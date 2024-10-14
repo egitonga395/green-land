@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from .models import Item,  Item_images, Wishlist, Transport, Order
+from .models import Item,  Item_images, Cart, Transport, Order
 from django.urls import reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
@@ -39,27 +39,52 @@ def itemrequested(request, product_id, year, month, day):
 
 @login_required(login_url='users:signin')
 def add_toCart(request, product_id):
-
+    
     Item_to_add = Item.objects.get(product_id = product_id)
- #ensure that an item already in cart will be incremented
-    if (Wishlist.objects.filter(item_name__product_id=product_id).exists()):
-        p = Wishlist.objects.get(item_name__product_id=product_id)
-        p.quantity += 1
-        p.save()
-        messages.success(request, "One more item added")
+    user = request.user
+    print(user.email)
+    #check that the user has an open order
+    #pull items t
+    #ensure that an item already in cart will be incremented
+    open_order = Order.objects.filter(buyer=user).filter(status = "open").first()
+    #instance where order exists
+    print(open_order)
+    
+    if open_order is not None:
+        cart_queryset = open_order.cart_set.all()
+        #the item exist in the order
+        #therefore just increment
+        if Item_to_add in cart_queryset:
+            cart_item = open_order.cart_set.all().filter(item_name =  Item_to_add).first()
+            cart_item.quantity += 1
+            cart_item.save()
+            messages.success(request, "One more item added")
+        
+        # the item does not exist hence we just add to the cart
+        else: 
+            new_cart_item = Cart.objects.create(item_name=Item_to_add, quantity = 1, order=open_order)
+            new_cart_item.save()
+            messages.success(request, "Item added to cart.")
+
+    # add  a new open order in to the user
     else:
-        #actually adds the item to the cart
-        item = Item.objects.get(product_id = product_id)
-        p = Wishlist.objects.create(item_name=item, quantity = 1)
-        p.save()
-        messages.success(request, "Item added to cart.")
-        print(p)
-        print(Item_to_add)
-        print(Item_to_add.recent.year)
-        print(Item_to_add.recent.month)
-        print(Item_to_add.recent.day)
-        print(product_id, end="*")
-        print(Item_to_add.product_id, end= "succesful")
+        new_order = Order.objects.create(order_number=order_number(), buyer = user, status = "open")
+        new_cart_item =  Cart.objects.create(item_name=Item_to_add, quantity = 1, order=new_order)
+
+    # check if the user has
+    # else:
+    #     #actually adds the item to the cart
+    #     item = Item.objects.get(product_id = product_id)
+    #     p = Wishlist.objects.create(item_name=item, quantity = 1)
+    #     p.save()
+    #     messages.success(request, "Item added to cart.")
+    #     print(p)
+    #     print(Item_to_add)
+    #     print(Item_to_add.recent.year)
+    #     print(Item_to_add.recent.month)
+    #     print(Item_to_add.recent.day)
+    #     print(product_id, end="*")
+    #     print(Item_to_add.product_id, end= "succesful")
     return HttpResponseRedirect(reverse('shop:itemrequested', kwargs={'year':Item_to_add.recent.year,'month': Item_to_add.recent.month, 'day': Item_to_add.recent.day, 'product_id': product_id}))
         
 

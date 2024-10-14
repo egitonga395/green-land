@@ -7,7 +7,7 @@ from users.models import CustomUser
 # Create your models here.
 class Item(models.Model):
     name = models.CharField(max_length = 250)
-    product_id = models.AutoField(primary_key=True, default=None)
+    product_id = models.AutoField(primary_key=True)
     price = models.IntegerField()
     image = models.ImageField(upload_to="product_image/")
     description = models.TextField()
@@ -70,14 +70,14 @@ class Order(models.Model):
     ("closed", "CLOSED"),
 ]
     order_number = models.SlugField(unique=True, primary_key=True)
-    buyer =  models.OneToOneField(CustomUser, on_delete= models.CASCADE)
+    buyer =  models.ForeignKey(CustomUser, on_delete= models.CASCADE, )
     destitation = models.OneToOneField(Transport, on_delete = models.SET_NULL, null=True)
     include_transport = models.BooleanField(default=False)
     invoice_total = models.PositiveIntegerField(default=0)
     transport_price = models.PositiveIntegerField(default=0)
     grand_total = models.PositiveIntegerField(default=0)
     created = models.DateTimeField(default=timezone.now)
-    status = models.CharField(choices=STATUS_CHOICES)
+    status = models.CharField( max_length=200, choices=STATUS_CHOICES)
     def __str__(self):
         return f"Order_{self.order_number}"
 

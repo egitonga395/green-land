@@ -1,9 +1,9 @@
 from django.contrib import admin
-from .models import Item, Item_images, Wishlist, Transport, Order
+from .models import Item, Item_images, Cart, Transport, Order
 
 # Register your models here.
 admin.site.register(Item_images)
-admin.site.register(Wishlist)
+admin.site.register(Cart)
 admin.site.register(Transport)
 
 

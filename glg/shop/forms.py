@@ -1,11 +1,11 @@
 from django import forms
-from .models import Wishlist, Transport, Order
+from .models import Cart, Transport, Order
 from django.core.exceptions import ValidationError
 
 
 class User_quantities(forms.ModelForm):
     class Meta:
-        model = Wishlist
+        model = Cart
         fields = ["quantity"]
 
 # class Transport_form(forms.ModelForm):
