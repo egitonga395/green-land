@@ -63,7 +63,7 @@
                         <p>Ksh: {{cart_item.quantity|mul:incart.price}}</p>
                     </div>
                     <div class="add_to_cart">
-                        <button type = "button">Add to cart</button>
+                        <button type = "button" hx-get="quantity-form/{{order_number}}/{{incart.name}}/" hx-swap="innerHTML", trigger="click", hx-target="body" hx-vals='{"op":"delete"}'>Remove from cart</button>
                     </div>
                 
                 </div>

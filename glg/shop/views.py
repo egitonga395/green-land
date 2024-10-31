@@ -128,7 +128,7 @@ def get_data(request):
     else:
         context = {"statement": "your cart is empty"}
 
-
+@login_required(login_url='users:signin')
 def display_cartitems(request):
     #get the items belonging to the user in the order that is open
     
@@ -155,7 +155,9 @@ def change_ItemQuantity(request, order_number, item_name):
         print(cart_item_modified.quantity)
         return render(request, "shop/cart.html", get_data(request))
     elif request.GET.get("op") == "delete":
-        pass
+        cart_item_modified.delete()
+        return render(request, "shop/cart.html", get_data(request))
+
 
 
 
