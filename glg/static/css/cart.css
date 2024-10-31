@@ -20,7 +20,7 @@ body
 }
 
 .container{
-    grid-area: 2/1/6/9;
+    /* grid-area: 2/1/6/9; */
     margin-top:3em;
     margin-left: 1.5em;
     margin-bottom: 1em;
@@ -29,7 +29,7 @@ body
 }
 section.bill
 {
-     grid-area:2/9/6/12;/*2/1/6/9 */
+     /*grid-area:2/9/6/12;2/1/6/9 */
      margin-left: 2em;
 
 }

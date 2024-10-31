@@ -11,6 +11,7 @@ urlpatterns = [
     path('cart/',views.display_cartitems,name='display_cart'),
     path('purchase_form/', views.purchase_form, name='purchase_form'),
     path('<slug:product_id>/',views.add_toCart,name='addtocart'),
+    path("cart/quantity-form/<slug:order_number>/<slug:item_name>/", views.change_ItemQuantity, name="changeQuantity"),
     path('purchase_form/', views.purchase_form, name='purchase_form'),
     
 ]

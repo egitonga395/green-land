@@ -47,29 +47,43 @@ def add_toCart(request, product_id):
     #pull items t
     #ensure that an item already in cart will be incremented
     open_order = Order.objects.filter(buyer=user).filter(status = "open").first()
+    # print(open_order.exists())
     #instance where order exists
     print(open_order)
-    
+
     if open_order is not None:
         cart_queryset = open_order.cart_set.all()
-        #the item exist in the order
+        # if the item exist in the order
         #therefore just increment
-        if Item_to_add in cart_queryset:
-            cart_item = open_order.cart_set.all().filter(item_name =  Item_to_add).first()
-            cart_item.quantity += 1
-            cart_item.save()
-            messages.success(request, "One more item added")
-        
-        # the item does not exist hence we just add to the cart
-        else: 
-            new_cart_item = Cart.objects.create(item_name=Item_to_add, quantity = 1, order=open_order)
-            new_cart_item.save()
-            messages.success(request, "Item added to cart.")
 
-    # add  a new open order in to the user
+        #loops through the queryset to get a cart
+        print(cart_queryset)
+        count = 0
+        for cart_item in cart_queryset:
+            #checks whether an item exists inside the cart_item
+            if Item_to_add == cart_item.item_name:
+                print("item")
+                cart_item.quantity += 1
+                cart_item.save()
+                break
+                messages.success(request, "One more item added")
+            
+            # the item does not exist hence we just add to the cart
+            #first ensure that the item does not exist until all the list is over
+            elif (Item_to_add != cart_item.item_name and count == (cart_queryset.count()-1)): 
+                #if all items have been iterated through and there the product does not exist
+                print("working on this!!")
+                new_cart_item = Cart.objects.create(item_name=Item_to_add, quantity = 1, order=open_order)
+                new_cart_item.save()
+                messages.success(request, "Item added to cart.")
+
+            else:
+                count += 1 
+
+        # add  a new open order in to the user
     else:
-        new_order = Order.objects.create(order_number=order_number(), buyer = user, status = "open")
-        new_cart_item =  Cart.objects.create(item_name=Item_to_add, quantity = 1, order=new_order)
+            new_order = Order.objects.create(order_number=order_number(), buyer = user, status = "open")
+            new_cart_item =  Cart.objects.create(item_name=Item_to_add, quantity = 1, order=new_order)   
 
     # check if the user has
     # else:
@@ -87,123 +101,161 @@ def add_toCart(request, product_id):
     #     print(Item_to_add.product_id, end= "succesful")
     return HttpResponseRedirect(reverse('shop:itemrequested', kwargs={'year':Item_to_add.recent.year,'month': Item_to_add.recent.month, 'day': Item_to_add.recent.day, 'product_id': product_id}))
         
+@login_required(login_url='users:signin')
+def get_data(request):
+    user = request.user
+    open_order = Order.objects.filter(buyer=user).filter(status = "open").first()
+    print("######")
+    print(open_order.order_number)
+    print(request.GET)
+    if open_order is not None:
+        #dealing with the display of cart items only
+        cart_items = open_order.cart_set.all()
+        invoice_total = 0
+        forms = []
+        values = {}
+        for cart_item in cart_items:
+            incartvalue = cart_item.item_name
+            itemtotal = incartvalue.price * cart_item.quantity
+            invoice_total = invoice_total + itemtotal
+            form =User_quantities(initial={"quantity":cart_item.quantity})
+            forms.append(form)
+        context = {"cart_items": cart_items, 
+        "invoice_total": invoice_total, 
+        "forms":forms,
+        "order_number": open_order.order_number}
+        return context
+    else:
+        context = {"statement": "your cart is empty"}
+
 
 def display_cartitems(request):
-    cart_items = Wishlist.objects.all()
-    invoice_total = 0
-    forms = []
-    order_include_transport  = Order_form()
+    #get the items belonging to the user in the order that is open
     
-    values = {}
-    for cart_item in cart_items:
-        incartvalue = cart_item.item_name
-        itemtotal = incartvalue.price * cart_item.quantity
-        invoice_total = invoice_total + itemtotal
-        form =User_quantities(initial={"quantity":cart_item.quantity})
-        forms.append(form)
-    context = {"cart_items": cart_items, 
-    "invoice_total": invoice_total, 
-    "forms":forms,
-    # "transport_form": transport_form,
-    "order_include_transport":order_include_transport}
-    order = Order.objects.filter(completed = False)
+    return render(request, "shop/cart.html", get_data(request))
+
+    #recieve the changed quantity value from the htmx form
+@login_required(login_url='users:signin')
+def change_ItemQuantity(request, order_number, item_name):
+    print("yes")
+    print(request.GET)
+    order = Order.objects.get(order_number=order_number)
+    item_modified = Item.objects.get(name=item_name)
+    cart_item_modified = order.cart_set.all().filter(item_name=item_modified).first()
+    print(cart_item_modified)
+    if request.GET.get("op") == "sub":
+        cart_item_modified.quantity -= 1
+        cart_item_modified.save()
+        print(cart_item_modified.quantity)
+        return render(request, "shop/cart.html", get_data(request))
+
+    elif request.GET.get("op") == "add":
+        cart_item_modified.quantity += 1
+        cart_item_modified.save()
+        print(cart_item_modified.quantity)
+        return render(request, "shop/cart.html", get_data(request))
+    elif request.GET.get("op") == "delete":
+        pass
+
+
+
     
-    if not order:
-        order1=Order.objects.create(order_number=order_number(), invoice_total=invoice_total, grand_total= invoice_total)
-        print(order1)
-        for cart_item1 in cart_items:
-            cart_item1.order = order1
-            cart_item1.save()
+    # if not order:
+    #     order1=Order.objects.create(order_number=order_number(), invoice_total=invoice_total, grand_total= invoice_total)
+    #     print(order1)
+    #     for cart_item1 in cart_items:
+    #         cart_item1.order = order1
+    #         cart_item1.save()
 
-            print("/n/n/n/n")
-            print("##########")
-            print(order1.wishlist_set.all())
-            print("##########")
+    #         print("/n/n/n/n")
+    #         print("##########")
+    #         print(order1.wishlist_set.all())
+    #         print("##########")
             
             
 
-    else:
-        print(order)
-        order1, = order
-        print(order1)
-        values = order1.wishlist_set.all()
-        print("\n\n")
-        print(cart_items)
-        print("##########")
-        print("fuck")
-        print(values)
-        print("##########")
-        for cart_item1 in cart_items:
-            checklist = order1.wishlist_set.all()
-            if cart_item1 not in checklist:
-                cart_item1.order = order1
-                cart_item1.save()
-                print(f"{cart_item1} has been added to ")
-            print(checklist)
+    # else:
+    #     print(order)
+    #     order1, = order
+    #     print(order1)
+    #     values = order1.wishlist_set.all()
+    #     print("\n\n")
+    #     print(cart_items)
+    #     print("##########")
+    #     print("fuck")
+    #     print(values)
+    #     print("##########")
+    #     for cart_item1 in cart_items:
+    #         checklist = order1.wishlist_set.all()
+    #         if cart_item1 not in checklist:
+    #             cart_item1.order = order1
+    #             cart_item1.save()
+    #             print(f"{cart_item1} has been added to ")
+    #         print(checklist)
 
-    #dealing with submit buttons    
+    # #dealing with submit buttons    
 
-    if request.method == "POST":
-        # the user can see the price of the transport
-        if request.POST.get("submit") == "transport":
-            print(request.POST)
-            place = request.POST.get("destitation")
-            transport_object = Transport.objects.get(destination = place)
-            transport_price = transport_object.price
-            context["transport_price"]=transport_price
-            print("___________________________")
-            print(transport_price)
-            print("___________________________")
-            order1, =Order.objects.filter(completed=False)
-            order1.transport_price = transport_price
+    # if request.method == "POST":
+    #     # the user can see the price of the transport
+    #     if request.POST.get("submit") == "transport":
+    #         print(request.POST)
+    #         place = request.POST.get("destitation")
+    #         transport_object = Transport.objects.get(destination = place)
+    #         transport_price = transport_object.price
+    #         context["transport_price"]=transport_price
+    #         print("___________________________")
+    #         print(transport_price)
+    #         print("___________________________")
+    #         order1, =Order.objects.filter(completed=False)
+    #         order1.transport_price = transport_price
 
-            order1.save()
-            print("___________________________")
-            print(order1.transport_price)
-            print("___________________________")
-            # context["transport_price"]=transport_price
-            # values["transport_price"]=transport_price
-            # print(context.get("transport_price"))
-            return render(request, "shop/cart.html", context)
-        elif request.POST.get("submit") == "cart":
-            # the user can add the price of the transport to the order
-            print("*****************************")
-            name = request.POST.get("submit")
-            print(request.POST)
-            print("*********************")
+    #         order1.save()
+    #         print("___________________________")
+    #         print(order1.transport_price)
+    #         print("___________________________")
+    #         # context["transport_price"]=transport_price
+    #         # values["transport_price"]=transport_price
+    #         # print(context.get("transport_price"))
+    #         return render(request, "shop/cart.html", context)
+    #     elif request.POST.get("submit") == "cart":
+    #         # the user can add the price of the transport to the order
+    #         print("*****************************")
+    #         name = request.POST.get("submit")
+    #         print(request.POST)
+    #         print("*********************")
             
-            if request.POST.get("include_transport")=="on":
-                order1, =Order.objects.filter(completed=False)
-                print(order1.transport_price)
-                order1.grand_total = order1.invoice_total+order1.transport_price
-                context["grand_total"]= order1.grand_total
-                print("___++++++++++++++++++___________")
-                print(order1.grand_total)
-                order1.include_transport = True
-                order1.save()
-            else:
-                order1, =Order.objects.filter(completed=False)
-                order1.grand_total = order1.invoice_total
-                context["grand_total"]= order1.grand_total
-                print(order1.grand_total)
-                order1.include_transport = False
-                order1.save()
-            return render(request, "shop/cart.html", context)
-        else:
-            name = request.POST.get("submit")
-            print(request.POST)
-            new_quantity = request.POST.get("quantity")
-            incart_item = Wishlist.objects.get(item_name__product_id=name)
-            print(f"The old quantity {incart_item.quantity}")
-            incart_item.quantity = new_quantity
-            print(f" The new quantity {incart_item.quantity}")
-            incart_item.save()
-            print("___________________")
-            print(incart_item.quantity)
-            return render(request, "shop/cart.html", context)
+    #         if request.POST.get("include_transport")=="on":
+    #             order1, =Order.objects.filter(completed=False)
+    #             print(order1.transport_price)
+    #             order1.grand_total = order1.invoice_total+order1.transport_price
+    #             context["grand_total"]= order1.grand_total
+    #             print("___++++++++++++++++++___________")
+    #             print(order1.grand_total)
+    #             order1.include_transport = True
+    #             order1.save()
+    #         else:
+    #             order1, =Order.objects.filter(completed=False)
+    #             order1.grand_total = order1.invoice_total
+    #             context["grand_total"]= order1.grand_total
+    #             print(order1.grand_total)
+    #             order1.include_transport = False
+    #             order1.save()
+    #         return render(request, "shop/cart.html", context)
+    #     else:
+    #         name = request.POST.get("submit")
+    #         print(request.POST)
+    #         new_quantity = request.POST.get("quantity")
+    #         incart_item = Wishlist.objects.get(item_name__product_id=name)
+    #         print(f"The old quantity {incart_item.quantity}")
+    #         incart_item.quantity = new_quantity
+    #         print(f" The new quantity {incart_item.quantity}")
+    #         incart_item.save()
+    #         print("___________________")
+    #         print(incart_item.quantity)
+    #         return render(request, "shop/cart.html", context)
             
-    else:
-         return render(request, "shop/cart.html", context)
+    # else:
+    #      return render(request, "shop/cart.html", context)
 
 
 

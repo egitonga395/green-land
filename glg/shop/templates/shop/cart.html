@@ -15,9 +15,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Aclonica&family=Poppins:ital,wght@0,100;0,200;
     0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/htmx.org@2.0.3" integrity="sha384-0895/pl2MU10Hqc6jd4RvrthNlDiE9U1tWmX7WRESftEDRosgxNsQG/Ze9YMRzHq" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{% static 'css/cart.css' %}">
 </head>
-<body>
+<body id="body">
     <!-- <nav class="aclonica-regular">
         <h2 class="logo">GREEN LAND<BR>GOAL</h2>
             <h2>HOME</h2>
@@ -45,12 +46,14 @@
                     </div>
                     <div class="quantity">
                         {% with price=cart_item.quantity %}
-                        <form action="" method="post">
+                        <form id="formquantities"> 
                             {% csrf_token %}
+                            <button hx-get="quantity-form/{{order_number}}/{{incart.name}}/" hx-swap="innerHTML", trigger="click", hx-target="body" hx-vals='{"op":"sub"}'>sub</button>
                             {{forms|index:forloop.counter0}}
+                            <button hx-get="quantity-form/{{order_number}}/{{incart.name}}/" hx-swap="innerHTML", trigger="click", hx-target="body" hx-vals='{"op":"add"}'>add</button>
                             
                         <!-- <input type="submit" name = {{incart.product_id}} value="submit"> -->
-                        <button type="submit" name="submit"value="{{incart.product_id}}">submit</button>
+                        <!-- <button type="submit" name="submit"value="{{incart.product_id}}">submit</button> -->
                         </form>
                         {% endwith %}
                     </div>
@@ -60,7 +63,7 @@
                         <p>Ksh: {{cart_item.quantity|mul:incart.price}}</p>
                     </div>
                     <div class="add_to_cart">
-                        <button type = "button" id = >Add to cart</button>
+                        <button type = "button">Add to cart</button>
                     </div>
                 
                 </div>
