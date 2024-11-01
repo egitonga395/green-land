@@ -72,49 +72,8 @@
             {% endfor %}
         </div>
     </div>
+    {% include 'shop/partial_cart_template.html' %}
     
-    <section class="bill">
-        <div class="container_1">
-            <div class="invoice">
-                <h2>Invoice</h2>
-                <p>Total: <span class="price text">Ksh {{invoice_total}}</span></p>
-            </div>
-            <div class="transport">
-                <h2>Transport</h2>
-                <div>
-                    <form action="" method="POST">
-                        {% csrf_token %}
-                        <p style="display: inline;">To:</p>
-                        <!-- <input type="text" class="resize-text-box"> -->
-                        
-                        {{order_include_transport.destitation}}
-                        <button type="submit" name="submit"
-                         value="transport"
-                        >search</button>
-                        <p>Price: <span class="text">Ksh {{transport_price}}</span></p>
-                    </form>
-                    <form action="" method="POST">
-                        {% csrf_token %}
-                        <p class="text_checkbox">Include transport?</p>
-                        {{order_include_transport.include_transport}}
-                        <div class="button">
-                            <button type=" submit" name="submit"
-                            value="cart">Continue</button>
-                        </div>
-                    </form>
-                    
-                </div>
-            </div>
-            <div class="Grand_Total">
-                <h2>Grand Total:</h2>
-                <p class="text large">Ksh {{grand_total}}</p>
-            </div>
-            <div class="button">
-                <a href="{% url 'shop:purchase_form' %} "><button >Done</button></a>
-            </div>
-            
-        </div>
-    </section>
 </body>
 
 </html>

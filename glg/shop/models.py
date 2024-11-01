@@ -42,7 +42,6 @@ class Transport(models.Model):
     destination = models.CharField(max_length= 250, primary_key=True)
     price = models.PositiveIntegerField()
 
-
     def __str__(self):
         return self.destination
 
@@ -70,8 +69,8 @@ class Order(models.Model):
     ("closed", "CLOSED"),
 ]
     order_number = models.SlugField(unique=True, primary_key=True)
-    buyer =  models.ForeignKey(CustomUser, on_delete= models.CASCADE, )
-    destitation = models.OneToOneField(Transport, on_delete = models.SET_NULL, null=True)
+    buyer =  models.ForeignKey(CustomUser, on_delete= models.CASCADE,)
+    destitation = models.OneToOneField(Transport, on_delete = models.SET_NULL, null=True, default="nowhere") 
     include_transport = models.BooleanField(default=False)
     invoice_total = models.PositiveIntegerField(default=0)
     transport_price = models.PositiveIntegerField(default=0)

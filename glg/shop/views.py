@@ -4,7 +4,7 @@ from .models import Item,  Item_images, Cart, Transport, Order
 from django.urls import reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
-from .forms import User_quantities, Order_form
+from .forms import User_quantities, Order_form, Transport_form
 import random
 import string
 
@@ -39,7 +39,6 @@ def itemrequested(request, product_id, year, month, day):
 
 @login_required(login_url='users:signin')
 def add_toCart(request, product_id):
-    
     Item_to_add = Item.objects.get(product_id = product_id)
     user = request.user
     print(user.email)
@@ -52,7 +51,12 @@ def add_toCart(request, product_id):
     print(open_order)
 
     if open_order is not None:
+        print ("the order is not empty")
         cart_queryset = open_order.cart_set.all()
+        if cart_queryset.count() ==0:
+            print("The cart is empty")
+            new_cart_item = Cart.objects.create(item_name=Item_to_add, quantity = 1, order=open_order)
+
         # if the item exist in the order
         #therefore just increment
 
@@ -82,7 +86,7 @@ def add_toCart(request, product_id):
 
         # add  a new open order in to the user
     else:
-            new_order = Order.objects.create(order_number=order_number(), buyer = user, status = "open")
+            new_order = Order.objects.create(order_number=order_number(), buyer=user, status = "open")
             new_cart_item =  Cart.objects.create(item_name=Item_to_add, quantity = 1, order=new_order)   
 
     # check if the user has
@@ -120,10 +124,25 @@ def get_data(request):
             invoice_total = invoice_total + itemtotal
             form =User_quantities(initial={"quantity":cart_item.quantity})
             forms.append(form)
+        open_order.invoice_total = invoice_total
+        #see the value stored in the database for transport destination
+        print(open_order.destitation, end="**")
+
+
+
+        grand_total = open_order.invoice_total +  open_order.transport_price
+        print ("#$$$$")
+        print(open_order.invoice_total )
+        open_order.save()
         context = {"cart_items": cart_items, 
-        "invoice_total": invoice_total, 
+        "invoice_total": open_order.invoice_total, 
         "forms":forms,
-        "order_number": open_order.order_number}
+        "order_number": open_order.order_number,
+        "order_include_transport":Transport_form(initial={'destination': open_order.destitation}),
+        "include_transport_check":Order_form(instance=open_order),
+        "transport_price": open_order.transport_price,
+        "grand_total": grand_total}
+        
         return context
     else:
         context = {"statement": "your cart is empty"}
@@ -158,6 +177,55 @@ def change_ItemQuantity(request, order_number, item_name):
         cart_item_modified.delete()
         return render(request, "shop/cart.html", get_data(request))
 
+#deal with transport values without buttons
+def transport_bit(request, order_number):
+
+    order = Order.objects.get(order_number=order_number)
+    #the transport  selected by the user
+    transport_destination = request.GET.get("destination")
+    transport_obj= Transport.objects.get(destination=transport_destination)
+    order.destitation = transport_obj
+    print("The user wants to have the product transport to:")
+    print(order.destitation)
+    price_transport = transport_obj.price
+    
+    context={
+        "order_number": order.order_number,
+        "invoice_total": order.invoice_total,
+        "transport_price": price_transport,
+        "order_include_transport":Transport_form(initial={'destination': order.destitation}),
+        "include_transport_check":Order_form(instance=order),
+    }
+    #find out whether the user wants to include tranport or not
+    include_transport_check = request.GET.get("include_transport")
+    if include_transport_check == "on":
+        # at this point only the grand price changes
+        #the price of transport at this particular case changes in the order database
+        order.include_transport = True
+        order.transport_price = price_transport
+        order.grand_total = order.invoice_total + order.transport_price
+        order.save()
+        print("Since transport is included, the grand total is")
+        print(order.grand_total)
+        #include the updated grand total in the context
+        context["grand_total"]=order.grand_total
+        return render(request, "shop/partial_cart_template.html", context)
+        
+
+    else:
+        #at this point the area where the user wanted us to transport the product to is just a wish
+        #the transport price in the database does not change
+        open_order.include_transport = False
+        order.transport_price = 0
+        order.grand_total = order.invoice_total + order.transport_price
+        order.save()
+        #the grand total is equal to the invoice because the transport price is 0 in the database
+        context["grand_total"]=order.grand_total
+        print(order.grand_total)
+
+        return render(request, "shop/partial_cart_template.html", context)
+
+    
 
 
 
