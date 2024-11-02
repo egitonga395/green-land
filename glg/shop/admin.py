@@ -19,10 +19,10 @@ class ItemAdmin(admin.ModelAdmin):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ("order_number", "invoice_total", "grand_total", "include_transport","created",)
-    fields = ["order_number", "created",
+    list_display = ("order_number", "invoice_total", "grand_total", "include_transport","created","buyer",)
+    fields = ["order_number", "created","buyer",
     ("invoice_total",
     "include_transport", "grand_total",) ]
-    list_filter = ("order_number", "created",)
+    list_filter = ("order_number", "created","buyer",)
     prepopulated_fields = {"order_number":("created",)}
 

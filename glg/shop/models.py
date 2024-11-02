@@ -30,6 +30,7 @@ class Item(models.Model):
 
 
 class Item_images(models.Model):
+    
     item_image_name = models.ForeignKey(Item, on_delete = models.CASCADE)
     item_id = models.CharField(max_length=250,primary_key=True, default=uuid.uuid4,)
     display_name = models.CharField(max_length = 250, default = "rose")
@@ -40,7 +41,7 @@ class Item_images(models.Model):
 class Transport(models.Model):
     
     destination = models.CharField(max_length= 250, primary_key=True)
-    price = models.PositiveIntegerField()
+    price = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.destination
@@ -48,6 +49,9 @@ class Transport(models.Model):
 
 #using order model as a cart and for making order
 #the status of the order will being a pending will be displayed in the cart
+
+def get_default_transport():
+    return Transport.objects.get(destination='nowhere')
 
 
 
@@ -70,7 +74,7 @@ class Order(models.Model):
 ]
     order_number = models.SlugField(unique=True, primary_key=True)
     buyer =  models.ForeignKey(CustomUser, on_delete= models.CASCADE,)
-    destitation = models.OneToOneField(Transport, on_delete = models.SET_NULL, null=True, default="nowhere") 
+    destitation = models.ForeignKey(Transport, on_delete = models.CASCADE,  default=get_default_transport) 
     include_transport = models.BooleanField(default=False)
     invoice_total = models.PositiveIntegerField(default=0)
     transport_price = models.PositiveIntegerField(default=0)
@@ -91,7 +95,8 @@ class Order(models.Model):
 #     def __str__(self):
 #         return self.item_name.name
 class Cart(models.Model):
-    item_name = models.OneToOneField(Item, primary_key=True, on_delete= models.CASCADE)
+    product_id = models.AutoField(primary_key=True)
+    item_name = models.ForeignKey(Item,  on_delete= models.CASCADE)
     quantity = models.PositiveIntegerField()
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     def __str__(self):

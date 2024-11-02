@@ -86,7 +86,8 @@ def add_toCart(request, product_id):
 
         # add  a new open order in to the user
     else:
-            new_order = Order.objects.create(order_number=order_number(), buyer=user, status = "open")
+            transport = Transport.objects.get(destination = "nowhere" )
+            new_order = Order.objects.create(order_number=order_number(), buyer=user, status = "open", destitation=transport)
             new_cart_item =  Cart.objects.create(item_name=Item_to_add, quantity = 1, order=new_order)   
 
     # check if the user has
@@ -215,7 +216,7 @@ def transport_bit(request, order_number):
     else:
         #at this point the area where the user wanted us to transport the product to is just a wish
         #the transport price in the database does not change
-        open_order.include_transport = False
+        order.include_transport = False
         order.transport_price = 0
         order.grand_total = order.invoice_total + order.transport_price
         order.save()
