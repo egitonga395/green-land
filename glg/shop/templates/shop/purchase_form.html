@@ -39,35 +39,46 @@
                         <tr>
                             <td>{{ordered_item.item_name}}</td>
                             {% with ordered_item.item_name as  item %}
-                                <td>{{item.price}}</td>
+                                <td>Ksh. {{item.price}}</td>
                             {% endwith %}
                             <td>{{ordered_item.quantity}}</td>
-                            <td>40000</td>
+                            <td>Ksh.{{ordered_item.cart_item_price }}</td>
                         </tr>
                     {% endfor %}
+                   
+                    
             
                     <tr>
                         <td><strong>Total price:</strong></td>
-                        <td>{{order.invoice_total}}</td>
+                        <td>Ksh. {{order.invoice_total}}</td>
                         
                     </tr>
-                </table>
-                
+                </table>  
                 <div>
                     <p class="title">Transport charges:</p><p class="value">Ksh {{order.transport_price}}</p></div>
                 <div>
-                    <p class="title">Grandtotal:</p><p class="value">Ksh {{order.grand_total}}</p>
+                    <p class="title">Grandtotal:</p><p class="value">Ksh. {{order.grand_total}}</p>
                 </div>
-                <div>
-                    <label for="mpesano" class="title">Mpesa no:</label><input  type="text" name="mpesano" id="mpesano" placeholder="0722693789">
-                </div>
-                <div>
-                    <label for="phoneno" class="title">Phone no:</label><input type="text" class="inline"name="phoneno" id="phoneno" placeholder="0722693789">
-                    
-                </div>
+                <form id="payment" method="POST" action="{%url 'shop:payment_process'%}">
+                    {% csrf_token %} 
+                    <div>
+                        
+                        <label for="mpesano" class="title">Mpesa no:</label>{{payment_details.mpesa_number}}
+                    </div>
+                    <div>
+                        {{payment_details.phone_number.errors}}
+                        <label for="phoneno" class="title">Phone no:</label>{{payment_details.phone_number}}
+                        {{payment_details.non_field_errors}}
+                    </div>
+                </form>
                 <div class="button">
-                    <button type = "button" class="red" >Cancel</button>
-                    <button type = "button" class="yellow" >Continue</button>
+                    
+                    <a href="{% url 'shop:display_cart' %} ">
+                        <button type = "button" class="red" >Cancel</button>
+                    </a>
+                    <a href=" ">
+                        <input type="submit" form="payment" value="Submit"/>                   
+                    </a>
                     
                     
                 </div>

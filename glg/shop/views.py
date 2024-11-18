@@ -1,12 +1,16 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Item,  Item_images, Cart, Transport, Order
+from users.models import Profile
+from users.forms import ProfileForm
 from django.urls import reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
 from .forms import User_quantities, Order_form, Transport_form
 import random
 import string
+import requests
+
 
 
 # Create your views here.
@@ -228,118 +232,70 @@ def transport_bit(request, order_number):
 
     
 
-
-
-    
-    # if not order:
-    #     order1=Order.objects.create(order_number=order_number(), invoice_total=invoice_total, grand_total= invoice_total)
-    #     print(order1)
-    #     for cart_item1 in cart_items:
-    #         cart_item1.order = order1
-    #         cart_item1.save()
-
-    #         print("/n/n/n/n")
-    #         print("##########")
-    #         print(order1.wishlist_set.all())
-    #         print("##########")
-            
-            
-
-    # else:
-    #     print(order)
-    #     order1, = order
-    #     print(order1)
-    #     values = order1.wishlist_set.all()
-    #     print("\n\n")
-    #     print(cart_items)
-    #     print("##########")
-    #     print("fuck")
-    #     print(values)
-    #     print("##########")
-    #     for cart_item1 in cart_items:
-    #         checklist = order1.wishlist_set.all()
-    #         if cart_item1 not in checklist:
-    #             cart_item1.order = order1
-    #             cart_item1.save()
-    #             print(f"{cart_item1} has been added to ")
-    #         print(checklist)
-
-    # #dealing with submit buttons    
-
-    # if request.method == "POST":
-    #     # the user can see the price of the transport
-    #     if request.POST.get("submit") == "transport":
-    #         print(request.POST)
-    #         place = request.POST.get("destitation")
-    #         transport_object = Transport.objects.get(destination = place)
-    #         transport_price = transport_object.price
-    #         context["transport_price"]=transport_price
-    #         print("___________________________")
-    #         print(transport_price)
-    #         print("___________________________")
-    #         order1, =Order.objects.filter(completed=False)
-    #         order1.transport_price = transport_price
-
-    #         order1.save()
-    #         print("___________________________")
-    #         print(order1.transport_price)
-    #         print("___________________________")
-    #         # context["transport_price"]=transport_price
-    #         # values["transport_price"]=transport_price
-    #         # print(context.get("transport_price"))
-    #         return render(request, "shop/cart.html", context)
-    #     elif request.POST.get("submit") == "cart":
-    #         # the user can add the price of the transport to the order
-    #         print("*****************************")
-    #         name = request.POST.get("submit")
-    #         print(request.POST)
-    #         print("*********************")
-            
-    #         if request.POST.get("include_transport")=="on":
-    #             order1, =Order.objects.filter(completed=False)
-    #             print(order1.transport_price)
-    #             order1.grand_total = order1.invoice_total+order1.transport_price
-    #             context["grand_total"]= order1.grand_total
-    #             print("___++++++++++++++++++___________")
-    #             print(order1.grand_total)
-    #             order1.include_transport = True
-    #             order1.save()
-    #         else:
-    #             order1, =Order.objects.filter(completed=False)
-    #             order1.grand_total = order1.invoice_total
-    #             context["grand_total"]= order1.grand_total
-    #             print(order1.grand_total)
-    #             order1.include_transport = False
-    #             order1.save()
-    #         return render(request, "shop/cart.html", context)
-    #     else:
-    #         name = request.POST.get("submit")
-    #         print(request.POST)
-    #         new_quantity = request.POST.get("quantity")
-    #         incart_item = Wishlist.objects.get(item_name__product_id=name)
-    #         print(f"The old quantity {incart_item.quantity}")
-    #         incart_item.quantity = new_quantity
-    #         print(f" The new quantity {incart_item.quantity}")
-    #         incart_item.save()
-    #         print("___________________")
-    #         print(incart_item.quantity)
-    #         return render(request, "shop/cart.html", context)
-            
-    # else:
-    #      return render(request, "shop/cart.html", context)
-
-
-
-
-
-def purchase_form(request):
-    order, = Order.objects.filter(completed = False)
-    ordered_items = order.wishlist_set.all()
+@login_required(login_url='users:signin')
+def purchase_form_data(request):
+    print(Order.objects.filter( status="open").filter(buyer=request.user))
+    order = Order.objects.filter( status="open").filter(buyer=request.user).first()
+    payment_details = ProfileForm()
+    ordered_items = order.cart_set.all()
     context = {
         "order": order,
         "ordered_items": ordered_items,
+        "payment_details": payment_details,
+
     }
-    return render(request, "shop/purchase_form.html", context)
+    return context
+
+@login_required(login_url='users:signin')
+def purchase_form(request):
+    print(purchase_form_data(request))
+    return render(request, "shop/purchase_form.html", purchase_form_data(request))
+
+@login_required(login_url='users:signin') 
+def processing_payment(request):
+    # RETURN A LOADING FORM WHICH HAS CALLED FOR THE API FOR STK PUSH
+    #send a REQUEST 
+
+    #get the information of the user
+
+    user = request.user
+    profile = Profile.objects.get(owner=user)
+
+    payment_details = ProfileForm(request.POST, instance=profile )
+    if payment_details.is_valid():
+        payment_details.save()
+        phone_number = request.POST.get("phone_number")
+        mpesa_number =request.POST.get("mpesa_number")
+        #form validation to ensure that the quality is met
+        
+
+        #this gets the user
+        
+        #the order
+        open_order = Order.objects.filter(buyer=user).filter(status = "open").first()
+        amount = open_order.grand_total
+        url = "http://127.0.0.1:8000/mpesa/submit/"
+        data = {
+            "phone_number": "{}".format(mpesa_number),
+            "amount":"{}".format(amount)
+        }
+        print(data)
+        q=requests.post(url, json=data)
+        print("________________________________________")
+        print(q)
+        return render(request, "shop/ordersuccess.html")
+    else:
+        print("no")
+        context = purchase_form_data(request)
+        context["payment_details"]=payment_details
+        print(payment_details.errors.as_data())
+        return render(request, "shop/purchase_form.html", context)
+
+
+    
+    
+# def processing_payment(request):
+#     pass
 
 
 def about(request):

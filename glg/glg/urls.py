@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from mpesa.urls import mpesa_urls
 
 
 
@@ -26,6 +27,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("shop/", include("shop.urls", namespace="shop")),
     path("blog/", include("blog.urls", namespace="blog")),
+    path('mpesa/', include(mpesa_urls)),
     path("adminpanel/", include("adminpanel.urls", namespace="adminpanel")),
     # path("accounts/", include("django.contrib.auth.urls", 'users'), namespace = 'users'),
     path('users/', include(('users.urls', 'users'), namespace ='users'))

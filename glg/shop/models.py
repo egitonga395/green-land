@@ -69,7 +69,8 @@ class Order(models.Model):
     #     return f"Order_{self.order_number}"
     STATUS_CHOICES = [
     ("open", "OPEN"),
-    ("clearing", "CLEARING"),
+    ("processing", "PROCESSING"),
+    ("transporting", "TRANSPORTING"),
     ("closed", "CLOSED"),
 ]
     order_number = models.SlugField(unique=True, primary_key=True)
@@ -98,6 +99,12 @@ class Cart(models.Model):
     product_id = models.AutoField(primary_key=True)
     item_name = models.ForeignKey(Item,  on_delete= models.CASCADE)
     quantity = models.PositiveIntegerField()
+    cart_item_price = models.PositiveIntegerField()
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
+
+    def save(self, *args, **kwargs):
+        self.cart_item_price = self.item_name.price * self.quantity
+        super(Cart, self).save(*args, **kwargs)
+
     def __str__(self):
         return self.item_name.name
