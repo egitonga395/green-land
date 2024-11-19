@@ -296,6 +296,9 @@ def processing_payment(request):
     
 # def processing_payment(request):
 #     pass
+@login_required(login_url='users:signin') 
+def getPDF(request):
+
 
 
 def about(request):
