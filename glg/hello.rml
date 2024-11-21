@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE document SYSTEM "rml_1_0.dtd">
+
+<document filename="invoice.pdf">
+    <template pageSize="(595, 842)" leftMargin="0" rightMargin="0" showBoundary="0">
+        <pageTemplate id="first">
+            <pageGraphics>
+                <image file="logo3.png" x="475" y="700" width="120" height="140"/>
+                <setFont name="Helvetica-Oblique" size="4"/>
+                <fill color="0x00337f"/>
+                <fill color="0x1E4C9C"/>
+                
+            </pageGraphics>
+            <frame id="main_content" x1="57" y1="260" width="481" height="490"/>
+            <frame id="footer_content" x1="57" y1="40" width="481" height="190"/>
+        </pageTemplate>
+    </template>
+
+    <stylesheet>
+        <paraStyle name="normal" fontName="Helvetica" fontSize="12" leading="14" alignment="JUSTIFY" textColor="black"/>
+        <paraStyle name="title" fontName="Helvetica-Bold" fontSize="20" leading="24" alignment="center" textColor="#1E4C9C" spaceAfter="20"/>
+        <paraStyle name="right" parent="normal" alignment="RIGHT"/>
+        <paraStyle name="footer" fontName="Helvetica" fontSize="9" leading="10" alignment="LEFT"/>
+        <paraStyle name="table_normal" fontName="Helvetica" fontSize="11" leading="13"/>
+        <paraStyle name="table_desc_pt2" fontName="Helvetica" fontSize="9" leading="11"/>
+        <paraStyle name="thank_you" fontName="Helvetica-Bold" fontSize="14" leading="16" alignment="CENTER" textColor="#1E4C9C"/>
+
+        <blockTableStyle id="detailtable" spaceAfter="10">
+            <blockFont name="Helvetica" size="11" leading="15"/>
+            <blockTextColor colorName="black"/>
+            <blockValign value="TOP"/>
+        </blockTableStyle>
+        
+        <blockTableStyle id="invoicetable" spaceAfter="10">
+            <blockFont name="Helvetica" size="11" leading="13"/>
+            <blockTextColor colorName="black"/>
+            <blockTopPadding length="10"/>
+            <blockBottomPadding length="10"/>
+            <blockAlignment value="center"/>
+            <blockBackground colorName="lightblue" start="0,0" stop="-1,0"/>
+        </blockTableStyle>
+
+        <blockTableStyle id="contacttable" spaceAfter="10">
+            <blockFont name="Helvetica" size="9" leading="11"/>
+            <blockTextColor colorName="black"/>
+            
+        </blockTableStyle>
+    </stylesheet>
+
+    <story>
+        <para style="title">Invoice</para>
+        
+        <blockTable style="detailtable" colWidths="60%, 40%">
+            <tr>
+                <td leftPadding="0">
+                    <para style="normal" leading="20" fontSize="17"><b>{{order_info.buyer}}</b></para>
+                    <para style="normal">{{order_info.destination}}</para>
+                    <para style="normal">Requested by: {{order_info.buyer}}</para>
+                </td>
+                <td rightPadding="0">
+                    <spacer length="10"/>
+                    <para style="right">Invoice No. {{order_info.order_number}}</para>
+                    <para style="right">Date: {{order_info.created}}</para>
+                    <para style="right">Payment Method: Mpesa</para>
+                    <spacer length="10"/>
+                </td>
+            </tr>
+        </blockTable>
+
+        <blockTable style="invoicetable" colWidths="40%, 20%, 20%, 20%">
+            <tr>
+                <td align="LEFT">Description</td>
+                <td align="RIGHT">Unit Price</td>
+                <td align="CENTER">Qty</td>
+                <td align="RIGHT">Total</td>
+            </tr>
+
+            {% for item in cart_items %}
+                <tr>
+                    <td>
+                        <para style="table_normal">{{item.item_name.name}}</para>
+                    </td>
+                    <td align="RIGHT" rightPadding="20">
+                        <para style="table_normal">{{item.item_name.price}}</para>
+                    </td>
+                    <td align="CENTER">
+                        <para style="table_normal">{{item.quantity}}</para>
+                    </td>
+                    <td align="RIGHT" rightPadding="15">
+                        <para style="table_normal">{{item.cart_item_price}}</para>
+                    </td>
+                </tr>
+            {% endfor %}
+
+            <tr>
+                <td>
+                    <para style="table_normal">Net Total</para>
+                </td>
+                <td align="RIGHT" rightPadding="20">
+                    <para style="table_normal"></para>
+                </td>
+                <td></td>
+                <td align="CENTER">
+                    <para style="table_normal">{{order_info.invoice_total}}</para>
+                </td>
+            </tr>
+
+            {% if order_info.include_transport %}
+                <tr>
+                    <td>
+                        <para style="table_normal">Transport included</para>
+                    </td>
+                    <td align="RIGHT" rightPadding="20">
+                        <para style="table_normal">To: {{order_info.destitation}}</para>
+                    </td>
+                    <td></td>
+                    <td align="CENTER">
+                        <para style="table_normal">Ksh.{{order_info.transport_price}}</para>
+                    </td>
+                </tr>
+            {% endif %}
+
+            <tr>
+                <td>
+                    <para style="table_normal">Grand Total Price</para>
+                </td>
+                <td align="RIGHT" rightPadding="20">
+                    <para style="table_normal">--</para>
+                </td>
+                <td align="RIGHT" rightPadding="20">
+                    <para style="table_normal">--</para>
+                </td>
+                <td align="CENTER">
+                    <para style="table_normal">Ksh.{{order_info.grand_total}}</para>
+                </td>
+            </tr>
+        </blockTable>
+
+        <spacer length="20"/>
+        
+        <para style="thank_you">Thank You for Your Business!</para>
+        <para style="normal" alignment="CENTER">We appreciate your trust and look forward to serving you again.</para>
+        
+        <blockTable style="contacttable" colWidths="50%, 50%">
+            <tr>
+                <td>
+                    <para style="footer">Contact Information:</para>
+                    <para style="footer">Website: www.greenlandgoal.com</para>
+                    <para style="footer">Email: greenlandgoal@gmail.com</para>
+                    <para style="footer">Phone: +254 713197484</para>
+                </td>
+                <td>
+                    <para style="footer">Physical Address:</para>
+                    <para style="footer">Green land goal</para>
+                    <para style="footer">Oginga Odinga Street</para>
+                    <para style="footer">Nakuru, Kenya</para>
+                    <para style="footer">20100</para>
+                </td>
+            </tr>
+        </blockTable>
+    </story>
+</document>

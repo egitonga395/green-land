@@ -1,0 +1,16 @@
+{% if form_issuccessful == False %}
+
+<a href="{% url 'shop:display_cart' %} ">
+    <button type = "button" class="red" >Cancel</button>
+</a>
+    <input type="submit" form="payment" value="Submit"/>  
+{% else %}
+    {% if complete %}
+    <a class="btn btn-primary" href="{% url 'shop:order_succesful' order.order_number %}" role="button">Proceed</a>
+    {% else %}
+        <button  hx-get="{{order.order_number}}" hx-trigger="every 2s" hx-swap="outerHTML" class="btn btn-primary" type="button" disabled>
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Loading...
+        </button>
+    {% endif %}
+{% endif %}

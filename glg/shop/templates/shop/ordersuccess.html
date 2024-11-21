@@ -46,8 +46,8 @@
     <section class="success">
         <div class="tracking_and_reciept">
             <div class="success">
-                <p>Your order <strong>order_hsb4nc</strong> has been placed successfully</p>
-                <p>click <a href="">here </a>to download the recipt in pdf format</p>
+                <p>Your order <strong>{{order_number}}</strong> has been placed successfully</p>
+                <p>click <a href="{% url 'shop:get_pdf' order_number %}">here </a>to download the recipt in pdf format</p>
             </div>
             <div class="to_progress">
                 <p>

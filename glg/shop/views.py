@@ -10,6 +10,14 @@ from .forms import User_quantities, Order_form, Transport_form
 import random
 import string
 import requests
+from mpesa.models import PaymentTransaction
+
+from django.template import Template, Context
+
+from rlextra.rml2pdf import rml2pdf
+from io import BytesIO
+from lxml import etree
+import logging
 
 
 
@@ -242,6 +250,7 @@ def purchase_form_data(request):
         "order": order,
         "ordered_items": ordered_items,
         "payment_details": payment_details,
+        "form_issuccessful": False
 
     }
     return context
@@ -277,29 +286,95 @@ def processing_payment(request):
         url = "http://127.0.0.1:8000/mpesa/submit/"
         data = {
             "phone_number": "{}".format(mpesa_number),
-            "amount":"{}".format(amount)
+            "amount":"{}".format(amount),
+            "entity_id": "{}".format(open_order.order_number)
         }
         print(data)
         q=requests.post(url, json=data)
         print("________________________________________")
-        print(q)
-        return render(request, "shop/ordersuccess.html")
+        context = purchase_form_data(request)
+        context["payment_details"] = ProfileForm(request.POST)
+        context["form_issuccessful"]=True
+        return render(request, "shop/purchase_form.html", context)
+    
     else:
-        print("no")
+        
         context = purchase_form_data(request)
         context["payment_details"]=payment_details
+        context["form_issuccessful"]=False
         print(payment_details.errors.as_data())
         return render(request, "shop/purchase_form.html", context)
 
 
-    
+#checking if payment is complete
+def is_payment_complete(request, order_number):
+ 
+    completed_payment = PaymentTransaction.objects.filter(is_successful=True, order_id=order_number).first()
+    order = Order.objects.get(order_number=order_number)
+    context = {}
+    print(completed_payment)
+    if completed_payment == None:
+        context["complete"] = False
+        context["order"]  = order
+        return render(request, "shop/proceeding_button.html", context)
+    else:
+        order = Order.objects.get(order_number=order_number)
+        context["order"]  = order
+        context["complete"] = True 
+        return render(request, "shop/proceeding_button.html", context)
+        
+# moving over to the order success page
+def order_succesful(request, order_number):
+    order_number = Order.objects.get(order_number = order_number).order_number
+    return render(request, "shop/ordersuccess.html", {"order_number": order_number})
+
     
 # def processing_payment(request):
 #     pass
-@login_required(login_url='users:signin') 
-def getPDF(request):
+logger = logging.getLogger(__name__)
+def get_pdf(request, order_number):
 
+    #getting info to print on the pdf 
+    order_info =  Order.objects.get(order_number = order_number)
+    print(order_info)
+    cart_items = Cart.objects.filter(order=order_number)
+    print(cart_items)
+    
+    rml = getRML(order_info, cart_items) 
+    parser = etree.XMLParser(recover=True)
+    etree.fromstring(rml, parser)
+    buf = BytesIO()
+    
+    #create the pdf
+    buf = BytesIO()
+    rml2pdf.go(rml, outputFileName=buf)
+    buf.seek(0)
+    pdfData = buf.read()
 
+    #send the response
+    response = HttpResponse(content_type='application/pdf')
+    response.write(pdfData)
+    response['Content-Disposition'] = 'attachment; filename=Receipt.pdf'
+    return response
+
+def getRML(order_info, cart_items, payment=None):
+    """We used django template to write the RML, but you could use any other
+    template language of your choice. 
+    """
+   
+
+    # cwd = os.getcwd()  # Get the current working directory (cwd)
+    # files = os.listdir(cwd)  # Get all the files in that directory
+    # print("Files in %r: %s" % (cwd, files))
+    t = Template(open('hello.rml').read())
+    c = Context({
+        "order_info": order_info,
+        "cart_items":cart_items
+
+    })
+    rml = t.render(c)
+    #django templates are unicode, and so need to be encoded to utf-8
+    return rml.encode('utf8')
 
 def about(request):
     return render(request,"shop/about.html")
