@@ -12,6 +12,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Aclonica&family=Poppins:ital,wght@0,100;0,200;
     0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/htmx.org@2.0.3/dist/htmx.js" integrity="sha384-BBDmZzVt6vjz5YbQqZPtFZW82o8QotoM7RUp5xOxV3nSJ8u2pSdtzFAbGKzTlKtg" crossorigin="anonymous"></script>
+
     <link rel="stylesheet" href="{% static 'css/shop_css.css' %}">
 </head>
 <body>
@@ -25,18 +27,26 @@
     {% include 'shop/nav.html' %}
     <aside>
         <h1>Cartegories</h1>
-        <div class="options"><h3>All</h3>
-            <h3>Flowers</h3>
-            <h3>Trees</h3>
-            <h3>Pots</h3></div>
+        <div class="options">
+        <form action="" hx-get="", hx-swap="outerHTML"  hx-target="#shopitems">
+            <input type="checkbox" id="" hidden name="filter" checked>
+           <input type="checkbox" name="flower"  > <h3>Flowers</h3>
+            <input type="checkbox" name="tree"  ><h3>Trees</h3>
+            <input type="checkbox" name="pot" ><h3>Pots</h3></div>
 
         <h2>Price range</h2>
-        <div class="prices"><p style="display: inline;">From:</p><textarea name="first" id="" cols="1" rows="1" style="display: inline;">100</textarea>
-            <p style="display: inline;">to:</p><textarea name="first" id="" cols="1" rows="1" style="display: inline;">200</textarea></div>
-            <a href=""><button><p>Search</p></button></a>
+        <div class="prices"><p style="display: inline;">From:</p><textarea name="lowest_price" id="" cols="1" rows="1" style="display: inline;">0</textarea>
+            <p style="display: inline;">to:</p><textarea name="highest_price"cols="1" rows="1" style="display: inline;">10000000</textarea></div>
+            <button type="submit"><p>Search</p></button>
+        </form>
     </aside>
     <main>
-        <div class="regular_price">
+        
+        <form action="" id="searchform">
+            <input type="text" name="query" hx-trigger="keyup[key=='Enter']">
+        </form>
+        
+        <div class="regular_price" id="shopitems">
             {% for item in items %}
             <a href="{{ item.get_absolute_url }}">
                 <div class="product">

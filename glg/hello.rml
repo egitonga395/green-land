@@ -12,7 +12,7 @@
                 
             </pageGraphics>
             <frame id="main_content" x1="57" y1="260" width="481" height="490"/>
-            <frame id="footer_content" x1="57" y1="40" width="481" height="190"/>
+            <frame id="footer_content" x1="30" y1="10" width="481" height="190"/>
         </pageTemplate>
     </template>
 
@@ -20,7 +20,7 @@
         <paraStyle name="normal" fontName="Helvetica" fontSize="12" leading="14" alignment="JUSTIFY" textColor="black"/>
         <paraStyle name="title" fontName="Helvetica-Bold" fontSize="20" leading="24" alignment="center" textColor="#1E4C9C" spaceAfter="20"/>
         <paraStyle name="right" parent="normal" alignment="RIGHT"/>
-        <paraStyle name="footer" fontName="Helvetica" fontSize="9" leading="10" alignment="LEFT"/>
+        <paraStyle name="footer" fontName="Helvetica" fontSize="10" leading="12" alignment="CENTER"/>
         <paraStyle name="table_normal" fontName="Helvetica" fontSize="11" leading="13"/>
         <paraStyle name="table_desc_pt2" fontName="Helvetica" fontSize="9" leading="11"/>
         <paraStyle name="thank_you" fontName="Helvetica-Bold" fontSize="14" leading="16" alignment="CENTER" textColor="#1E4C9C"/>
@@ -41,9 +41,9 @@
         </blockTableStyle>
 
         <blockTableStyle id="contacttable" spaceAfter="10">
-            <blockFont name="Helvetica" size="9" leading="11"/>
+            <blockFont name="Helvetica" size="10" leading="12"/>
             <blockTextColor colorName="black"/>
-            
+            <blockAlignment value="CENTER"/>
         </blockTableStyle>
     </stylesheet>
 
@@ -136,7 +136,7 @@
             </tr>
         </blockTable>
 
-        <spacer length="20"/>
+        <nextFrame name="footer_content"/>
         
         <para style="thank_you">Thank You for Your Business!</para>
         <para style="normal" alignment="CENTER">We appreciate your trust and look forward to serving you again.</para>

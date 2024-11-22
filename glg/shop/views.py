@@ -6,6 +6,7 @@ from users.forms import ProfileForm
 from django.urls import reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
+from django.db.models import Q
 from .forms import User_quantities, Order_form, Transport_form
 import random
 import string
@@ -27,9 +28,59 @@ def homepage(request):
     return render(request,"shop/HOMEPAGE.HTML")
 
 def product(request):
-    Items = Item.objects.all()
-    context = {"items":Items}
-    return render(request,"shop/shop.html", context )
+    #check if there is a query
+    query = request.GET.get("query")
+    filtered = request.GET.get("filter")
+    min_price = request.GET.get("lowest_price")
+    max_price = request.GET.get("highest_price")
+    context = {}
+    if query:
+        #do the complex search and order the items by render the context
+        
+        search = Item.objects.filter(
+                Q(name__icontains=query)|
+                Q(price__contains=query)|
+                Q(description__icontains=query)
+            ).order_by('-recent')
+        context["items"]=search
+        flower = 'flower' if request.GET.get("flower")== "on" else ''
+        tree = 'tree' if request.GET.get("tree")== "on" else ''
+        pot = 'pot' if request.GET.get("pot")== "on" else ''
+        print(flower)
+        print(tree)
+        print(pot)
+        print("___________")
+        print(tree)
+        if filtered == "on": 
+            filtered = search.filter(Q(price__range=(min_price,max_price))&Q(description__icontains=flower) & Q(description__icontains=tree)&Q(description__icontains=pot))
+            context["items"]=filtered
+            print(context)
+            return render(request,"shop/partial_shop.html", context)
+        # when query is alone no filter
+        else:
+            context["items"]=search
+            return render(request,"shop/shop.html", context)
+    elif query == None and filtered=="on":
+        flower = 'flower' if request.GET.get("Flowers")== "on" else ' '
+        tree = 'tree' if request.GET.get("tree")== "on" else ' '
+        pot = 'pot' if request.GET.get("pot")== "on" else ' '
+        print(flower)
+        print(tree)
+        print(pot)
+        filtered = Item.objects.filter(Q(price__range=(min_price,max_price))&Q(description__icontains=flower) & Q(description__icontains=tree)&Q(description__icontains=pot))
+        context["items"]=filtered
+        return render(request,"shop/partial_shop.html", context)
+
+
+    else:
+        Items = Item.objects.all()
+        context = {"items":Items}
+        return render(request,"shop/shop.html", context )
+    #we want to add various search filters here 
+    
+
+   
+
 
 
 
@@ -378,11 +429,6 @@ def getRML(order_info, cart_items, payment=None):
 
 def about(request):
     return render(request,"shop/about.html")
-
-
-
-
-
 
 
 

@@ -106,3 +106,14 @@ textarea{
 .regular_price>a{
     text-decoration: none;
 }
+
+#searchform{
+    display:flex;
+    justify-item: center;
+    margin-top: 1em; 
+}
+
+#searchform>input{
+    background-color: gray;
+    border: solid 1px gray;
+}
