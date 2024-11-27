@@ -17,95 +17,55 @@
     <div class="displaydiv" hx-get="{% url 'adminpanel:blog_update' %}" hx-target="#updatecontent" hx-swap="innerHTML" hx-trigger="every 5s">
       
       {% include "adminpanel/updating_blog.html" %}
-        
+
     </div>
 </div>
+
+<!-- for modifying the item at interest -->
 <div class="modal fade modal-lg" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">{{item.name}}</h5>
+          <h5 class="modal-title" id="exampleModalLabel">{{blog.title}}</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         
-        <form action="/adminpanel/item/" method="post" class="" enctype="multipart/form-data">
+        <form action="/adminpanel/blog/" method="post" class="" enctype="multipart/form-data">
         <div class="modal-body arrangeContent">
           {% csrf_token %}
-          <div>
-            {{form1.name.label}}:
-            {{form1.name}}
-          </div>
-          <div>
-            {{form1.price.label}}:
-            {{form1.price}}
-          </div>
-          <div>
-            {{form1.image.label}}:
-            
-            <img src="{{ form1.image.value.url }}" alt="">
-
-            <div>{{form1.image}}</div>
-          </div>
-          <div>
-            {{form1.description.label}}:
-            {{form1.description}}
-          </div>
-          <div>
-            {{form.errors}}
-          </div>
+          
+          {{form1.as_p}}
 
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 
 
-          <button type="submit" class="btn btn-primary" name="saveform1" value="{{item.product_id}}">Save changes</button>
+          <button type="submit" class="btn btn-primary" name="saveform1" value="{{blog.id}}">Save changes</button>
         
         </div>
         </form>
-            
-    
      
       </div>
     </div>
   </div>
-<!--
-    for editing the images
--->
-  <div class="modal fade bd-example-modal-sm " tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="smallModal">
-    <div class="modal-dialog modal-sm modal-dialog-centered ">
-      <form action="/adminpanel/item/" method="post" enctype="multipart/form-data">
-      <div class="modal-content small-modal-container
-      ">
-        {% csrf_token %}
-        {{imagesform.as_p}}
-        <div><button type="button" class="btn btn-secondary" class="btn-close" data-bs-dismiss="modal" aria-label="Close">Close</button>
-          <button type="submit" class="btn btn-primary" name="saveform2" value="{{pk}}">Save changes</button></div>
-      </div>
-    </form>
-   </div>  
-  </div>
-  <!--
-    for deleting items 
-    -->
+<!-- to delete -->
     <div class="modal fade bd-example-modal-sm " tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="deleteModal">
       <div class="modal-dialog modal-sm modal-dialog-centered ">
-        <form action="/adminpanel/item/" method="post" enctype="multipart/form-data">
+        <form action="/adminpanel/blog/" method="post" enctype="multipart/form-data">
         <div class="modal-content small-modal-container
         ">
           {% csrf_token %}
-          <p>Are you sure you want to delete {{item.name}}?</p>
+          <p>Are you sure you want to delete {{blog.title}}?</p>
           <div><button type="button" class="btn btn-secondary" data-dismiss="modal" class="btn-close" data-bs-dismiss="modal" aria-label="Close">Close</button>
-            <button type="submit" class="btn btn-primary" name="delete" value="{{item.product_id}}">Yes</button></div>
+            <button type="submit" class="btn btn-primary" name="delete" value="{{blog.id}}">Yes</button></div>
         </div>
       </form>
      </div>  
     </div>
 
-    <!--
-    for adding new item
-     -->
-     <div class="modal fade modal-lg" id="addItemModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <!-- adds the new item-->
+      <div class="modal fade modal-lg" id="addItemModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -113,7 +73,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           
-          <form action="/adminpanel/item/" method="post"  enctype="multipart/form-data">
+          <form action="/adminpanel/blog/" method="post"  enctype="multipart/form-data">
           <div class="modal-body arrangeContent">
             {% csrf_token %}
             {{form1.as_div}}
@@ -122,7 +82,7 @@
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
   
   
-            <button type="submit" class="btn btn-primary" name="new" value="item1" >Save changes</button>
+            <button type="submit" class="btn btn-primary" name="new" value="blog1" >Save changes</button>
           
           </div>
           </form>       
@@ -130,39 +90,7 @@
       </div>
     </div>
 
-    <!--
-    for  adding neww item images
-    -->
-    <div class="modal fade bd-example-modal-sm " tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="addItemImageModal">
-      <div class="modal-dialog modal-sm modal-dialog-centered ">
-        <form action="/adminpanel/item/" method="post" enctype="multipart/form-data">
-        <div class="modal-content small-modal-container
-        ">
-          {% csrf_token %}
-          {{imagesform.as_div}}
-          <div><button type="button" class="btn btn-secondary" class="btn-close" data-bs-dismiss="modal" aria-label="Close">Close</button>
-            <button type="submit" class="btn btn-primary" name="newImage" value="{{product_id}}">Save changes</button></div>
-        </div>
-      </form>
-     </div>  
-    </div>
-    <!--
-    for deleting items image
-    -->
-    <div class="modal fade bd-example-modal-sm " tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="deleteImageModal">
-      <div class="modal-dialog modal-sm modal-dialog-centered ">
-        <form action="/adminpanel/item/" method="post" enctype="multipart/form-data">
-        <div class="modal-content small-modal-container
-        ">
-          {% csrf_token %}
-          <p>Are you sure you want to delete {{image_delete.display_name}}?</p>
-          <div><button type="button" class="btn btn-secondary" data-dismiss="modal" class="btn-close" data-bs-dismiss="modal" aria-label="Close">Close</button>
-            <button type="submit" class="btn btn-primary" name="delete_image" value="{{image_delete.item_id}}">Yes</button></div>
-        </div>
-      </form>
-     </div>  
-    </div>
-    
+   
   <script src="{% static 'js/bootstrap.min.js' %}"></script>
  
 

@@ -177,10 +177,11 @@ def get_data(request):
     user = request.user
     open_order = Order.objects.filter(buyer=user).filter(status = "open").first()
     print("######")
-    print(open_order.order_number)
+    
     print(request.GET)
     if open_order is not None:
         #dealing with the display of cart items only
+        print(open_order.order_number)
         cart_items = open_order.cart_set.all()
         invoice_total = 0
         forms = []

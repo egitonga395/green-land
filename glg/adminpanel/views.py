@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from shop.models import *
+from blog.models import Blog
 from django.http import JsonResponse
 from .forms import *
 from users.models import *
@@ -11,6 +12,22 @@ from shop.forms import Transport_edit_form
 @permission_required(["manage"], raise_exception=True)
 def adminpanel(request):
     return render(request, "adminpanel/adminpanel.html")
+
+
+# seeing the views and changing the states
+@login_required(login_url='users:signin')
+@permission_required(["manage"], raise_exception=True)
+def order_view(request):
+    context = {}
+    form = Order_status_form()
+    orders = Order.objects.all()
+    print(orders)
+    context['orders'] = orders
+    context['form'] = form
+    return render (request, "adminpanel/order.html", context)
+
+
+
 
 
 @login_required(login_url='users:signin')
@@ -82,9 +99,9 @@ def item_view(request):
         if request.GET.get("submit"):
             # print("yeah")
             # print(request.GET.get("submit"))
-            destination = request.GET.get("submit")
+            id = request.GET.get("submit")
             # print("______________________________________________________________")
-            item_to_be_modified = Item.objects.get(product_destination=request.GET.get("submit"))
+            item_to_be_modified = Item.objects.get(product_id=request.GET.get("submit"))
             form1 = Itemform(instance = item_to_be_modified)
             
             # print(item_to_be_modified)
@@ -97,20 +114,20 @@ def item_view(request):
             # print("________________The end of form 1__________________________ ")
             context["item_to_images"] = item_to_be_modified_images
             return render(request, "adminpanel/item.html", context)
-        #getting the destination of item to be deleted
+        #getting the id of item to be deleted
         if request.GET.get("delete"):
             # print("yeah")
             # print(request.GET.get("submit"))
-            destination = request.GET.get("delete")
+            id = request.GET.get("delete")
             # print("______________________________________________________________")
-            item_to_be_modified = Item.objects.get(product_destination=request.GET.get("delete"))
+            item_to_be_modified = Item.objects.get(product_id=request.GET.get("delete"))
             context["item"]=item_to_be_modified
             # print(context.get("form1"))
             # print("________________The end of form 1__________________________ ")
             return render(request, "adminpanel/item.html", context)
         if request.GET.get("edit_image"):
             pk = request.GET.get("edit_image")
-            item_image_to_modify = Item_images.objects.get(item_destination=pk)
+            item_image_to_modify = Item_images.objects.get(item_id=pk)
             imagesform = Itemimageform(instance=item_image_to_modify)
             context["imagesform"]=imagesform
             context["pk"]=pk
@@ -123,9 +140,9 @@ def item_view(request):
         if request.GET.get("addimage"):
             imagesform = Itemimageform()
             context["imagesform"] = imagesform
-            product_destination = request.GET.get("addimage")
-            print(product_destination)
-            context["product_destination"] = product_destination
+            product_id = request.GET.get("addimage")
+            print(product_id)
+            context["product_id"] = product_id
             return render(request, "adminpanel/item.html", context)
 
         if request.GET.get("deleteImage"):
@@ -134,7 +151,7 @@ def item_view(request):
             
             # print("______________________________________________________________")
             print(request.GET.get("deleteImage"))
-            image_delete = Item_images.objects.filter(item_destination=request.GET.get("deleteImage")).first()
+            image_delete = Item_images.objects.filter(item_id=request.GET.get("deleteImage")).first()
             print(image_delete)
             print("yesyes\n\n")
             context["image_delete"] = image_delete
@@ -148,7 +165,7 @@ def item_view(request):
                 print("finally")
                 form = Itemform(request.POST, request.FILES)
                 # print(form)
-                if form.is_valdestination():
+                if form.is_valid():
                     print("\n\n\n\n\n\n\nyes")
                     form.save()
                     return render(request, "adminpanel/item.html", context)
@@ -159,14 +176,14 @@ def item_view(request):
                 return render(request, "adminpanel/item.html", context)
             elif request.POST.get("saveform1"):
                 print("____________________post________________form")
-                instance_destination = request.POST.get("saveform1")
-                print(instance_destination)
-                item_bound = Item.objects.get(product_destination = instance_destination)
+                instance_id = request.POST.get("saveform1")
+                print(instance_id)
+                item_bound = Item.objects.get(product_id = instance_id)
                 # print(request.FILES)
                 form = Itemform(request.POST, request.FILES, instance=item_bound)
                 
                 # print(form)
-                if form.is_valdestination():
+                if form.is_valid():
                     print("\n\n\n\n\n\n\nyes")
                     form.save()
                 else:
@@ -175,14 +192,14 @@ def item_view(request):
                 return render(request, "adminpanel/item.html", context)
             elif request.POST.get("saveform2"):
                 
-                instance_destination = request.POST.get("saveform2")
-                print(instance_destination)
-                item_bound = Item_images.objects.get(item_destination = instance_destination)
+                instance_id = request.POST.get("saveform2")
+                print(instance_id)
+                item_bound = Item_images.objects.get(item_id = instance_id)
                 # print(request.FILES)
                 form = Itemimageform(request.POST, request.FILES, instance=item_bound)
                 
                 # print(form)
-                if form.is_valdestination():
+                if form.is_valid():
                     print("\n\n\n\n\n\n\nyes")
                     form.save()
                 else:
@@ -193,18 +210,18 @@ def item_view(request):
             
             elif request.POST.get("delete"):
                 print(request.POST)
-                product_destination = request.POST["delete"]
-                item_to_be_deleted = Item.objects.get(product_destination=product_destination).delete()
+                product_id = request.POST["delete"]
+                item_to_be_deleted = Item.objects.get(product_id=product_id).delete()
                 return render(request, "adminpanel/item.html", context)
 
             elif request.POST.get("newImage"):
                 print("finally")
                 form = Itemimageform(request.POST, request.FILES)
                 # print(form)
-                if form.is_valdestination():
+                if form.is_valid():
                     print(request.POST)
                     print(request.FILES)
-                    item_image = Item.objects.get(product_destination=request.POST["newImage"])
+                    item_image = Item.objects.get(product_id=request.POST["newImage"])
                     image_item = Item_images.objects.create(item_image_name=item_image, display_name=request.POST["display_name"],addphotos = request.FILES["addphotos"])
                     print(image_item)
                     image_item.save()
@@ -220,8 +237,8 @@ def item_view(request):
 
             elif request.POST.get("delete_image"):
                 print(request.POST)
-                product_destination = request.POST["delete_image"]
-                item_to_be_deleted = image_delete = Item_images.objects.get(item_destination=product_destination).delete()
+                product_id = request.POST["delete_image"]
+                item_to_be_deleted = image_delete = Item_images.objects.get(item_id=product_id).delete()
                 return render(request, "adminpanel/item.html", context)
 
     
@@ -231,6 +248,77 @@ def item_view(request):
 
 
 
+@login_required(login_url='users:signin')
+@permission_required(["can_do_all_item"], raise_exception=True)
+def blog_view(request):
+    
+        blogs = Blog.objects.all()
+        pk=""
+        context = {"blogs": blogs}
+        if request.GET.get("submit"):
+            
+            blog_id = request.GET.get("submit")
+            
+            blog_to_be_modified = Blog.objects.get(id=request.GET.get("submit"))
+            form1 = Blogform(instance = blog_to_be_modified)
+            context["form1"] = form1
+            context["blog"]=blog_to_be_modified
+            # print(context.get("form1"))
+            # print("________________The end of form 1__________________________ ")
+            return render(request, "adminpanel/blog.html", context)
+        
+        elif request.GET.get("delete"):
+            blog_to_be_modified = Blog.objects.get(id=request.GET.get("delete"))
+            context["blog"]=blog_to_be_modified
+          
+            return render(request, "adminpanel/blog.html", context)
+       
+        elif request.GET.get("add"):
+            form1 = Blogform()
+            context["form1"] = form1
+            return render(request, "adminpanel/blog.html", context)
+
+        if request.method == "POST":
+            if request.POST.get("new") == "blog1":
+                print("finally")
+                form = Blogform(request.POST, request.FILES)
+                # print(form)
+                if form.is_valid():
+                    print("\n\n\n\n\n\n\nyes")
+                    form.save()
+                    return render(request, "adminpanel/blog.html", context)
+                else:
+                    print(form.errors.as_data())
+                    print("no")
+                    return render(request, "adminpanel/blog.html", context)
+                return render(request, "adminpanel/blog.html", context)
+            elif request.POST.get("saveform1"):
+                print("____________________post________________form")
+                instance_id = request.POST.get("saveform1")
+                print(instance_id)
+                blog_bound = Blog.objects.get(id = instance_id)
+                # print(request.FILES)
+                form = Blogform(request.POST, request.FILES, instance=blog_bound)
+                
+                # print(form)
+                if form.is_valid():
+                    print("\n\n\n\n\n\n\nyes")
+                    form.save()
+                else:
+                    print(form.errors.as_data())
+                    print("no")
+                return render(request, "adminpanel/blog.html", context)
+
+            
+            elif request.POST.get("delete"):
+                print(request.POST)
+                product_id = request.POST["delete"]
+                blog_to_be_deleted = Blog.objects.get(id=product_id).delete()
+                return render(request, "adminpanel/blog.html", context)
+
+    
+        else:
+            return render(request, "adminpanel/blog.html", context)
     
     # context = {"item": item,
     # "item_images": item_images}
@@ -311,3 +399,9 @@ def updating_content(request):
     # print(data_to_display)
     context = {"data_to_display": data_to_display}
     return render(request, "adminpanel/updating_itemhtml.html", context)
+def blog_update(request):
+   
+    blogs = Blog.objects.all()
+   
+    context = {"blogs": blogs}
+    return render(request, "adminpanel/updating_blog.html", context)

@@ -1,0 +1,29 @@
+<form action="" method="get" class="formselected" id="updatecontent">
+    <div id="addbutton">
+        <button class="addnew" id="add_new" name="add" value="newBlog">Add Blog</button>
+    </div>
+    {% for blog in blogs %}
+    <div class="item" id="{{blog.id}}">
+            
+        <div class="upper">
+            {% if blog.image %}
+                <img src="{{ blog.image.url}}" alt="" class="cover">
+            {% endif %}
+            
+            <div>
+                <h4>Title:</h4>
+                <p>{{blog.title}}</p>
+            </div>
+            <div>
+                <h4>Content:</h4>
+                <p>{{ blog.content|truncatewords:4 }}...</p>
+            </div>
+            <div class="button">
+                <button  id = "button{{ forloop.counter }}"class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" name="submit" value="{{blog.id}}" >Change</button>
+                <button id = "delete{{ forloop.counter }}"  name="delete" value="{{blog.id}}" data-bs-toggle="modal" data-bs-target="#exampleModal" >Delete</button>
+            </div>
+    
+        </div>
+    </div>
+    {% endfor %}
+    </form>
