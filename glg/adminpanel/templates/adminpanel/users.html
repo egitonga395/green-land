@@ -11,8 +11,7 @@
         <tr>
             <th>Name:</th>
             <th>Email:</th>
-            <th>Buyer:</th>
-            <th>Employee</th>
+            <th>group</th>
             <th></th>
             <th></th>
         </tr>
@@ -21,22 +20,10 @@
 
             <tr>
                 <td style="width: 1em;">{{user.first_name}}</td>
-                <td style="width: 1em;">{{user.email}}</td>
-                
-                {% if user.groups.all.count > 1 %}
-                
-                    {% for group in user.groups.all %}
-                        <td> {{group}}</td>
-                    {% endfor %}
-                {% elif  user.groups.all.count == 1 %}
-                    {% for group in user.groups.all %}
-                        <td> {{group}}</td>
-                    {% endfor %}
-                    <td>--</td>
-                {% else %}
-                    <td>--</td>
-                    <td>--</td>
-                {% endif %}
+                <td style="width: 1em;">{{user.email}}</td>                
+                {% for group in user.groups.all %}
+                    <td> {{group}}</td>
+                {% endfor %}
                 <td><a href="{% url 'adminpanel:users_edit' id=user.id%}">Edit</a></td>
                 <td><a href="{% url 'adminpanel:users_delete' id=user.id%}">Delete</a></td>
             </tr>

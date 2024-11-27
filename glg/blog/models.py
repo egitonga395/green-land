@@ -14,9 +14,9 @@ class Blog(models.Model):
     class Meta:
         ordering = ("-created",)
         permissions = [
-            ("post", "Can change add a blog"),
-            ("edit", "Can edit a blog"),
-            ("delete", "Can delete a blog"),
+            ("do_some_blog", "Can change add a blog"),
+            ("do_all_blog", "Can change add a blog"),
+            
         ]
 
     def __str__(self):

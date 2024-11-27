@@ -48,12 +48,12 @@
     </stylesheet>
 
     <story>
-        <para style="title">Invoice</para>
+        <para style="title">Receipt</para>
         
         <blockTable style="detailtable" colWidths="60%, 40%">
             <tr>
                 <td leftPadding="0">
-                    <para style="normal" leading="20" fontSize="17"><b>{{order_info.buyer}}</b></para>
+                    <para style="normal" leading="20" fontSize="17"><b>{{order_info.buyer.name}}</b></para>
                     <para style="normal">{{order_info.destination}}</para>
                     <para style="normal">Requested by: {{order_info.buyer}}</para>
                 </td>

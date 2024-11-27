@@ -14,8 +14,8 @@ class CustomUser(AbstractUser):
 
     class Meta:
         permissions = [
-            ("promote", "Can change add a blog"),
-            ("demote", "Can edit a blog"),
+            ("manage", "can view and help"),
+            ("admin", "Can promote or demote a user"),
             ]
 
 

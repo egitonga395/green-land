@@ -1,5 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
+
+from django.contrib.auth import logout, authenticate
+
 from .models import Item,  Item_images, Cart, Transport, Order
 from users.models import Profile
 from users.forms import ProfileForm
@@ -379,6 +382,20 @@ def order_succesful(request, order_number):
     order_number = Order.objects.get(order_number = order_number).order_number
     return render(request, "shop/ordersuccess.html", {"order_number": order_number})
 
+
+
+import time
+#from django.conf import settings
+
+def check_session_timeout(request):
+   if request.user.is_authenticated:
+       last_activity = request.session.get('last_activity')
+       if last_activity is not None:
+           session_expiry_time = settings.SESSION_COOKIE_AGE
+           current_time = time.time()
+           if current_time - last_activity > session_expiry_time:
+                logout(request)
+                return redirect('Users:signin')
     
 # def processing_payment(request):
 #     pass

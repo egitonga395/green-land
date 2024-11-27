@@ -21,6 +21,12 @@ class Transport_form(forms.ModelForm):
     destination= forms.ModelChoiceField(queryset=Transport.objects.all())
 
 
+class Transport_edit_form(forms.ModelForm):
+    class Meta:
+        model = Transport
+        fields = "__all__"
+
+
 class Order_form(forms.ModelForm):
     class Meta:
         model = Order

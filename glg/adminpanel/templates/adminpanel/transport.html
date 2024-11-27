@@ -2,86 +2,48 @@
 {% load static %}
 
 {% block link %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://unpkg.com/htmx.org@2.0.3" integrity="sha384-0895/pl2MU10Hqc6jd4RvrthNlDiE9U1tWmX7WRESftEDRosgxNsQG/Ze9YMRzHq" crossorigin="anonymous"></script>
+
     <link rel="stylesheet" href="{%  static 'css/transport.css' %}">
 {% endblock %}
 {% block body%}
+   
     <div class="container">
         <div class="displaydiv">
-            <table id="table">
-                <tr>
-                    <th>Destination</th>
-                    <th>Price</th>
-                    <th></th>
-                </tr>
-                {% for place in transport %}
-                    <tr class="data-rows">
-                        <td>{{place.destination}}</td>
-                        <td>{{place.price}}</td>
-                        <td id  = "td-button">
-                            <button class="continue">Change</button>
-                            <button class="continue">Delete</button>
-                        </td>
+            <!-- <form get="{% url 'adminpanel:transport_modify'}"> -->
+                <table>
+                    <form method="post" action="{% url 'adminpanel:transport' %}">
+                    {% csrf_token %}
+                    <tr><th>Name</th><th>Transport</th><th>Action</th></tr>
+                    {% if not form.instance.destination %}
+                    <tr>
+                      {% include 'adminpanel/transport_add.html' %}
                     </tr>
+                    {% endif %}
+                    {% for Transport in Transports %}
+                      <tr>
+                        {% if form.instance.destination == Transport.destination %}
+                          {% include 'adminpanel/transport_add.html' %}
+                        {% else %}
+                        <td>{{ Transport.destination }}</td>
+                        <td>{{ Transport.price }}</td>
+                        <td>
+                          <button formnovalidate name="edit" value="{{ Transport.destination }}">Edit</button>
+                          <button formnovalidate name="delete" value="{{ Transport.destination }}">Delete</button>
+                        </td>
+                        {% endif %}
+                      </tr>
+                    {% endfor %}
+                    </form>
+                    </table>
         </div>
     </div>
-        {% endfor %}
-    </table>
-    <!-- <script>
-        setInterval(autorefresh, 10000);
-        function autorefresh(){
-            fetch("", {headers:{
-            'Accept': 'application/json',
-        'X-Requested-With': 'XMLHttpRequest', 
-    },})
-    .then(response => {
-        console.log(`status:${response.status}`);
-    return response.json(); //Convert response to JSON
-    })
-    .then(data => {
-        console.log(data);
-        // const dataToRemove = document.getElementsByClassName("data-rows");
-        // dataToRemove.parentNode.removeChild(dataToRemove);
-        // var element = document.getElementsByClassName("data-rows");
-        // console.log(element);
-        // for (let i = 0; i<element.length; i++){
-        //     // element.item(i).parentNode.removeChild(element.item(i))
-        //     // element.parentNode.removeChild(element[i])
-        //     console.log(i)
-        //     // element[i].parentNode.removeChild(element[i]);
-        // }
-        document.querySelectorAll(".data-rows").forEach(el => el.remove());
-        const dataToDisplay = data.transport;
-        dataToDisplay.forEach((obj)=>{
-            let new_row = document.createElement("tr");
-            new_row.className = "data-rows";
-            console.log(obj.destination)
-            let data1 = document.createElement("td")
-            data1.innerHTML = obj.destination
-            let data2 = document.createElement("td");
-            data2.innerHTML = obj.price;
-            let button1 = document.createElement("button");
-            button1.className = "change";
-            button1.innerHTML="Change";
-            let button2 = document.createElement("button");
-            button2.className = "delete";
-            button2.innerHTML="delete";
-            let data3 = document.createElement("td");
-            data3.id = "td-button"
-            data3.appendChild(button1);
-            data3.appendChild(button2)
-            new_row.appendChild(data1);
-            new_row.appendChild(data2);
-            new_row.appendChild(data3);
-            table1 = document.getElementById("table");
-            console.log(table1)
-            console.log(new_row);
-            table1.appendChild(new_row);
-            
-        });
-       
-        //Perform actions with the response data from the view
-    })
-        }
-        
-    </script> -->
-{% endblock %}
+    <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+        Launch demo modal
+      </button> -->
+
+ 
+      
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+{% endblock%}

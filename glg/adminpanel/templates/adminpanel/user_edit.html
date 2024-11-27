@@ -26,9 +26,9 @@
                     </div>
                 </div>
                 <div class="innerdivlower">
-                    {% if employee in user_info.groups.all %}
+                    {% if is_employee %}
                             Already an <strong>employee</strong>: <button type="submit" name="demote" value="{{user_info.id}}"> Demote </button>
-                        {% else %}
+                    {% elif is_buyer %}
                         Just a <strong>Buyer</strong>: <button type="submit" name="promote" value="{{user_info.id}}"> Promote </button>
                         {% endif %}
                 </div>

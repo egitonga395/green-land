@@ -45,6 +45,7 @@ def login_view(request):
                 
             elif user.is_superuser:
                 login(request, user)    
+
                 return redirect("adminpanel:adminpanel")
         else:
             print("no")

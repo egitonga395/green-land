@@ -17,6 +17,10 @@ class Item(models.Model):
 
     class Meta:
         ordering = ("recent",)
+        permissions = [
+            ('can_do_all_item', 'Can do all modifications to Items'),
+        ]
+
     def __str__(self):
         return self.name
     def get_absolute_url(self):
@@ -45,6 +49,10 @@ class Transport(models.Model):
 
     def __str__(self):
         return self.destination
+    class Meta:
+        permissions = [
+            ('can_do_all_transport', 'Can do all modifications to transport'),
+        ]
 
 
 #using order model as a cart and for making order
@@ -84,6 +92,10 @@ class Order(models.Model):
     status = models.CharField( max_length=200, choices=STATUS_CHOICES)
     def __str__(self):
         return f"Order_{self.order_number}"
+    class Meta:
+        permissions = [
+            ('can_do_all_order', 'Can do all modifications to order'),
+        ]
 
 
 
