@@ -4,6 +4,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import Group, Permission
 from .forms import SignupForm, SigninForm
 from .models import Profile, CustomUser
+from django.shortcuts import get_object_or_404
 
 # Create your views here.
 
@@ -31,7 +32,7 @@ def login_view(request):
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
             user = authenticate(request, email=email, password=password)
-            user1 = CustomUser.objects.get(email=email)
+            user1  = get_object_or_404(CustomUser, email=email)
             profile, created = Profile.objects.get_or_create(owner=user1)
             print(profile)
             print("______________________________")

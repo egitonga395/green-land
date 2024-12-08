@@ -34,20 +34,21 @@
                     {% endif %} -->
                     {% for order in orders %}
                       <tr>
-                        {% if form.instance.destination == order.order_number %}
-                          {% include 'adminpanel/order_status.html' %}
-                        {% else %}
+                        
                         <td>{{ order.order_number }}</td>
                         <td>{{ order.buyer}}</td>
                         <td>{{ order.destitation}}</td>
                         <td>{{ order.include_transport}}</td>
                         <td>
                         <td>{{ order.grand_total}}</td>
+                        {% if form.instance.order_number == order.order_number %}
+                          {% include 'adminpanel/order_status.html' %}
+                        {% else %}
                         <td>{{ order.status}}</td>
                         <td>
                         
                           <button formnovalidate name="edit" value="{{ order.order_number }}">Edit</button>
-                          <button formnovalidate name="delete" value="{{ order.order_number }}">Delete</button>
+                          <button formnovalidate name="view" value="{{ order.order_number }}">View</button>
                         </td>
                         {% endif %}
                       </tr>

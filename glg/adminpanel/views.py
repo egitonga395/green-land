@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from shop.models import *
 from blog.models import Blog
+from mpesa.models import PaymentTransaction
 from django.http import JsonResponse
 from .forms import *
 from users.models import *
@@ -19,12 +20,48 @@ def adminpanel(request):
 @permission_required(["manage"], raise_exception=True)
 def order_view(request):
     context = {}
-    form = Order_status_form()
     orders = Order.objects.all()
     print(orders)
     context['orders'] = orders
-    context['form'] = form
+    #we will have to return and render a template here
+    if request.method == 'POST':
+        if 'save' in request.POST:
+            pk = request.POST.get('save')   
+            print("&&&&&&&&&&&&&&&&&")
+            order = Order.objects.get(order_number = pk)
+            form = Order_status_form(request.POST, instance=order)
+            form.save()
+            return render (request, "adminpanel/order.html", context)
+
+        # will replace to its own routing 
+        elif 'view' in request.POST:
+            pk = request.POST.get('view')
+            #get info about the order
+            order= Order.objects.get(order_number=pk)
+            print(pk)
+            #get the buyer
+            buyer = order.buyer
+            print("The buyer is.....")
+            print(buyer)
+            buyer_details = CustomUser.objects.get(email=buyer)
+            print(buyer_details)
+            # get all carts tied to one item
+            cart_items = order.cart_set.all()
+
+            # get the payments of the payments
+            payments_for_order = PaymentTransaction.objects.all().filter(order_id=pk)
+            print("the payment orders are")
+            print(payments_for_order)
+            return render (request, "adminpanel/order_detailed.html", context)
+        elif 'edit' in request.POST:
+            pk = request.POST.get('edit')
+            print(pk)
+            order = Order.objects.get(order_number=pk)
+            form = Order_status_form(instance=order)
+            context["form"] = form
+            return render (request, "adminpanel/order.html", context)
     return render (request, "adminpanel/order.html", context)
+
 
 
 
@@ -66,14 +103,7 @@ def transport_view(request):
     return render (request, "adminpanel/transport.html", context)
 
 
-@login_required(login_url='users:signin')
-@permission_required(["can_do_all_order"], raise_exception=True)
-def order_view(request):
-    orders = Order.objects.all()
-    context = {
-        "orders":orders
-    }
-    return render(request, "adminpanel/transport.html", context)
+
 
 @login_required(login_url='users:signin')
 @permission_required(["can_do_all_item"], raise_exception=True)
