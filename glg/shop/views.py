@@ -375,6 +375,10 @@ def is_payment_complete(request, order_number):
     else:
         order = Order.objects.get(order_number=order_number)
         context["order"]  = order
+        order.status  =  "processing"
+        order.save()
+        print("wanted to find out if te order status is being changed")
+        print(order)
         context["complete"] = True 
         return render(request, "shop/proceeding_button.html", context)
         

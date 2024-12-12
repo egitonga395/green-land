@@ -20,7 +20,7 @@ def adminpanel(request):
 @permission_required(["manage"], raise_exception=True)
 def order_view(request):
     context = {}
-    orders = Order.objects.all()
+    orders = Order.objects.all().exclude(status="open")
     print(orders)
     context['orders'] = orders
     #we will have to return and render a template here
@@ -39,17 +39,29 @@ def order_view(request):
             #get info about the order
             order= Order.objects.get(order_number=pk)
             print(pk)
+            del context['orders']
+            context["order"] = order
             #get the buyer
             buyer = order.buyer
             print("The buyer is.....")
             print(buyer)
             buyer_details = CustomUser.objects.get(email=buyer)
+
+            context["buyer_details"] = buyer_details
             print(buyer_details)
+
+            #get the buyers profile
+            buyers_profile = buyer_details.profile
+            print(buyers_profile)
+            context["buyers_profile"] = buyers_profile
+            
             # get all carts tied to one item
             cart_items = order.cart_set.all()
+            context["cart_items"] = cart_items
 
             # get the payments of the payments
-            payments_for_order = PaymentTransaction.objects.all().filter(order_id=pk)
+            payments_for_order = PaymentTransaction.objects.all().filter(order_id=pk).order_by("-is_successful")[:3]
+            context["payments_for_order"] = payments_for_order
             print("the payment orders are")
             print(payments_for_order)
             return render (request, "adminpanel/order_detailed.html", context)

@@ -3,6 +3,7 @@ from django.utils import timezone
 from django.urls import reverse
 import uuid
 from users.models import CustomUser
+import datetime
 
 # Create your models here.
 class Item(models.Model):
@@ -89,13 +90,19 @@ class Order(models.Model):
     transport_price = models.PositiveIntegerField(default=0)
     grand_total = models.PositiveIntegerField(default=0)
     created = models.DateTimeField(default=timezone.now)
+    placed  = models.DateTimeField(blank=True, null=True)
     status = models.CharField( max_length=200, choices=STATUS_CHOICES)
     def __str__(self):
-        return f"Order_{self.order_number}"
+        return f"Order_{self.order_number} {self.status}"
     class Meta:
         permissions = [
             ('can_do_all_order', 'Can do all modifications to order'),
         ]
+
+    def save(self, *args, **kwargs):
+        if self.status != "open":
+            self.placed =  datetime.datetime.strptime(str(timezone.now()),'%Y-%m-%d %H:%M:%S.%f%z')
+        super(Order, self).save(*args, **kwargs)
 
 
 
