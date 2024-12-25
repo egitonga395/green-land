@@ -13,23 +13,7 @@ body
     
     
 }
-nav
-{
-    background-color:rgba(144, 238,144, 87%) ;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 0px;
-    gap: 0.8em;
-    grid-area: 1/1/2/12;
-    padding: 0.2em;
-    font-size: 1.5em;
-    font-family: "Aclonica", sans-serif;
-    font-weight: lighter;
-    font-style: normal;
-    height: 15vh;
 
-}
 .form_purchase>div>p{
     display: inline;
 }

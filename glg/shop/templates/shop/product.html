@@ -1,34 +1,14 @@
+{% extends "shop/base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Aclonica&display=swap" rel="stylesheet">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Aclonica&family=Poppins:ital,wght@0,100;0,200;
-0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+{% block link%}
     <link rel="stylesheet" href="{%static 'css/product_indiv.css' %}">
-    {% load bootstrap5 %}
+    <!-- {% load bootstrap5 %}
     {% bootstrap_css %}
-    {% bootstrap_javascript %}
-
-</head>
+    {% bootstrap_javascript %} -->
+{% endblock%}
 
     
-<body>
-    <!-- <nav class="aclonica-regular">
-        <h2 class="logo">GREEN LAND<BR>GOAL</h2>
-            <h2>HOME</h2>
-            <h2>PRODUCTS</h2>
-            <h2>BLOG</h2>
-            <h2>ABOUT</h2>
-    </nav> -->
-    {% include 'shop/nav.html' %}
+{% block body%}
 
     <div style="background-color: aquamarine;" class="imagecontainer">
         <img src="{{item.image.url}}" class="fullimage" alt=""></div>
@@ -54,11 +34,12 @@
 
     </div>
     <!-- <script src="bootstrap.min.js"></script> -->
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script>
-        function onButtonPress() {
-            $('.alert').alert('close');
-        }
-    </script>
-</body>
+    {% block script%}
+        <script>
+            function onButtonPress() {
+                $('.alert').alert('close');
+            }
+        </script>
+    {% endblock %}
+{% endblock %}
 </html>

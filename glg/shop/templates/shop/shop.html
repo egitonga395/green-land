@@ -1,69 +1,49 @@
+
+{% extends "shop/base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Products</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Aclonica&display=swap" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Aclonica&family=Poppins:ital,wght@0,100;0,200;
-    0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/htmx.org@2.0.3/dist/htmx.js" integrity="sha384-BBDmZzVt6vjz5YbQqZPtFZW82o8QotoM7RUp5xOxV3nSJ8u2pSdtzFAbGKzTlKtg" crossorigin="anonymous"></script>
-
+{% block title %}
+    <title>Shop</title>
+    {% endblock%}
+{% block link%}
     <link rel="stylesheet" href="{% static 'css/shop_css.css' %}">
-</head>
-<body>
-    <!-- <nav>
-        <h2 class="logo">GREEN LAND<BR>GOAL</h2>
-        <h2>HOME</h2>
-        <h2>PRODUCTS</h2>
-        <h2>BLOG</h2>
-        <h2>ABOUT</h2>
-    </nav> -->
-    {% include 'shop/nav.html' %}
-    <aside>
-        <h1>Cartegories</h1>
-        <div class="options">
-        <form action="" hx-get="", hx-swap="outerHTML"  hx-target="#shopitems">
-            <input type="checkbox" id="" hidden name="filter" checked>
-           <input type="checkbox" name="flower"  > <h3>Flowers</h3>
-            <input type="checkbox" name="tree"  ><h3>Trees</h3>
-            <input type="checkbox" name="pot" ><h3>Pots</h3></div>
+{% endblock%}
+{% block body%}
 
-        <h2>Price range</h2>
-        <div class="prices"><p style="display: inline;">From:</p><textarea name="lowest_price" id="" cols="1" rows="1" style="display: inline;">0</textarea>
-            <p style="display: inline;">to:</p><textarea name="highest_price"cols="1" rows="1" style="display: inline;">10000000</textarea></div>
-            <button type="submit"><p>Search</p></button>
-        </form>
-    </aside>
-    <main>
+   
+   
+        {% include "shop/sidebar.html"%}
         
-        <form action="" id="searchform">
-            <input type="text" name="query" hx-trigger="keyup[key=='Enter']">
-        </form>
-        
-        <div class="regular_price" id="shopitems">
-            {% for item in items %}
-            <a href="{{ item.get_absolute_url }}">
-                <div class="product">
-                    <div>
-                        <img src="{{ item.image.url }}" alt="{{item.product_id}}">
-                    </div>
-                    <div class="details">
-                        <p>{{item.name}}</p>
-                        <p>Ksh. {{item.price}}</p>
-                    </div>
-                </div>
-            </a>
-
-            {% endfor %}
+        <div class="col-8">
+            <form action="" id="searchform" class="row justify-content-center ">
+                <input type="text" name="query" hx-trigger="keyup[key=='Enter']" class="col-4 m-4 border border-dark rounded border-3" placeholder="Press Enter to Search">
+            </form>
+            
+            <div class="regular_price" id="shopitems" class="row">
+                {% for item in items %}
+                <a href="{{ item.get_absolute_url }}">
+                    <!-- <div class="product">
+                        <div>
+                            <img src="{{ item.image.url }}" alt="{{item.product_id}}">
+                        </div>
+                        <div class="details">
+                            <p>{{item.name}}</p>
+                            <p>Ksh. {{item.price}}</p>
+                        </div>
+                    </div> -->
+                    <div class="card" style="max-width: 10rem;">
+                        <img src="{{ item.image.url }}" class="card-img-top object-fit-cover img-fluid rounded" alt="{{item.product_id}} " style="max-height: 20em;">
+                        <div class="card-body">
+                          <h5 class="card-title">{{item.name}}</h5>
+                          <p class="card-text">Ksh. {{item.price}}</p>
+                        </div>
+                      </div>
+                </a>
+    
+                {% endfor %}
+            </div>
         </div>
 
-    </main>
+
     
-</body>
-</html>
+{% endblock %}
+

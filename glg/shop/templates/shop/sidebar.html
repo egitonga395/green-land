@@ -1,0 +1,28 @@
+{% block base %}
+<aside class="col-3">
+    {% block aside %}
+    <h1>Cartegories</h1>
+    <section>
+        <div class="options">
+            <form action="" hx-get="", hx-swap="outerHTML"  hx-target="#shopitems">
+                <input type="checkbox" id="" hidden name="filter" checked>
+               <div><input type="checkbox" name="flower"  > <span class="h3">Flowers</span></div>
+                <div><input type="checkbox" name="tree"  > <span class="h3">Trees</span></div>
+                <div><input type="checkbox" name="pot" > <span class="h3">Pots</span></div>
+            </div>
+    </section>
+
+    <section>
+    <h2>Price range</h2>
+    <div class="prices">
+        <div><p style="display: inline;">From:</p><textarea name="lowest_price" id="" cols="1" rows="1" style="display: inline;">0</textarea>
+            <p style="display: inline;">To:</p><textarea name="highest_price"cols="10" rows="1" style="display: inline;">10000000</textarea></div>
+        <div class="button_div"><button type="submit" class="btn btn-warning"><p>Search</p></button></div>
+    </div>
+
+       
+    </section>
+    </form>
+{% endblock %}
+</aside>
+{% endblock %}

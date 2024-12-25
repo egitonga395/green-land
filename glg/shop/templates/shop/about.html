@@ -1,22 +1,13 @@
+{% extends "shop/base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{%  static 'css/about.css' %}">
+{% block title %}
+<title>About</title>
+{% endblock%}
+{% block link%}
+    <link rel="stylesheet" href="{% static 'css/about.css'%}">
+{% endblock%}
 
-    <title>Document</title>
-</head>
-    <body>
-        <!-- <nav class="aclonica-regular">
-            <h2 class="logo">GREEN LAND<BR>GOAL</h2>
-                <h2>HOME</h2>
-                <h2>PRODUCTS</h2>
-                <h2>BLOG</h2>
-                <h2>ABOUT</h2>
-        </nav> -->
-        {% include 'shop/nav.html' %}
+{% block body%}
         <div class="container">
             <div class="who-what">
                 <div class="who">
@@ -58,6 +49,5 @@
         
 
         
-    </body>
+    {% endblock %}
     
-</html>
