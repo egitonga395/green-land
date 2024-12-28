@@ -3,102 +3,15 @@
 {% block title %}
     <title>Shop</title>
     {% endblock%}
-{% block link%}
-    <link rel="stylesheet" href="{% static 'css/shop_css.css' %}">
-{% endblock%}
-
-    <!-- <nav class="aclonica-regular">
-        <h2 class="logo">GREEN LAND<BR>GOAL</h2>
-            <h2>HOME</h2>
-            <h2>PRODUCTS</h2>
-            <h2>BLOG</h2>
-            <h2>ABOUT</h2>
-    </nav> -->
     {% include "shop/nav.html" %}
-    {% block body %}
-         {% block aside %}
-            <div class="sidebar">
-                <div class="options"><p><a href="{% url 'adminpanel:users'%}" id = "test1">USERS</a></p></div>
-                <div class="options"><p><a href="{% url 'adminpanel:order'%}">ORDER</a></p></div>
-                <div class="options"><p><a href="{% url 'adminpanel:transport'%}">TRANSPORT</a></p></div>
-                <div class="options"><p><a href="{% url 'adminpanel:blog'%}">BLOG</a></p></div>
-                <div class="options"><p><a href="{% url 'adminpanel:itemview'%}">ITEMS</a></p></div>
-            </div>
-         {% endblock %}
-    {% block script %}
-    <!-- <script>
-        const new1 =document.getElementById("test1");
-        new1.addEventListener("click", runtest)
-        function runtest(e){
-            fetch(
-            "transport",{
-                    method:'GET',
-                    headers:{
-                        'Content-Type':'application/json',    'X-Requested-With': 'XMLHttpRequest',
-
-                    
-                },
-            })
-            .then((response)=>{
-                console.log(`status:${response.status}`);
-                return response.json()})
-            .then((data)=>{
-                console.log(data);
-                console.log(data.transport);
-                const parent = document.querySelector("body");
-                 let div1  = document.createElement("div");
-                 div1.className = "bodydiv";
-                 let newTable = document.createElement("table");
-                 div1.appendChild(newTable);
-                 div1.style.float = "left";
-                 parent.appendChild(div1);
-
-                const tableElement = data.transport;
-                let table_row = document.createElement("tr");
-                let header = document.createElement("th");
-                let text = document.createElement("p");
-                let node = document.createTextNode("destination");
-                text.appendChild(node);
-                header.appendChild(text);
-                table_row.appendChild(header);
-                newTable.appendChild(table_row);
-                header = document.createElement("th");
-                text = document.createElement("p");
-                node = document.createTextNode("price");
-                text.appendChild(node);
-                header.appendChild(text);
-                table_row.appendChild(header);
-                newTable.appendChild(table_row);
-                
-                
-                tableElement.forEach(element => {
-                    console.log(`${element.destination} costs ksh ${element.price}`);
-                    let table_row1 = document.createElement("tr");
-                    let table_data = document.createElement("td");
-                    let text1 = document.createElement("p");
-                    let node1 = document.createTextNode(`${element.destination}`);
-                    text1.appendChild(node1);
-                    table_data.appendChild(text1);
-                    table_row1.appendChild(table_data);
-                    
-                    let table_data2 = document.createElement("td");
-                    let text2 = document.createElement("p");
-                    let node2 = document.createTextNode(`${element.price}`);
-                    text2.appendChild(node2);
-                    table_data2.appendChild(text2);
-                    table_row1.appendChild(table_data2);
-                    newTable.appendChild(table_row1);
-
-
-
-                
-            })
-                
-                    
-                });
-            
-            e.preventDefault();
-        }
-    </script> -->
+    {% block base %}
+        {% include "adminpanel/admin_sidebar.html" %}
     {% endblock %}
+    {% block body %}
+        <section class="col-9">
+            {% block content %}
+                {% block script %}
+                {% endblock %}
+            {% endblock %}
+        </section>
     {% endblock %}

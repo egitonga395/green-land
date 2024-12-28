@@ -1,17 +1,9 @@
-body
-{   
+body{   
     
     background-color: rgb(255, 255, 255);
-    display: grid;
-    grid-template-columns: repeat(11, minmax(0, 1fr));
-    grid-template-rows: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) ;
-    max-height: 100vh;
     overflow: hidden;
     margin: 0;
     /* padding: 0; */
-    
-    
-    
 }
 
 .form_purchase>div>p{
@@ -22,19 +14,12 @@ body
 {
     display: flex;
     flex-direction: column;
-    /* justify-content: center; */
-    /* align-items: center; */
     gap: 1em;
     margin-top: 2em;
     margin-bottom: 1em;
     padding: 2em 0 0 2em;
-
-    
-
 }
-.container{
-    grid-area: 2/4/6/9;
-}
+
 
 .form_purchase{
     background-color: #D9D9D9;
@@ -52,26 +37,8 @@ tr{
 .items{
     width:80%;
     align-self: center;
- 
 }
-div>.yellow{
-    background-color: #FFBA00;
-    border-radius: 10%;
-    border-color: #FFBA00;
-    box-shadow: 4px 4px 0.3em ;
-    font-family: "Aclonica", sans-serif;
 
-
-}
-div>.red{
-    background-color: #FF0000;
-    border-radius: 10%;
-    border-color: #FF0000;
-    box-shadow: 4px 4px 0.3em ;
-    font-family: "Aclonica", sans-serif;
-
-
-}
 div.button{
     display: flex;
     justify-content: space-evenly;
@@ -87,4 +54,12 @@ input{
     border-radius: 0.5em;
     padding-left: 0.5em;
     margin-left: 0.5em;
+}
+.container{
+    display: flex;
+}
+#payment{
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
 }

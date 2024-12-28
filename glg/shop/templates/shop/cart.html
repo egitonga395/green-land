@@ -9,8 +9,10 @@
 <link rel="stylesheet" href="{% static 'css/cart.css' %}">
 {% endblock%}
 
+{% block base %}
+{% endblock%}
 {% block body %}
-    <div class="container">
+    <div class="container col-8 mt-3">
         <div class="items">
             {% for cart_item in cart_items %}
                 {% with incart=cart_item.item_name %}
@@ -27,19 +29,16 @@
                         <p>Item price:</p>
                         <p>Ksh: {{incart.price}}</p>
                     </div>
-                    <div class="quantity">
+                    <!-- <div class="quantity"> -->
                         {% with price=cart_item.quantity %}
                         <form id="formquantities"> 
                             {% csrf_token %}
                             <button hx-get="quantity-form/{{order_number}}/{{incart.name}}/" hx-swap="innerHTML", trigger="click", hx-target="body" hx-vals='{"op":"sub"}'>sub</button>
                             {{forms|index:forloop.counter0}}
                             <button hx-get="quantity-form/{{order_number}}/{{incart.name}}/" hx-swap="innerHTML", trigger="click", hx-target="body" hx-vals='{"op":"add"}'>add</button>
-                            
-                        <!-- <input type="submit" name = {{incart.product_id}} value="submit"> -->
-                        <!-- <button type="submit" name="submit"value="{{incart.product_id}}">submit</button> -->
                         </form>
                         {% endwith %}
-                    </div>
+                    <!-- </div> -->
                     <div class="item_name">
                         
                         <p>Total price:</p>

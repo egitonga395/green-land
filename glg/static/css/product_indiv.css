@@ -7,6 +7,8 @@
 
 
 
+
+
 .extras{
     background-color: #FFBA00;
     border-radius: 10%;
@@ -16,13 +18,7 @@
     /* font-size: 0.7em; */
 
 }
-body{
-display: grid;
-grid-template-columns: repeat(10, 1fr);
-grid-template-rows: repeat(5, 1fr);
-max-height: 100vh;
 
-}
 .product-name{
     color: #1D921D;
     font-family: "Poppins", sans-serif;
@@ -32,22 +28,19 @@ max-height: 100vh;
 }
 
 .imagecontainer{
-    grid-area: 2/1/4/5;
-    margin-left: 2em;
-    margin-top: 0.4em;
+
+    height: 50vh;
+    object-fit: contain;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
 
 }
 
-img.fullimage{
-    max-width: 80%;
-    height:auto
- 
-    /* grid-area: 2/1/4/6;
-    margin-left: 2em;
-    margin-top: 0.4em; */
-}
+
 .description{
-    grid-area: 2/6/4/11;
+
     font-family: "Poppins", sans-serif;
     font-weight: 350;
     font-size: 1.1em;
@@ -55,24 +48,24 @@ img.fullimage{
 
 }
 .price{
-    grid-area: 5/1/6/5;
+
     display: flex;
     flex-direction: column;
-    gap: 2em;
+    gap: 0.3em;
     align-items: center;
     font-family: "Poppins", sans-serif;
     font-weight: 350;
     font-size: 1.2em;
     font-style: normal;
-    color: #1D921D;
+    
 }
 .addphotos{
-    grid-area: 5/6/6/11;
+
     display: flex;
     gap: 1em;
     flex-direction: row;
     align-items: center;
-    overflow-x: scroll;
+    
 
 }
 .addphotos>img{
@@ -85,7 +78,7 @@ img.fullimage{
     display: flex;
     flex-direction: column;
     max-width: 40%;
-    gap: 1.5em;
+    gap: 0.5em
 
 
 }
@@ -94,4 +87,16 @@ img.fullimage{
     left: 2em;
     max-width: 80%;
     margin-top: 3em;
+}
+/* img{
+
+    max-height: 50%
+} */
+p{
+    margin-bottom: 0;
+}
+img{
+    max-width: 100%;
+    max-height: 100%;
+    margin-top: 1em;
 }

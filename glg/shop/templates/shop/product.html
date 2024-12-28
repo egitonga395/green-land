@@ -6,32 +6,37 @@
     {% bootstrap_css %}
     {% bootstrap_javascript %} -->
 {% endblock%}
-
-    
+{% block base %}
+{% endblock%}
 {% block body%}
 
-    <div style="background-color: aquamarine;" class="imagecontainer">
-        <img src="{{item.image.url}}" class="fullimage" alt=""></div>
-    <div class="description ">
-        {% include 'shop/messages.html' %}
-        <h2 class="product-name">{{item.name}}</h2>
-        <p>
-            {{item.description}}
-        </p>
-    </div>
-    <div class="price">
-        <div><p>PRICE: KSH {{item.price}}</p></div>
+    <div class="container col-5 row" >
+    <div class="imagecontainer"><img src="{{item.image.url}}" class="img-fluid" alt=""></div>
+    <div class="price row align-items-center mt-4">
+        <div class="" style="color: #1D921D;text-align: center;"><p><span style="color: black;">PRICE: </span>KSH {{item.price}}</p></div>
         <div class="button">
             <a href="{% url 'shop:addtocart' item.product_id %} "><button type="button" class="extras"><h3>ADD TO CART</h3></button></a>
             <a><button type="button" class="extras"><h3>BUY NOW!</h3></button></a>
         </div> 
     </div>
-    
-    <div class="addphotos">
-        {% for image1 in images %}
-            <img src="{{image1.addphotos.url}}" alt="{{image1.display_name}}">
-        {% endfor %}
 
+    </div>
+    <div class="container col-7 row">
+        <div class="description ">
+            {% include 'shop/messages.html' %}
+            <h2 class="product-name">{{item.name}}</h2>
+            <p>
+                {{item.description}}
+            </p>
+        </div>
+        
+        
+        <div class="addphotos row">
+            {% for image1 in images %}
+                <img src="{{image1.addphotos.url}}" alt="{{image1.display_name}}">
+            {% endfor %}
+    
+        </div>
     </div>
     <!-- <script src="bootstrap.min.js"></script> -->
     {% block script%}

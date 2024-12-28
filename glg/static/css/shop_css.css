@@ -28,13 +28,16 @@ aside{
     border-bottom-right-radius: 1.5em;
     
 }
+.card{ 
+    border: none;
+}
 
 .col-3 {
     flex: 0 0 auto;
     /* width: 25%; */
     max-width: 20em;
 }
-.options{
+.filter{
     position: relative;
     left: 2em; 
     border-left: solid black 1px;
@@ -44,11 +47,11 @@ aside{
 .prices{
     display: flex;
     flex-direction: column;
-    /* justify-content: left; */
     align-items: flex-end;
-    gap: 1em;
+    
     
 }
+
 
 
 
@@ -108,4 +111,10 @@ textarea{
 }
 button{
     max-height: 2em;
+}
+.special-margin{
+    margin: 0 !important;
+}
+img{
+    max-height: 50vh;
 }

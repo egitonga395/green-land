@@ -1,18 +1,21 @@
+html, body { 
+    height:100%; 
+    width:100%; 
+    overflow:fidden;
+}
 body{
     margin: 0;
     background-color: rgba(202, 194, 194, 0.589);
-    z-index: 1;
 }
 
-.sidebar{
-    float:left;
+aside{
     display: flex;
     flex-direction: column;
     background-color: white;
     width: 20vw;
     gap: 1em;
-    padding-bottom: 1em;
     border-bottom-right-radius: 1em;
+    padding-bottom: 0.5em;
     
 }
 .options{
@@ -57,4 +60,12 @@ table{
 }
 table>tr{
     width: 100%
+}
+.special-margin{
+    margin: 0 !important;
+}
+
+.col-2{ 
+    padding:0;
+    padding-bottom: 0.5em;
 }

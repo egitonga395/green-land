@@ -7,6 +7,9 @@ class User_quantities(forms.ModelForm):
     class Meta:
         model = Cart
         fields = ["quantity"]
+        labels = {
+            "quantity": ""
+        }
 
 class Transport_form(forms.ModelForm):
     class Meta:

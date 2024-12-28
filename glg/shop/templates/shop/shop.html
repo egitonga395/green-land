@@ -7,11 +7,8 @@
 {% block link%}
     <link rel="stylesheet" href="{% static 'css/shop_css.css' %}">
 {% endblock%}
-{% block body%}
 
-   
-   
-        {% include "shop/sidebar.html"%}
+{% block body%}
         
         <div class="col-8">
             <form action="" id="searchform" class="row justify-content-center ">
@@ -21,15 +18,7 @@
             <div class="regular_price" id="shopitems" class="row">
                 {% for item in items %}
                 <a href="{{ item.get_absolute_url }}">
-                    <!-- <div class="product">
-                        <div>
-                            <img src="{{ item.image.url }}" alt="{{item.product_id}}">
-                        </div>
-                        <div class="details">
-                            <p>{{item.name}}</p>
-                            <p>Ksh. {{item.price}}</p>
-                        </div>
-                    </div> -->
+                    
                     <div class="card" style="max-width: 10rem;">
                         <img src="{{ item.image.url }}" class="card-img-top object-fit-cover img-fluid rounded" alt="{{item.product_id}} " style="max-height: 20em;">
                         <div class="card-body">

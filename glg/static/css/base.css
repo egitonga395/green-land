@@ -1,3 +1,9 @@
 *{
     margin: 0;
 }
+html, body{
+    overflow: hidden;
+}
+body{
+    max-height: 100vh;
+}

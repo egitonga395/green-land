@@ -1,4 +1,4 @@
-<section class="bill" id="invoice_container">
+<section class="bill col-2" id="invoice_container">
     <div class="container_1">
         <div class="invoice">
             <h2>Invoice</h2>
@@ -7,7 +7,7 @@
         <div class="transport">
             <h2>Transport</h2>
             <div>
-                <form hx-get="transport-price-form/{{order_number}}", hx-swap = "innerHTML", hx-trigger="every 6s" hx-target="#invoice_container">
+                <form hx-get="transport-price-form/{{order_number}}", hx-swap = "outerHTML", hx-trigger="every 6s" hx-target="#invoice_container">
                     {% csrf_token %}
                     <p style="display: inline;">To:</p>
                     <!-- <input type="text" class="resize-text-box"> -->

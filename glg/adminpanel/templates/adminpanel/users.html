@@ -1,35 +1,34 @@
-
 {% extends 'adminpanel/adminpanel.html' %}
 {% load static %}
 {% block link %}
     <script src="{% static 'js/htmx.min.js' %}"></script>
     <link rel="stylesheet" href="{% static 'css/users.css' %}">
 {% endblock %}
-{% block body %}
-<table>
-    <tbody>
-        <tr>
-            <th>Name:</th>
-            <th>Email:</th>
-            <th>group</th>
-            <th></th>
-            <th></th>
-        </tr>
-        {% for user in users %}
-        
-
+{% block content %}
+    <table>
+        <tbody>
             <tr>
-                <td style="width: 1em;">{{user.first_name}}</td>
-                <td style="width: 1em;">{{user.email}}</td>                
-                {% for group in user.groups.all %}
-                    <td> {{group}}</td>
-                {% endfor %}
-                <td><a href="{% url 'adminpanel:users_edit' id=user.id%}">Edit</a></td>
-                <td><a href="{% url 'adminpanel:users_delete' id=user.id%}">Delete</a></td>
+                <th>Name:</th>
+                <th>Email:</th>
+                <th>group</th>
+                <th></th>
+                <th></th>
             </tr>
-        
-        {% endfor %}
-        </tbody>
-</table>
+            {% for user in users %}
+            
+
+                <tr>
+                    <td style="width: 1em;">{{user.first_name}}</td>
+                    <td style="width: 1em;">{{user.email}}</td>                
+                    {% for group in user.groups.all %}
+                        <td> {{group}}</td>
+                    {% endfor %}
+                    <td><a href="{% url 'adminpanel:users_edit' id=user.id%}">Edit</a></td>
+                    <td><a href="{% url 'adminpanel:users_delete' id=user.id%}">Delete</a></td>
+                </tr>
+            
+            {% endfor %}
+            </tbody>
+    </table>
 
 {% endblock%}
