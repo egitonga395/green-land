@@ -7,7 +7,6 @@ nav
     align-items: center;
     margin: 0px;
     gap: 0.8em;
-    /* grid-area: 1/1/2/12; */
     padding: 0.2em;
     font-size: 1.5em;
     font-family: "Aclonica", sans-serif;
@@ -15,7 +14,7 @@ nav
     font-style: normal;
    
 }
-.dropdown-menu, .dropdown-menu>li {
+.dropdown-menu, .dropdown-menu>li, .dropdown-menu>li>div, .dropdown-menu>li>div>a, .dropdown-item:hover {
     background-color:#90EE90;
 }
 a{

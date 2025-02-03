@@ -13,21 +13,31 @@
         <section class="success row justify-content-center">
         <div class="tracking_and_reciept">
             <div class="success">
-                <p>Your order <strong>{{order_number}}</strong> has been placed successfully</p>
-                <p>click <a href="{% url 'shop:get_pdf' order_number %}"><button>here</button> </a>to download the recipt in pdf format</p>
+                {% if order_status == "open" %}
+                    <p>This order <strong> {{order_number}}</strong> is yet to be completed</p>
+                {% elif order_status == "processing" %}
+                    <p>Order <strong>{{order_number}}</strong> is being processed</p>
+                    <p>click <a href="{% url 'shop:get_pdf' order_number %}"><button class="btn btn-warning rounded-pill">here</button> </a>to download the recipt in pdf format</p>
+                {% elif order_status == "transporting" %}
+                    <p>Order <strong>{{order_number}}</strong> is on the way</p>
+                    <p>click <a href="{% url 'shop:get_pdf' order_number %}"><button class="btn btn-warning rounded-pill">here</button> </a>to download the recipt in pdf format</p>
+                {% elif order_status == "delivered" %}
+                    <p>Order {{order_number}} has been delivered</p>
+                    <p>click <a href="{% url 'shop:get_pdf' order_number %}"><button class="btn btn-warning rounded-pill">here</button> </a>to download the recipt in pdf format</p>
+                {% endif %}
+                
+                
             </div>
             <div class="to_progress  justify-content-center">
-                <!-- <p>
-                     Click <button type="button" class="btn btn-primary d-flex mx-auto btn-lg" data-toggle="modal" data-target="#myModal">here </button>to see the progress of your order 
-                </p> -->
+                
                 <div class="card1">
                     <div class="tracking">
                         
                     <div class="progress-track">
                         <ul id="progressbar">
-                            <li class="step0 active " id="step1">Ordered</li>
-                            <li class="step0 active text-center" id="step2">Processing</li>
-                            <li class="step0 active text-end" id="step3">On the way</li>
+                            <li class="step0 " id="step1">confirming order</li>
+                            <li class="step0  text-center" id="step2">Processing</li>
+                            <li class="step0 text-end" id="step3">On the way</li>
                             <li class="step0 text-end" id="step4">Delivered</li>
                         </ul>
                     </div>
@@ -153,9 +163,33 @@
         
     </section>
     <div class="readmore">
-        <div><button><a href="{% url 'shop:products' %}"></a>Proceed to shop</a></button></div>
+        <a class="btn btn-warning rounded-pill" href="{% url 'shop:products' %}">Proceed to shop</a>
+        
     </div>
+    {% block script %}  
 
+        <script>
+            let mydata = "{{order_status|safe}}";
+            console.log(mydata);
+            if (mydata === "processing") {
+                console.log(`This is the ${mydata}`);
+                document.getElementById("step1").classList.add("active");
+                document.getElementById("step2").classList.add("active");
+            } else if (mydata === "transporting") {
+                console.log(`This is the ${mydata}`);
+                document.getElementById("step1").classList.add("active");
+                document.getElementById("step2").classList.add("active");
+                document.getElementById("step3").classList.add("active");
+            } else if (mydata === "delivered") {
+                console.log(`This is the ${mydata}`);
+                document.getElementById("step1").classList.add("active");
+                document.getElementById("step2").classList.add("active");
+                document.getElementById("step3").classList.add("active");
+                document.getElementById("step4").classList.add("active");
+                
+            } 
+        </script>
+    {% endblock %}
 
 
 

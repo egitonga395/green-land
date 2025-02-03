@@ -11,19 +11,33 @@
             <div class="d-flex  flex-lg-row flex-column container justify-content-lg-evenly">
                 <a href="{% url 'shop:homepage' %}">HOME</a>
                 <a href="{% url 'shop:products' %}" >PRODUCTS</a>
-                <a href="{% url 'blog:testblog' %}" class="disabled">BLOG</a>
+                <a  href="#" class="disabled">BLOG</a>
                 
                 <a href="{% url 'shop:about' %}" class="">ABOUT</a>
+                <a href="{% url 'shop:display_cart' %}" class=""><i class="bi bi-basket3-fill me-2"></i>CART</a>
+                
                 <div class="dropdown">
-                    <span class="dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Profile
-                        <ul class="dropdown-menu ">
-                            <li><a href="{% url 'Users:signout' %}" class="dropdown-item">log out</a></li>
-                            <li><a class="dropdown-item" href="#">Another </a></li>
-                            
-                        </ul>  
+                    <span class="dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person me-2"></i>Profile
                     </span>
-                </div>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                      
+                        {% if user.is_authenticated %}
+                        <a href="{% url 'Users:signout' %}" class="dropdown-item">log out</a>
+                        {% else %}
+                            <div class="d-flex flex-row gap-0 m-0 p-0 ">
+                                <a href="{% url 'Users:signin' %}" class="dropdown-item">log In</a>/<a href="{% url 'Users:signup' %}" class="dropdown-item">Sign Up</a></div>
+                        {% endif %}</a></li>
+                    {% if user.is_authenticated %} 
+                      <li>
+                        
+                            <a class="dropdown-item" href="{% url 'shop:myorders' %}">My orders </a>
+                        
+                      </li>
+                    {% endif %}
+                      
+                    </ul>
+                  </div>
             </div>
         
         </div>

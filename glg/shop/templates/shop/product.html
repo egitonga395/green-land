@@ -9,21 +9,22 @@
 {% block base %}
 {% endblock%}
 {% block body%}
-
+    {% include 'shop/messages.html' %}
     <div class="container col-5 row" >
+
     <div class="imagecontainer"><img src="{{item.image.url}}" class="img-fluid" alt=""></div>
     <div class="price row align-items-center mt-4">
         <div class="" style="color: #1D921D;text-align: center;"><p><span style="color: black;">PRICE: </span>KSH {{item.price}}</p></div>
-        <div class="button">
-            <a href="{% url 'shop:addtocart' item.product_id %} "><button type="button" class="extras"><h3>ADD TO CART</h3></button></a>
-            <a><button type="button" class="extras"><h3>BUY NOW!</h3></button></a>
+        <div class=" d-flex flex-column gap-2 w-50">
+            <a id="liveAlertBtn1" class="btn btn-warning rounded-pill" href="{% url 'shop:addtocart' item.product_id %} "> ADD TO CART</a>
+            <a class="btn btn-warning rounded-pill" href="#">BUY NOW!</a>
         </div> 
     </div>
 
     </div>
     <div class="container col-7 row">
         <div class="description ">
-            {% include 'shop/messages.html' %}
+            <!-- {% include 'shop/messages.html' %} -->
             <h2 class="product-name">{{item.name}}</h2>
             <p>
                 {{item.description}}
@@ -38,8 +39,38 @@
     
         </div>
     </div>
-    <!-- <script src="bootstrap.min.js"></script> -->
+    
     {% block script%}
+<!-- 
+    <script>
+       
+             const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
+            const appendAlert = (message, type) => {
+            const wrapper = document.createElement('div')
+              wrapper.innerHTML = [
+                `<div class="alert alert-${type}   " role="alert">`,
+                `   <div>${message}</div>`,
+                '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+                '</div>'
+              ].join('')
+              sessionStorage.setItem('message', wrapper);
+              if (PerformanceNavigationTiming.type === "reload") {
+                alertPlaceholder.append(wrapper)}
+                    
+            }
+    
+            const alertTrigger = document.getElementById('liveAlertBtn1')
+            if (alertTrigger) {
+              alertTrigger.addEventListener('click', () => {
+                appendAlert('You have successfully added an item to the cart!', 'success')
+              })}
+        
+    </script> -->
+    
+    
+    
+    
+    
         <script>
             function onButtonPress() {
                 $('.alert').alert('close');

@@ -10,6 +10,7 @@ from django.urls import reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
 from django.db.models import Q
+
 from .forms import User_quantities, Order_form, Transport_form
 import random
 import string
@@ -22,7 +23,8 @@ from rlextra.rml2pdf import rml2pdf
 from io import BytesIO
 from lxml import etree
 import logging
-
+import os
+from django.conf import settings
 
 
 # Create your views here.
@@ -135,8 +137,9 @@ def add_toCart(request, product_id):
                 print("item")
                 cart_item.quantity += 1
                 cart_item.save()
+                messages.success(request, "One more item added to cart.")
                 break
-                messages.success(request, "One more item added")
+                
             
             # the item does not exist hence we just add to the cart
             #first ensure that the item does not exist until all the list is over
@@ -145,8 +148,7 @@ def add_toCart(request, product_id):
                 print("working on this!!")
                 new_cart_item = Cart.objects.create(item_name=Item_to_add, quantity = 1, order=open_order)
                 new_cart_item.save()
-                messages.success(request, "Item added to cart.")
-
+                messages.error(request, "This item has been added to cart.")
             else:
                 count += 1 
 
@@ -245,6 +247,16 @@ def change_ItemQuantity(request, order_number, item_name):
         cart_item_modified.delete()
         return render(request, "shop/cart.html", get_data(request))
 
+    elif request.GET:
+        print(request.GET)
+        quantity = request.GET.get("quantity")
+        print(quantity)
+        print("this is the quantity")
+        cart_item_modified.quantity = int(quantity)
+        cart_item_modified.save()
+        print("yes this the form")
+        return render(request, "shop/cart.html", get_data(request))
+
 #deal with transport values without buttons
 def transport_bit(request, order_number):
 
@@ -256,16 +268,25 @@ def transport_bit(request, order_number):
     print("The user wants to have the product transport to:")
     print(order.destitation)
     price_transport = transport_obj.price
+    include_transport_check = Order_form(instance=order)
+
     
     context={
         "order_number": order.order_number,
         "invoice_total": order.invoice_total,
         "transport_price": price_transport,
         "order_include_transport":Transport_form(initial={'destination': order.destitation}),
-        "include_transport_check":Order_form(instance=order),
+        "include_transport_check": include_transport_check,
     }
     #find out whether the user wants to include tranport or not
+
+
     include_transport_check = request.GET.get("include_transport")
+
+
+
+    ##why is this toggling 
+    print(include_transport_check)
     if include_transport_check == "on":
         # at this point only the grand price changes
         #the price of transport at this particular case changes in the order database
@@ -273,23 +294,47 @@ def transport_bit(request, order_number):
         order.transport_price = price_transport
         order.grand_total = order.invoice_total + order.transport_price
         order.save()
+        #######
+        print("#####")
+        print(order.include_transport)
         print("Since transport is included, the grand total is")
         print(order.grand_total)
         #include the updated grand total in the context
+
+        print("is bug fixed?")
+        include_transport_check = Order_form(instance=order)
+        print(include_transport_check)
+        print(order.include_transport)
+        context["include_transport_check"]=include_transport_check
         context["grand_total"]=order.grand_total
         return render(request, "shop/partial_cart_template.html", context)
         
 
-    else:
+    elif include_transport_check == None:
         #at this point the area where the user wanted us to transport the product to is just a wish
         #the transport price in the database does not change
+
+        print(order)
+        print("*******")
+        print(order.include_transport)
+
+
+
+
         order.include_transport = False
         order.transport_price = 0
         order.grand_total = order.invoice_total + order.transport_price
         order.save()
+        
         #the grand total is equal to the invoice because the transport price is 0 in the database
         context["grand_total"]=order.grand_total
         print(order.grand_total)
+        print("is bug fixed?")
+        include_transport_check = Order_form(instance=order)
+        print(include_transport_check)
+        print(order.include_transport)
+        context["include_transport_check"]=include_transport_check
+        
 
         return render(request, "shop/partial_cart_template.html", context)
 
@@ -312,8 +357,21 @@ def purchase_form_data(request):
 
 @login_required(login_url='users:signin')
 def purchase_form(request):
+    user = request.user
     print(purchase_form_data(request))
-    return render(request, "shop/purchase_form.html", purchase_form_data(request))
+    open_order = Order.objects.filter(buyer=user).filter(status = "open").first()
+    completed_payment = PaymentTransaction.objects.filter(is_successful=True, order_id=open_order.order_number).exists()
+    print(completed_payment)
+    if not completed_payment:
+        return render(request, "shop/purchase_form.html", purchase_form_data(request))
+    else:
+        
+        context = purchase_form_data(request)
+        open_order.status  =  "processing"
+        open_order.save()
+        context["done"] = True
+        return render(request, "shop/purchase_form.html", context)
+
 
 @login_required(login_url='users:signin') 
 def processing_payment(request):
@@ -326,6 +384,13 @@ def processing_payment(request):
     profile = Profile.objects.get(owner=user)
 
     payment_details = ProfileForm(request.POST, instance=profile )
+
+
+    #ensure that a payment of the order does not exist
+    open_order = Order.objects.filter(buyer=user).filter(status = "open").first()
+    completed_payment = PaymentTransaction.objects.filter(is_successful=True, order_id=open_order.order_number).exists()
+    print(completed_payment)
+    
     if payment_details.is_valid():
         payment_details.save()
         phone_number = request.POST.get("phone_number")
@@ -336,7 +401,7 @@ def processing_payment(request):
         #this gets the user
         
         #the order
-        open_order = Order.objects.filter(buyer=user).filter(status = "open").first()
+        
         amount = open_order.grand_total
         url = "http://127.0.0.1:8000/mpesa/submit/"
         data = {
@@ -351,7 +416,8 @@ def processing_payment(request):
         context["payment_details"] = ProfileForm(request.POST)
         context["form_issuccessful"]=True
         return render(request, "shop/purchase_form.html", context)
-    
+
+
     else:
         
         context = purchase_form_data(request)
@@ -359,9 +425,12 @@ def processing_payment(request):
         context["form_issuccessful"]=False
         print(payment_details.errors.as_data())
         return render(request, "shop/purchase_form.html", context)
+   
+
 
 
 #checking if payment is complete
+@login_required(login_url='users:signin') 
 def is_payment_complete(request, order_number):
  
     completed_payment = PaymentTransaction.objects.filter(is_successful=True, order_id=order_number).first()
@@ -383,9 +452,45 @@ def is_payment_complete(request, order_number):
         return render(request, "shop/proceeding_button.html", context)
         
 # moving over to the order success page
+@login_required(login_url='users:signin') 
 def order_succesful(request, order_number):
     order_number = Order.objects.get(order_number = order_number).order_number
-    return render(request, "shop/ordersuccess.html", {"order_number": order_number})
+    order_status = Order.objects.get(order_number = order_number).status
+    print(order_status)
+    return render(request, "shop/ordersuccess.html", {"order_number": order_number, "order_status": order_status})
+
+
+
+
+#letting the user view their orders from the most recent to the oldest, this will also be used to update the htmx 
+@login_required(login_url='users:signin') 
+def view_my_orders(request):
+    user = request.user
+    orders = Order.objects.filter(buyer=user)
+
+    orders = orders.annotate(
+        priority1=Q(status="processing"),
+        priority2=Q(status="transporting"),
+        priority3=Q(status="delivered"),
+        priority4=Q(status="open"),
+        )
+
+    orders = orders.order_by("-priority1", "-priority2","-priority3", "-priority4")
+    context = {"orders": orders}
+    print(orders)
+    if request.META.get('HTTP_HX_REQUEST'):
+        return render(request, "shop/partial_myorders.html", context)
+    else:
+        return render(request, "shop/myorders.html", context)
+
+
+
+
+
+
+
+
+
 
 
 
@@ -439,10 +544,23 @@ def getRML(order_info, cart_items, payment=None):
     # cwd = os.getcwd()  # Get the current working directory (cwd)
     # files = os.listdir(cwd)  # Get all the files in that directory
     # print("Files in %r: %s" % (cwd, files))
-    t = Template(open('hello.rml').read())
+
+    file_path = os.path.join(settings.BASE_DIR, 'shop','templates', 'shop', 'hello.rml')
+    print(file_path)
+
+    print(settings.STATICFILES_DIRS)
+    static_dir = settings.STATICFILES_DIRS[0]
+
+# Construct the full path to the image
+    image_path = os.path.join(static_dir, 'image', 'logo3.png')
+    
+    
+    print(image_path)
+    t = Template(open(file_path).read())
     c = Context({
         "order_info": order_info,
-        "cart_items":cart_items
+        "cart_items":cart_items,
+        "logo_path": image_path,
 
     })
     rml = t.render(c)

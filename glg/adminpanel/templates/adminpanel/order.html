@@ -5,7 +5,7 @@
         <link rel="stylesheet" href="{%  static 'css/transport.css' %}">
 {% endblock %}
 {% block content %}
-   
+   {% include 'shop/messages.html'%}
     <div class="container">
         <div class="displaydiv">
             <!-- <form get="{% url 'adminpanel:transport_modify'}"> -->
@@ -21,14 +21,6 @@
                     <th>Status</th>
                     <th>Action</th>
                     </tr>
-
-                    <!-- 
-                    # no need for this because we will not be adding orders
-                    {% if not form.instance.destination %}
-                    <tr>
-                      {% include 'adminpanel/transport_add.html' %}
-                    </tr>
-                    {% endif %} -->
                     {% for order in orders %}
                       <tr>
                         
@@ -58,7 +50,11 @@
         Launch demo modal
       </button> -->
 
- 
+
+
       
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    
+
+
 {% endblock%}

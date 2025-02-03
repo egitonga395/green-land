@@ -1,0 +1,21 @@
+*{
+    font-family: 'Poppins;';
+   
+}
+h2, .h2, .navbar-brand, .navbar-collapse>div>*, .dropdown-toggle, .options>p>a{
+    font-family: 'Aclonica'
+}
+
+
+p{
+    font-size: 1em;
+}
+
+button, .btn{
+    font-size: 1em;    
+    font-family: 'Aclonica';
+    text-align: center; 
+    border-radius: 10%;
+    box-shadow: 4px 4px 0.3em;
+}
+

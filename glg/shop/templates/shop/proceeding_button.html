@@ -1,9 +1,9 @@
 {% if form_issuccessful == False %}
 
 <a href="{% url 'shop:display_cart' %} ">
-    <button type = "button" class="red" >Cancel</button>
+    <button type = "button" class="btn btn-danger" >Cancel</button>
 </a>
-    <input type="submit" form="payment" value="Submit"/>  
+    <input type="submit" class="btn btn-warning" form="payment" value="Submit"/>  
 {% else %}
     {% if complete %}
     <a class="btn btn-primary" href="{% url 'shop:order_succesful' order.order_number %}" role="button">Proceed</a>

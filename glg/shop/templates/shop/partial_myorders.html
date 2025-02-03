@@ -1,0 +1,28 @@
+<table id="myorders">
+
+    <tr>
+    <th>Order Number</th>
+    <th>Destination</th>
+    <th>Include_transport</th>
+    <th>Grand total</th>
+    <th>Status</th>
+    <th>Action</th>
+    </tr>
+    {% for order in orders %}
+      <tr>
+        
+        <td>{{ order.order_number }}</td>
+        <td>{{ order.buyer}}</td>
+        <td>{{ order.destitation}}</td>
+        <td>{{ order.include_transport}}</td>
+        <td>
+        <td>{{ order.grand_total}}</td>
+        
+        <td>{{ order.status}}</td>
+        <td>
+          <a class="btn btn-warning rounded-pill ms-2" href="{% url 'shop:order_succesful' order.order_number %}">View</a>
+        </td>
+        
+      </tr>
+    {% endfor %}
+    </form>

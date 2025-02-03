@@ -31,7 +31,7 @@
                     </div>
                     <!-- <div class="quantity"> -->
                         {% with price=cart_item.quantity %}
-                        <form id="formquantities"> 
+                        <form id="formquantities" > 
                             {% csrf_token %}
                             <button hx-get="quantity-form/{{order_number}}/{{incart.name}}/" hx-swap="innerHTML", trigger="click", hx-target="body" hx-vals='{"op":"sub"}'>sub</button>
                             {{forms|index:forloop.counter0}}
@@ -55,7 +55,11 @@
         </div>
     </div>
     {% include 'shop/partial_cart_template.html' %}
+
+    {% block script %}
+        <script>
+            
+        </script>
+    {% endblock %}
     
 {% endblock %}
-
-</html>

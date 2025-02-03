@@ -47,19 +47,31 @@
                 </div>
                 <form id="payment" method="POST" action="{%url 'shop:payment_process'%}">
                     {% csrf_token %} 
+                    
                     <div>
-                        
-                        <label for="mpesano" class="title">Mpesa no:</label>{{payment_details.mpesa_number}}
+                        {% if done %}
+                        <div class="d-flex flex-column  align-items-center"><p>This order has already been paid for.</p>
+                        <a class="btn btn-warning rounded-pill" href="{% url 'shop:order_succesful' order.order_number %}" role="button">Proceed</a>
                     </div>
-                    <div>
-                        {{payment_details.phone_number.errors}}
-                        <label for="phoneno" class="title">Phone no:</label>{{payment_details.phone_number}}
-                        {{payment_details.non_field_errors}}
+                        {% else %}
+                    
+                        
+                        <div>
+                        
+                            <label for="mpesano" class="title">Mpesa no:</label>{{payment_details.mpesa_number}}
+                        </div>
+                        <div>
+                            <label for="mpesano" class="title">Amount:</label>{{order.grand_total}}{{payment_details.phone_number.errors}}
+                            <label for="phoneno" class="title">Phone no:</label>{{payment_details.phone_number}}
+                            {{payment_details.non_field_errors}}
+                        
+                        
                     </div>
                 </form>
                 <div class="button">
                     {% include 'shop/proceeding_button.html ' %}            
                 </div>
+                {% endif %}
             </div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

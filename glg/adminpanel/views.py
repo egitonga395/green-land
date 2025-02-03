@@ -2,6 +2,7 @@ from django.shortcuts import render
 from shop.models import *
 from blog.models import Blog
 from mpesa.models import PaymentTransaction
+from django.contrib import messages
 from django.http import JsonResponse
 from .forms import *
 from users.models import *
@@ -28,10 +29,16 @@ def order_view(request):
         if 'save' in request.POST:
             pk = request.POST.get('save')   
             print("&&&&&&&&&&&&&&&&&")
-            order = Order.objects.get(order_number = pk)
-            form = Order_status_form(request.POST, instance=order)
-            form.save()
-            return render (request, "adminpanel/order.html", context)
+            print(request.POST)
+            if request.POST.get('status') != "open":
+                order = Order.objects.get(order_number = pk)
+                form = Order_status_form(request.POST, instance=order)
+                form.save()
+                return render (request, "adminpanel/order.html", context)
+            else:
+                print("The status can not be changed to open  client has already made the purchase")
+                messages.error(request, "The status can not be changed to open because the client has already made the purchase")  
+                return render (request, "adminpanel/order.html", context)
 
         # will replace to its own routing 
         elif 'view' in request.POST:

@@ -7,7 +7,7 @@ urlpatterns = [
     path("", views.homepage, name="homepage"),
     path('about/', views.about, name='about'),
     path("products/", views.product, name='products'),
-    # path("filters/", views.filters, name='filters'),
+
     path('<int:year>/<int:month>/<int:day>/<slug:product_id>/',views.itemrequested,name='itemrequested'),
     path('cart/',views.display_cartitems,name='display_cart'),
     path('purchase_form/', views.purchase_form, name='purchase_form'),
@@ -17,6 +17,7 @@ urlpatterns = [
     path("cart/transport-price-form/<slug:order_number>/", views.transport_bit, name="transportbit"),
     path('order_succesful/<slug:order_number>', views.order_succesful, name='order_succesful'),
     path('get_pdf/<slug:order_number>', views.get_pdf, name='get_pdf'),
-     path('<slug:product_id>/',views.add_toCart,name='addtocart'),
+    path('myorders/',views.view_my_orders,name='myorders'),
+    path('<slug:product_id>/',views.add_toCart,name='addtocart'),
     
 ]

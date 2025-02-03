@@ -74,14 +74,7 @@
     max-height: 70%
 
 }
-.button{
-    display: flex;
-    flex-direction: column;
-    max-width: 40%;
-    gap: 0.5em
 
-
-}
 .description>p{
     position:relative;
     left: 2em;

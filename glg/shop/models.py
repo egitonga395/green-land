@@ -80,7 +80,7 @@ class Order(models.Model):
     ("open", "OPEN"),
     ("processing", "PROCESSING"),
     ("transporting", "TRANSPORTING"),
-    ("closed", "CLOSED"),
+    ("delivered", "DELIVERED"),
 ]
     order_number = models.SlugField(unique=True, primary_key=True)
     buyer =  models.ForeignKey(CustomUser, on_delete= models.CASCADE,)

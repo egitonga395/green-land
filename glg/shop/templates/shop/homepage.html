@@ -12,11 +12,11 @@
 {% endblock%}
 {% block body%}
     
-    <img src="{% static 'image/image-removebg-preview.png' %}" alt="nature and girls" class="col-6 img-fluid">
-    <div class="describing col-6">
-       <h2 class="description">Blossom with Nature's Finest: 
+    <img src="{% static 'image/image-removebg-preview.png' %}" alt="nature and girls" class="col-6 img-fluid d-none d-md-block">
+    <div class="describing col-12 col-md-6 ">
+       <h2 class="description ">Blossom with Nature's Finest: 
         Flowers, Trees, and Pots for All.</h2>
-        <h5>"Elevate your surroundings with vibrant flowers, lush trees, and 
+        <p class="mx-md-5 mt-2">"Elevate your surroundings with vibrant flowers, lush trees, and 
             stylish pots. Embrace nature's beauty—transform your space into a 
             blooming haven...
             Pellentesque habitant morbi tristique senectus et netus et malesuada fames 
@@ -27,12 +27,16 @@
             vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas 
             semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.
 
-        </h5>
-        <a href="{% url 'shop:products'%}" class="shop_button"><button type="button">SHOP NOW!</button></a>
+        </p>
+        <a href="{% url 'shop:products'%}" class="shop_button btn btn-warning rounded-pill">SHOP NOW!</a>
     </div>
     <div class="sign col-4">
-        I love the enviroment so I will: <a href="{% url 'Users:signup'%}" class="signup"><button type="button">Sign Up</button></a>
-        <h5> am already a members so I will: <a href="{% url 'Users:signin'%}" class="signup"><button type="button">Log in</button></a>
+        <p>
+            I love the enviroment so I will: <a href="{% url 'Users:signup'%}" class="signup btn btn-warning rounded-pill">Sign Up</a>
+        </p>
+        <p> 
+            I am already a members so I will: <a  class="btn btn-warning rounded-pill" href="{% url 'Users:signin'%}" class="signup">Log in</a>
+        </p>
     </div>
 {% endblock %}
 </html>

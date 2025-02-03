@@ -5,7 +5,7 @@
     <template pageSize="(595, 842)" leftMargin="0" rightMargin="0" showBoundary="0">
         <pageTemplate id="first">
             <pageGraphics>
-                <image file="logo3.png" x="475" y="700" width="120" height="140"/>
+                <image file="{{ logo_path }}" x="475" y="700" width="120" height="140"/>
                 <setFont name="Helvetica-Oblique" size="4"/>
                 <fill color="0x00337f"/>
                 <fill color="0x1E4C9C"/>

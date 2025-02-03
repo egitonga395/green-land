@@ -29,7 +29,7 @@ urlpatterns = [
     path("blog/", include("blog.urls", namespace="blog")),
     path('mpesa/', include(mpesa_urls)),
     path("adminpanel/", include("adminpanel.urls", namespace="adminpanel")),
-    # path("accounts/", include("django.contrib.auth.urls", 'users'), namespace = 'users'),
+    
     path('users/', include(('users.urls', 'users'), namespace ='users'))
     
 ]

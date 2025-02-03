@@ -1,0 +1,20 @@
+{% extends "shop/base.html"%}
+{% load static %}
+{% block title %}
+<title>My orders</title>
+{% endblock%}
+{% block link %}
+        <link rel="stylesheet" href="{%  static 'css/myorder.css' %}">
+{% endblock %}
+{% block base %}
+{% endblock%}
+{% block body %}
+    
+    <div class="container" hx-get="{% url 'shop:myorders' %}" hx-swap="outerHTML" hx-target="#myorders" hx-trigger="every 5s">
+        <div class="displaydiv">
+            <!-- <form get="{% url 'adminpanel:transport_modify'}"> -->
+            {%include "shop/partial_myorders.html" %}
+        </div>
+    </div>
+
+{% endblock%}
