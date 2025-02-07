@@ -1,13 +1,13 @@
-<div class="regular_price" id="shopitems">
+<div class="regular_price d-flex justify-content-around justify-content-md-start justify-content-lg-start justify-content-xl-start mx-md-3 mx-sm-1 gap-md-3 gap-2" class="row" id="shopitems">
     {% for item in items %}
     <a href="{{ item.get_absolute_url }}">
-        <div class="card" style="max-width: 10rem;">
-            <img src="{{ item.image.url }}" class="card-img-top object-fit-cover img-fluid rounded" alt="{{item.product_id}} " style="max-height: 20em;">
-            <div class="card-body">
-              <h5 class="card-title">{{item.name}}</h5>
-              <p class="card-text">Ksh. {{item.price}}</p>
-            </div>
-          </div>
+      <div class="card" style="max-width: 10rem;">
+        <img src="{{ item.image.url }}" class="card-img-top object-fit-cover img-fluid rounded" alt="{{item.product_id}} " style="max-height: 20em;">
+        <div class="card-body">
+          <h5 class="card-title">{{item.name}}</h5>
+          <p class="card-text">Ksh. {{item.price}}</p>
+        </div>
+      </div>
     </a>
     {% endfor %}
 </div>

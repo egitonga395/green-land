@@ -1,7 +1,8 @@
 {% load static %}
 <nav class="aclonica-regular navbar-expand-lg sticky-top d-flex">
-    <div class="container-fluid d-flex flex-row justify-content-around" style="gap: 4.5em;">
-        <a href="{% url 'shop:homepage' %}" class="navbar-brand ">GREEN LAND<BR>GOAL</a>
+    <div class="container-fluid d-flex flex-row justify-content-around align-items-center" style="gap: 1.5em;">
+        <a href="{% url 'shop:homepage' %}" class="navbar-brand "><img  class="d-lg-none" src="{% static 'image/logo3.png' %}" alt="Greengoal">
+        <span class="d-none d-lg-block aclonica-regular">Green goal <br> land</span></a>
         <span class="container d-flex justify-content-end " >
         <button class="navbar-toggler" style="box-shadow: none;" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation" >
             <i class="bi bi-list"></i>

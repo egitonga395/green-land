@@ -14,20 +14,19 @@
 body{
     /* display: grid; */
     background-color: gray;
-    max-height: 100vh;
+   
     overflow: hidden;}
 
-aside{
-    background: rgba(217, 217, 217, 100%);
-
-    min-height: 100%;
- 
+#sidebar{
+    
+    background-color: white;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     gap: 1em;
-    border-bottom-right-radius: 1.5em;
     
-}
+        
+}   
 .card{ 
     border: none;
 }
@@ -89,7 +88,7 @@ textarea{
     display: flex;
     justify-content: flex-start;
     flex-wrap: wrap;
-    gap: 2em;
+    
 }
 .regular_price>a{
     text-decoration: none;

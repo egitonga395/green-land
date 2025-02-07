@@ -8,7 +8,7 @@
     <title>sign up</title>
 </head>
 <body>
-    <form method="post">
+    <form method="post" >
         {% csrf_token %}
         {{ form.as_table}}
         <button type="submit">Sign up</button>

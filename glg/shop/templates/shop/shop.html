@@ -10,26 +10,13 @@
 
 {% block body%}
         
-        <div class="col-8">
-            <form action="" id="searchform" class="row justify-content-center ">
-                <input type="text" name="query" hx-trigger="keyup[key=='Enter']" class="col-4 m-4 border border-dark rounded border-3" placeholder="Press Enter to Search">
+        <div class="col-lg-8 col-12  justify-content-center ">
+            <form action="" id="searchform" class="row justify-content-center align-items-center d-flex ">
+                <input type="text" name="query" hx-trigger="keyup[key=='Enter']" class="col-4 m-4 me-0 border border-dark rounded border-3" placeholder="Press Enter to Search"><button type="submit" class="border border-dark rounded border-3 " style="max-width:4em ;"><i class="bi bi-search"></i></button>
+                
+                <button type="button" class="d-sm-block d-md-block d-lg-none d-xl-none border border-dark rounded border-3 "  data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar" aria-label="Toggle navigation" style="max-width:4em ;"><i class="bi bi-funnel"></i></button>
             </form>
-            
-            <div class="regular_price" id="shopitems" class="row">
-                {% for item in items %}
-                <a href="{{ item.get_absolute_url }}">
-                    
-                    <div class="card" style="max-width: 10rem;">
-                        <img src="{{ item.image.url }}" class="card-img-top object-fit-cover img-fluid rounded" alt="{{item.product_id}} " style="max-height: 20em;">
-                        <div class="card-body">
-                          <h5 class="card-title">{{item.name}}</h5>
-                          <p class="card-text">Ksh. {{item.price}}</p>
-                        </div>
-                      </div>
-                </a>
-    
-                {% endfor %}
-            </div>
+            {% include 'shop/partial_shop.html' %}
         </div>
 
 

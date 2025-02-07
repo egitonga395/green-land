@@ -32,6 +32,12 @@ from django.conf import settings
 def homepage(request):
     return render(request,"shop/HOMEPAGE.HTML")
 
+
+
+
+
+#unsure whether I have implemented htmx correctly
+
 def product(request):
     #check if there is a query
     query = request.GET.get("query")
@@ -60,7 +66,7 @@ def product(request):
             filtered = search.filter(Q(price__range=(min_price,max_price))&Q(description__icontains=flower) & Q(description__icontains=tree)&Q(description__icontains=pot))
             context["items"]=filtered
             print(context)
-            return render(request,"shop/partial_shop.html", context)
+            return render(request,"shop/shop.html", context)
         # when query is alone no filter
         else:
             context["items"]=search
@@ -74,7 +80,7 @@ def product(request):
         print(pot)
         filtered = Item.objects.filter(Q(price__range=(min_price,max_price))&Q(description__icontains=flower) & Q(description__icontains=tree)&Q(description__icontains=pot))
         context["items"]=filtered
-        return render(request,"shop/partial_shop.html", context)
+        return render(request,"shop/shop.html", context)
 
 
     else:

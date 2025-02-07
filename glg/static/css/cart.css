@@ -9,7 +9,6 @@ body
 {   
     background-color: rgba(255, 255, 255, 0.61);
     
-        
 }
 #formquantities{
     display: flex;
@@ -46,7 +45,6 @@ section.bill
  
 }
 
-
 img{
     max-height: 11vh;
     border-top-left-radius: 1em;   
@@ -70,13 +68,13 @@ img{
     padding: 1em;
 
 }
-button{
+/* button{
     background-color: #FFBA00;
     border-radius: 10%;
     border-color: #FFBA00;
     box-shadow: 4px 4px 0.3em ;
     font-family: "Aclonica", sans-serif;
-}
+} */
 
 
 .button{

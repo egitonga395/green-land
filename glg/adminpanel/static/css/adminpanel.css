@@ -8,14 +8,14 @@ body{
     background-color: rgba(202, 194, 194, 0.589);
 }
 
-aside{
+#sidebar{
     display: flex;
     flex-direction: column;
     background-color: white;
-    width: 20vw;
     gap: 1em;
-    border-bottom-right-radius: 1em;
+    /* border-bottom-right-radius: 1em; */
     padding-bottom: 0.5em;
+    
     
 }
 .options{

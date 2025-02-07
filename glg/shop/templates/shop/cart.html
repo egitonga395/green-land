@@ -12,40 +12,40 @@
 {% block base %}
 {% endblock%}
 {% block body %}
-    <div class="container col-8 mt-3">
+    <div class="container col-lg-8 col-12 mt-3">
         <div class="items">
             {% for cart_item in cart_items %}
                 {% with incart=cart_item.item_name %}
 
-                <div class="item">
+                <div class="item ">
     
                     <img src="{{incart.image.url}}" alt="">
                     
                     <div class="item_name">
-                        <p>Item name:</p>
+                        <!-- <p>Item name:</p> -->
                         <p>{{incart.name}}</p>
                     </div>
                     <div class="item_name">
-                        <p>Item price:</p>
+                        <!-- <p>Item price:</p> -->
                         <p>Ksh: {{incart.price}}</p>
                     </div>
                     <!-- <div class="quantity"> -->
                         {% with price=cart_item.quantity %}
                         <form id="formquantities" > 
                             {% csrf_token %}
-                            <button hx-get="quantity-form/{{order_number}}/{{incart.name}}/" hx-swap="innerHTML", trigger="click", hx-target="body" hx-vals='{"op":"sub"}'>sub</button>
+                            <button hx-get="quantity-form/{{order_number}}/{{incart.name}}/" hx-swap="innerHTML", trigger="click", hx-target="body" hx-vals='{"op":"sub"}'><i class="bi bi-dash"></i></button>
                             {{forms|index:forloop.counter0}}
-                            <button hx-get="quantity-form/{{order_number}}/{{incart.name}}/" hx-swap="innerHTML", trigger="click", hx-target="body" hx-vals='{"op":"add"}'>add</button>
+                            <button hx-get="quantity-form/{{order_number}}/{{incart.name}}/" hx-swap="innerHTML", trigger="click", hx-target="body" hx-vals='{"op":"add"}'><i class="bi bi-plus"></i></button>
                         </form>
                         {% endwith %}
                     <!-- </div> -->
                     <div class="item_name">
                         
-                        <p>Total price:</p>
+                        <!-- <p>Total price:</p> -->
                         <p>Ksh: {{cart_item.quantity|mul:incart.price}}</p>
                     </div>
                     <div class="add_to_cart">
-                        <button type = "button" hx-get="quantity-form/{{order_number}}/{{incart.name}}/" hx-swap="innerHTML", trigger="click", hx-target="body" hx-vals='{"op":"delete"}'>Remove from cart</button>
+                        <button type = "button" class="btn btn-warning" hx-get="quantity-form/{{order_number}}/{{incart.name}}/" hx-swap="innerHTML", trigger="click", hx-target="body" hx-vals='{"op":"delete"}'>Remove</button>
                     </div>
                 
                 </div>

@@ -30,10 +30,11 @@
         </p>
         <a href="{% url 'shop:products'%}" class="shop_button btn btn-warning rounded-pill">SHOP NOW!</a>
     </div>
-    <div class="sign col-4">
+    <div class="sign col-md-4 col-8 mt-3">
         <p>
-            I love the enviroment so I will: <a href="{% url 'Users:signup'%}" class="signup btn btn-warning rounded-pill">Sign Up</a>
-        </p>
+            I love the enviroment so I will:
+             <a href="{% url 'Users:signup'%}" class="signup btn btn-warning rounded-pill">Sign Up</a>
+        
         <p> 
             I am already a members so I will: <a  class="btn btn-warning rounded-pill" href="{% url 'Users:signin'%}" class="signup">Log in</a>
         </p>

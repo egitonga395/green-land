@@ -1,27 +1,33 @@
-<aside class="col-2">
+
+<aside class="col-3 px-4 bd-sidebar bg-white"  >
+<div class="offcanvas-lg offcanvas-end d-lg-flex d-column w-sm-75"  tabindex="-1"  aria-labelledby="sidebarLabel" id="sidebar">
     {% block aside %}
-    <h2>Cartegories</h2>
-    <section>
-        <div class="filter">
-            <form action="" hx-get="", hx-swap="outerHTML"  hx-target="#shopitems">
-                <input type="checkbox" id="" hidden name="filter" checked>
-               <div><input type="checkbox" name="flower"  > <span class="h3">Flowers</span></div>
-                <div><input type="checkbox" name="tree"  > <span class="h3">Trees</span></div>
-                <div><input type="checkbox" name="pot" > <span class="h3">Pots</span></div>
-            </div>
-    </section>
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Filter</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebar" aria-label="Close"></button>
+      </div>
+    <div class="offcanvas-body flex-lg-column  mt-lg-3">
+        <h2>Cartegories</h2>
+        <section>
+            <div class="filter">
+                <form  hx-swap="outerHTML"  hx-target="#shopitems">
+                    <input type="checkbox" id="" hidden name="filter" checked>
+                <div><input type="checkbox" name="flower"> <span class="h3">Flowers</span></div>
+                    <div><input type="checkbox" name="tree"  > <span class="h3">Trees</span></div>
+                    <div><input type="checkbox" name="pot" > <span class="h3">Pots</span></div>
+                </div>
+        </section>
 
-    <section>
-    <h2>Price range</h2>
-    <div class="prices m-3">
-        <div class="mb-2" ><p style="display: inline;">From:</p><textarea name="lowest_price" id="" cols="1" rows="1" style="display: inline;">0</textarea>
-            <p style="display: inline;">To:</p><textarea name="highest_price"cols="10" rows="1" style="display: inline;">10000000</textarea></div>
-        <div class="button_div"><button type="submit" class="btn btn-warning rounded-pill">Search</button></div>
+        <section>
+        <h2>Price range</h2>
+        <div class="prices m-3">
+            <div class="mb-2" ><p style="display: inline;">From:</p><textarea name="lowest_price" id="" cols="1" rows="1" style="display: inline;">0</textarea>
+                <p style="display: inline;">To:</p><textarea name="highest_price"cols="10" rows="1" style="display: inline;">10000000</textarea></div>
+            <div class="button_div"><button type="submit" class="btn btn-warning rounded-pill">Search</button></div>
+        </div>       
+        </section>
+        </form>
     </div>
-
-       
-    </section>
-    </form>
+</div>
 {% endblock %}
 </aside>
-
