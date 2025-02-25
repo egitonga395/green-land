@@ -3,16 +3,13 @@ body{
     background-color: rgba(202, 194, 194, 0.589);
 }
 .container1{
-    float:left;
-    width: 20vw;
+
     background-color: black;
     height: 100vh
 
 
 }
 .container2{
-    float:left;
-    width: 70vw;
     display: flex;
     justify-content: center;    
 }
@@ -39,41 +36,18 @@ form{
     align-items: center;
     
 }
-hr{
-    width: 90%;
-    align-self: center;
-}
+
 .item{
     background-color: white;
-    width: 90%;
+    /* width: 90%; */
     margin-top: 1em;
     border-radius: 1em;
-
-   
 }
 
 
-img{
-    margin: 0;
-    max-height: 20vh;
-    max-width: auto;
-    
-}
-img.cover{
-    object-fit: contain;
-    object-position: center;
-    border-top-left-radius: 1em;
 
-}
 
-.upper{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 0;
-    max-height: 20vh;
 
-}
 .button{
     margin-left: 1em
 
@@ -123,15 +97,8 @@ h4{
     padding: 0.1em;
 }
 
-.imagecontainer{
-    display: flex;
-    flex-direction: column;
-    margin-top: 0.1em;
 
-}
-.imagecontainer>p{
-    margin: 0;
-}
+
 .small-modal-container{
     display: flex;
     flex-direction: column;
@@ -151,4 +118,21 @@ h4{
     width: 100%;
     justify-content: flex-end;
     margin-right: auto;
+}
+
+.width{
+    width: 75%;
+
+}
+
+.margin-small{
+    margin-left: 0.5em;
+}
+@media screen and (min-width: 992px){
+    .width{
+        width: 25%;
+    }
+    .margin-small{
+        margin-left: 0;
+    }
 }

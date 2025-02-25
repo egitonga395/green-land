@@ -5,30 +5,32 @@
     <link rel="stylesheet" href="{% static 'css/users.css' %}">
 {% endblock %}
 {% block content %}
-    <table>
-        <tbody>
-            <tr>
-                <th>Name:</th>
-                <th>Email:</th>
-                <th>group</th>
-                <th></th>
-                <th></th>
-            </tr>
-            {% for user in users %}
-            
-
+    <div class="table-responsive-lg col-11 col-lg-12" >
+        <table class="table table-striped">
+            <tbody>
                 <tr>
-                    <td style="width: 1em;">{{user.first_name}}</td>
-                    <td style="width: 1em;">{{user.email}}</td>                
-                    {% for group in user.groups.all %}
-                        <td> {{group}}</td>
-                    {% endfor %}
-                    <td><a  class="btn btn-warning" href="{% url 'adminpanel:users_edit' id=user.id%}">Edit</a></td>
-                    <td><a class="btn btn-danger" href="{% url 'adminpanel:users_delete' id=user.id%}">Delete</a></td>
+                    <th>Name:</th>
+                    <th>Email:</th>
+                    <th>group</th>
+                    <th></th>
+                    <th></th>
                 </tr>
-            
-            {% endfor %}
-            </tbody>
-    </table>
+                {% for user in users %}
+                
+    
+                    <tr>
+                        <td style="width: 1em;">{{user.first_name}}</td>
+                        <td style="width: 1em;">{{user.email}}</td>                
+                        {% for group in user.groups.all %}
+                            <td> {{group}}</td>
+                        {% endfor %}
+                        <td><a  class="btn btn-warning" href="{% url 'adminpanel:users_edit' id=user.id%}">Edit</a></td>
+                        <td><a class="btn btn-danger" href="{% url 'adminpanel:users_delete' id=user.id%}">Delete</a></td>
+                    </tr>
+                
+                {% endfor %}
+                </tbody>
+        </table>
+    </div>
 
 {% endblock%}

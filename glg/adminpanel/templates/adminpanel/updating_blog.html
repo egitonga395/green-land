@@ -3,27 +3,31 @@
         <button class="addnew" id="add_new" name="add" value="newBlog">Add Blog</button>
     </div>
     {% for blog in blogs %}
-    <div class="item" id="{{blog.id}}">
-            
-        <div class="upper">
+    <div class="card mb-3 item" id="{{blog.id}}" >
+        <div class="row g-0">
+          <div class="col-lg-4">
             {% if blog.image %}
-                <img src="{{ blog.image.url}}" alt="" class="cover">
+                <img src="{{ blog.image.url}}" alt="" class="img-fluid">
             {% endif %}
-            
-            <div>
-                <h4>Title:</h4>
-                <p>{{blog.title}}</p>
+          </div>
+          <div class="col-lg-8">
+            <div class="card-body d-flex flex-column flex-lg-row justify-content-around margin-small">
+                <div>
+                    <h4>Title:</h4>
+                    <p>{{blog.title}}</p>
+                </div>
+                <div>
+                    <h4>Content:</h4>
+                    <p>{{ blog.content|truncatewords:4 }}...</p>
+                </div>
+                <div class="button">
+                    <button  id = "button{{ forloop.counter }}"class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" name="submit" value="{{blog.id}}" >Change</button>
+                    <button id = "delete{{ forloop.counter }}"  name="delete" value="{{blog.id}}" data-bs-toggle="modal" data-bs-target="#exampleModal" >Delete</button>
+                </div>
             </div>
-            <div>
-                <h4>Content:</h4>
-                <p>{{ blog.content|truncatewords:4 }}...</p>
-            </div>
-            <div class="button">
-                <button  id = "button{{ forloop.counter }}"class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" name="submit" value="{{blog.id}}" >Change</button>
-                <button id = "delete{{ forloop.counter }}"  name="delete" value="{{blog.id}}" data-bs-toggle="modal" data-bs-target="#exampleModal" >Delete</button>
-            </div>
-    
+          </div>
         </div>
-    </div>
+      </div>
+    
     {% endfor %}
     </form>

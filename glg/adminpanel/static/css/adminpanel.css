@@ -1,8 +1,4 @@
-html, body { 
-    height:100%; 
-    width:100%; 
-    overflow:fidden;
-}
+
 body{
     margin: 0;
     background-color: rgba(202, 194, 194, 0.589);
@@ -10,29 +6,52 @@ body{
 
 #sidebar{
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     background-color: white;
-    gap: 1em;
-    /* border-bottom-right-radius: 1em; */
-    padding-bottom: 0.5em;
-    
+    padding: 0.5em 1em 0 1em;
+    background-color: #90EE90;
+    border-top: 3px solid black;
     
 }
 .options{
    
-    background-color: rgba(144, 238,144, 87%);
-    width: 9em;
-    margin-top: 1em;
-    padding-left: 0.5em;
-    border-top-right-radius: 1em;
-    border-bottom-right-radius: 1em;
-    text-align: center;
-    /* padding: 0.4em */
+    justify-content: space-between;
+    align-items: center;  
+    
+    }
+.option:hover{
+    background-color:rgb(216, 56, 56);
 }
-.options>p{
+.option{
+    width: 100%;
+    text-align: center;
+}
+
+/* @media screen and (width < 991.98px) {
+    
+    #large-sidebar{
+        display: none;
+   }
+   #small-sidebar{
+       display: block;
+   }
+}
+@media screen and (width > 991.98px){
+    
+    #large-sidebar{
+        display: block;
+   }
+   #small-sidebar{
+       display: none;
+   }
+} */
+
+
+
+/* .options>p{
     text-align: center;
     margin: 0.5em;
-}
+} */
 
 .bodydiv{
 

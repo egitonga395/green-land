@@ -14,13 +14,13 @@
 
 {% endblock%}
 {% block content %}
-<div class="container2">
-    <div class="displaydiv" hx-get="{% url 'adminpanel:update' %}" hx-target="#updatecontent" hx-swap="innerHTML" hx-trigger="every 5s">
+
+    <div class="displaydiv w-100" hx-get="{% url 'adminpanel:update' %}" hx-target="#updatecontent" hx-swap="innerHTML" hx-trigger="every 200s">
       
       {% include "adminpanel/updating_itemhtml.html" %}
         
     </div>
-</div>
+
 <div class="modal fade modal-lg" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">

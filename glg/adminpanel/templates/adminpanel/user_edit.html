@@ -5,11 +5,11 @@
 <link rel="stylesheet" href="{%  static 'css/user_edit.css' %}">
 
 {% endblock %}
-{% block body %}
-     <div class="container">
-        <form action="" method="post">
+{% block content %}
+     <div class="container ">
+        <form class="col-12 justify-content-center" method="post">
             {% csrf_token %}
-            <div class="innerdiv">
+            <div class="innerdiv col-12">
                 <div class="innerdivupper">
                     <div class="profilepic">
                         {% if not user2_profile.profilepicture %}

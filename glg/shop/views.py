@@ -190,7 +190,7 @@ def get_data(request):
     if open_order is not None:
         #dealing with the display of cart items only
         print(open_order.order_number)
-        cart_items = open_order.cart_set.all()
+        cart_items = open_order.cart_set.all().order_by("item_name")
         invoice_total = 0
         forms = []
         values = {}

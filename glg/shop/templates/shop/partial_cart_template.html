@@ -1,5 +1,5 @@
-<section class="bill col-lg-2 col-12 mt-2 " id="invoice_container">
-    <div class="container_1">
+<section class="bill col-lg-3 col-12" id="invoice_container">
+    <div class="container_1 d-sm-flex flex-column justify-content-center align-items-center">
         <div class="invoice">
             <h2>Invoice</h2>
             <p>Total: <span class="price text">Ksh {{invoice_total}}</span></p>
@@ -24,9 +24,9 @@
             <h2>Grand Total:</h2>
             <p class="text large">Ksh {{grand_total}}</p>
         </div>
-        <div class="button">
-            <a href="{% url 'shop:purchase_form' %} "><button >Done</button></a>
-        </div>
+        
+        <a class="btn btn-warning border border-warning border-1 rounded"href="{% url 'shop:purchase_form' %} ">Done</a>
+       
         
     </div>
 </section>

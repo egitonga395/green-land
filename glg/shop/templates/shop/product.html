@@ -10,29 +10,29 @@
 {% endblock%}
 {% block body%}
     {% include 'shop/messages.html' %}
-    <div class="container col-5 row" >
+    <div class="container col-lg-5 row" >
 
     <div class="imagecontainer"><img src="{{item.image.url}}" class="img-fluid" alt=""></div>
     <div class="price row align-items-center mt-4">
         <div class="" style="color: #1D921D;text-align: center;"><p><span style="color: black;">PRICE: </span>KSH {{item.price}}</p></div>
-        <div class=" d-flex flex-column gap-2 w-50">
+        <div class=" d-flex flex-column gap-2  align-items-center"> 
             <a id="liveAlertBtn1" class="btn btn-warning rounded-pill" href="{% url 'shop:addtocart' item.product_id %} "> ADD TO CART</a>
             <a class="btn btn-warning rounded-pill" href="#">BUY NOW!</a>
         </div> 
     </div>
 
     </div>
-    <div class="container col-7 row">
-        <div class="description ">
+    <div class="container col-lg-7 row mb-2">
+        <div class="description mt-1">
             <!-- {% include 'shop/messages.html' %} -->
-            <h2 class="product-name">{{item.name}}</h2>
-            <p>
+            <h2 class="product-name text-sm-center">{{item.name}}</h2>
+            <p class="mt-2">
                 {{item.description}}
             </p>
         </div>
         
         
-        <div class="addphotos row">
+        <div class="addphotos row mb-2">
             {% for image1 in images %}
                 <img src="{{image1.addphotos.url}}" alt="{{image1.display_name}}">
             {% endfor %}

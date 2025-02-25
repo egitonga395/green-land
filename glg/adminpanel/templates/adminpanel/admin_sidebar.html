@@ -1,7 +1,18 @@
-<aside class="col-2 d-md-block d-none">
-    <div class="options"><p><a href="{% url 'adminpanel:users'%}" id = "test1">USERS</a></p></div>
-    <div class="options"><p><a href="{% url 'adminpanel:order'%}">ORDER</a></p></div>
-    <div class="options"><p><a href="{% url 'adminpanel:transport'%}">TRANSPORT</a></p></div>
-    <div class="options"><p><a href="{% url 'adminpanel:blog'%}">BLOG</a></p></div>
-    <div class="options"><p><a href="{% url 'adminpanel:itemview'%}">ITEMS</a></p></div>
+<aside class=" col-2 d-lg-block vh-100" id="sidebar">
+    <div class=" d-none d-lg-block  h-100">
+    <div class="d-flex flex-column h-75 options" id="large-sidebar">
+        <div class="option"><p><a href="{% url 'adminpanel:users'%}" id = "test1">USERS</a></p></div>
+        <div class="option"><p><a href="{% url 'adminpanel:order'%}">ORDER</a></p></div>
+        <div class="option"><p><a href="{% url 'adminpanel:transport'%}">TRANSPORT</a></p></div>
+        <div class="option"><p><a href="{% url 'adminpanel:blog'%}">BLOG</a></p></div>
+        <div class="option"><p><a href="{% url 'adminpanel:itemview'%}">ITEMS</a></p></div>
+    </div>
+    </div>
+    <div class="d-flex flex-column h-75 options  d-lg-none" id="small-sidebar">
+        <div class="option h1"><p><a href="{% url 'adminpanel:users'%}" id = "test1"><i class="bi bi-people"></i></a></p></div>
+        <div class="option h1"><p><a href="{% url 'adminpanel:order'%}"><i class="bi bi-receipt"></i></a></p></div>
+        <div class="option h3"><p><a href="{% url 'adminpanel:transport'%}"><i class="bi bi-truck"></i></a></p></div>
+        <div class="option"><p><a href="{% url 'adminpanel:blog'%}"><i class="bi bi-book"></i></a></p></div>
+        <div class="option h3"><p><a href="{% url 'adminpanel:itemview'%}"><i class="bi bi-flower3"></i></a></p></div>
+    </div>
 </aside>

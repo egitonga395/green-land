@@ -11,7 +11,7 @@
 {% endblock%}
 {% block content %}
 <div class="container2">
-    <div class="displaydiv" hx-get="{% url 'adminpanel:blog_update' %}" hx-target="#updatecontent" hx-swap="innerHTML" hx-trigger="every 5s">
+    <div class="displaydiv" hx-get="{% url 'adminpanel:blog_update' %}" hx-target="#updatecontent" hx-swap="innerHTML" hx-trigger="every 200s">
       
       {% include "adminpanel/updating_blog.html" %}
 

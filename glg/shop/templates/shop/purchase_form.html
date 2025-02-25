@@ -10,36 +10,38 @@
 {% endblock%}
 {% block body %}
         <div class="container row justify-content-center">
-            <div class="form_purchase col-5">
+            <div class="form_purchase col-12  col-lg-5 d-flex justify-content-center align-items-center">
                 <div>
                     <p class="title">Order number:</p><p class="value">{{order.order_number}}</p>
                 </div>
-                <table class="items">
-                    <tr>
-                        <th>Item:</th>
-                        <th>price:</th>
-                        <th>qty:</th>
-                        <th>Amount:</th>
-                    </tr>
-                    {% for ordered_item in ordered_items %}
+                <div class="table-responsive">
+                    <table class="items table">
                         <tr>
-                            <td>{{ordered_item.item_name}}</td>
-                            {% with ordered_item.item_name as  item %}
-                                <td>Ksh. {{item.price}}</td>
-                            {% endwith %}
-                            <td>{{ordered_item.quantity}}</td>
-                            <td>Ksh.{{ordered_item.cart_item_price }}</td>
+                            <th>Item:</th>
+                            <th>price:</th>
+                            <th>qty:</th>
+                            <th>Amount:</th>
                         </tr>
-                    {% endfor %}
-                   
-                    
-            
-                    <tr>
-                        <td><strong>Total price:</strong></td>
-                        <td>Ksh. {{order.invoice_total}}</td>
+                        {% for ordered_item in ordered_items %}
+                            <tr>
+                                <td>{{ordered_item.item_name}}</td>
+                                {% with ordered_item.item_name as  item %}
+                                    <td>Ksh. {{item.price}}</td>
+                                {% endwith %}
+                                <td>{{ordered_item.quantity}}</td>
+                                <td>Ksh.{{ordered_item.cart_item_price }}</td>
+                            </tr>
+                        {% endfor %}
+                       
                         
-                    </tr>
-                </table>  
+                
+                        <tr>
+                            <td><strong>Total price:</strong></td>
+                            <td>Ksh. {{order.invoice_total}}</td>
+                            
+                        </tr>
+                    </table> 
+                </div> 
                 <div>
                     <p class="title">Transport charges:</p><p class="value">Ksh {{order.transport_price}}</p></div>
                 <div>

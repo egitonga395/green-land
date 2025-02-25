@@ -15,7 +15,7 @@ body
     flex-direction: row;
 }
 #formquantities>input{
-    max-width: 4em;
+    max-width: 3em;
 }
 
 section.bill
@@ -25,16 +25,7 @@ section.bill
 
 }
 
-.item{
-    display: flex;
-    background-color: white;
-    border: solid rgb(141, 111, 111) 2px;  
-    justify-content: space-between;
-    max-height: 11vh;
-    align-items: center;
-    border-radius: 1em;
-    
-}
+
 .add_to_cart
 {
     margin-right: 1em;
@@ -49,9 +40,50 @@ img{
     max-height: 11vh;
     border-top-left-radius: 1em;   
     border-bottom-left-radius: 1em;
-    object-fit: contain;
-    object-position: center;
+    padding: 0 !important;
+   
 }
+.item{
+    display: flex;
+    background-color: white;
+    border: solid rgb(141, 111, 111) 2px;  
+    justify-content: space-between;
+    max-height: 11vh;
+    align-items: center;
+    border-radius: 1em;
+    
+}
+@media only screen 
+  and (max-width: 992px) 
+  and (-webkit-min-device-pixel-ratio: 2) { 
+    .item{
+        display: flex;
+        background-color: white;
+        /* border: solid rgb(141, 111, 111) 2px;   */
+        justify-content: space-between;
+        max-height: 22vh;
+        align-items: center;
+        /* border-radius: 1em; */
+        margin: 1em;
+        border: none;
+        background-color: #D9D9D9;
+        border-radius: 0;
+    }
+    img{
+        max-height: 22vh;
+        border-top-left-radius: 1em;   
+        border-bottom-left-radius: 1em;
+        padding-left: 1em !important;
+    }
+    section.bill
+{
+
+     margin-left: 0;
+
+}
+    
+}
+
 .items{
     display: flex;
     flex-direction: column;
@@ -100,4 +132,7 @@ img{
 }
 .transport>div>*, .invoice>p, .Grand_Total>p{
     margin-top: 1em;
+}
+.item_name>p{
+    margin: 0 !important;
 }

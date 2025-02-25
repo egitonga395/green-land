@@ -13,14 +13,13 @@ nav, nav>div>a>span
     font-weight: lighter;
     font-style: normal;
     
-   
 }
 .dropdown-menu, .dropdown-menu>li, .dropdown-menu>li>div, .dropdown-menu>li>div>a, .dropdown-item:hover {
     background-color:#90EE90;
 }
 a{
-    text-decoration: none;
-    color: black;
+    text-decoration: none !important;
+    color: black !important;
 }
 a:hover{
     color: gray;
