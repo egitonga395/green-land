@@ -11,7 +11,7 @@
 {% block body %}
     
     <div class="container" hx-get="{% url 'shop:myorders' %}" hx-swap="outerHTML" hx-target="#myorders" hx-trigger="every 5s">
-        <div class="displaydiv">
+        <div class="displaydiv table-responsive">
             <!-- <form get="{% url 'adminpanel:transport_modify'}"> -->
             {%include "shop/partial_myorders.html" %}
         </div>

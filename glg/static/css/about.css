@@ -1,12 +1,31 @@
 body{
     margin: 0;
     background-color: rgba(202, 194, 194, 0.589);
+   
 }
 
 .who-what, .vision-mission{
   max-width: 45.5%;
   margin-left: 1em;
   height: 80vh;
+}
+.separator, .who-what, .vision-mission{
+    float:left;
+    display: flex;
+}
+@media screen and (max-width: 992px){
+    .who-what, .vision-mission{
+        max-width: 100%;
+        margin-left: 0;
+        height: auto;
+    }
+    .who-what{
+        margin-top: 1em;
+    }
+    .separator, .who-what, .vision-mission{
+        float:none;
+        display: flex;
+    }
 }
 
 .separator{ 
@@ -20,10 +39,7 @@ body{
     
 
 }
-.separator, .who-what, .vision-mission{
-    float:left;
-    display: flex;
-}
+
 
 
 .who-what, .vision-mission{

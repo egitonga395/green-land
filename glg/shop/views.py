@@ -125,43 +125,46 @@ def add_toCart(request, product_id):
     print(open_order)
 
     if open_order is not None:
-        print ("the order is not empty")
+        print ("there is an open order")
         cart_queryset = open_order.cart_set.all()
-        if cart_queryset.count() ==0:
+        print(cart_queryset)
+        if cart_queryset.count() == 0:
             print("The cart is empty")
+            
             new_cart_item = Cart.objects.create(item_name=Item_to_add, quantity = 1, order=open_order)
-
+            messages.error(request, "This item has been added to cart.")
         # if the item exist in the order
         #therefore just increment
-
-        #loops through the queryset to get a cart
-        print(cart_queryset)
-        count = 0
-        for cart_item in cart_queryset:
-            #checks whether an item exists inside the cart_item
-            if Item_to_add == cart_item.item_name:
-                print("item")
-                cart_item.quantity += 1
-                cart_item.save()
-                messages.success(request, "One more item added to cart.")
-                break
+        else:
+            #loops through the queryset to get a cart
+            print(cart_queryset)
+            count = 0
+            for cart_item in cart_queryset:
+                #checks whether an item exists inside the cart_item
+                if Item_to_add == cart_item.item_name:
+                    print("item")
+                    cart_item.quantity += 1
+                    cart_item.save()
+                    messages.success(request, "One more item added to cart.")
+                    break
+                    
                 
-            
-            # the item does not exist hence we just add to the cart
-            #first ensure that the item does not exist until all the list is over
-            elif (Item_to_add != cart_item.item_name and count == (cart_queryset.count()-1)): 
-                #if all items have been iterated through and there the product does not exist
-                print("working on this!!")
-                new_cart_item = Cart.objects.create(item_name=Item_to_add, quantity = 1, order=open_order)
-                new_cart_item.save()
-                messages.error(request, "This item has been added to cart.")
-            else:
-                count += 1 
+                # the item does not exist hence we just add to the cart
+                #first ensure that the item does not exist until all the list is over
+                elif (Item_to_add != cart_item.item_name and count == (cart_queryset.count()-1)): 
+                    #if all items have been iterated through and there the product does not exist
+                    print("working on this!!")
+                    new_cart_item = Cart.objects.create(item_name=Item_to_add, quantity = 1, order=open_order)
+                    new_cart_item.save()
+                    messages.error(request, "This item has been added to cart.")
+                else:
+                    count += 1 
 
         # add  a new open order in to the user
     else:
             transport = Transport.objects.get(destination = "nowhere" )
             new_order = Order.objects.create(order_number=order_number(), buyer=user, status = "open", destitation=transport)
+            messages.error(request, "This item has been added to cart.")
             new_cart_item =  Cart.objects.create(item_name=Item_to_add, quantity = 1, order=new_order)   
 
     # check if the user has
