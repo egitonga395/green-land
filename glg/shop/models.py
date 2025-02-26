@@ -94,15 +94,18 @@ class Order(models.Model):
     status = models.CharField( max_length=200, choices=STATUS_CHOICES)
     def __str__(self):
         return f"Order_{self.order_number} {self.status}"
-    class Meta:
-        permissions = [
-            ('can_do_all_order', 'Can do all modifications to order'),
-        ]
 
     def save(self, *args, **kwargs):
         if self.status != "open":
             self.placed =  datetime.datetime.strptime(str(timezone.now()),'%Y-%m-%d %H:%M:%S.%f%z')
         super(Order, self).save(*args, **kwargs)
+
+    class Meta:
+        permissions = [
+            ('can_do_all_order', 'Can do all modifications to order'),
+        ]
+
+
 
 
 
@@ -122,8 +125,11 @@ class Cart(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
 
     def save(self, *args, **kwargs):
-        self.cart_item_price = self.item_name.price * self.quantity
-        super(Cart, self).save(*args, **kwargs)
+        if self.quantity > 0:
+            self.cart_item_price = self.item_name.price * self.quantity
+            super(Cart, self).save(*args, **kwargs)
+        else:
+            self.delete()
 
     def __str__(self):
         return self.item_name.name

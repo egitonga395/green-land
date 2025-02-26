@@ -35,11 +35,11 @@
                           {% include 'adminpanel/order_status.html' %}
                         {% else %}
                         <td>{{ order.status}}</td>
-                        <td><button formnovalidate name="edit" value="{{ order.order_number }}">Edit</button></td>
+                        <td><button formnovalidate name="edit" value="{{ order.order_number }}" class="btn btn-info"><i class="bi bi-pencil-fill"></i>Edit</button></td>
                         <td>
                         
                           
-                          <button formnovalidate name="view" value="{{ order.order_number }}">View</button>
+                          <button formnovalidate name="view" value="{{ order.order_number }}" class="btn btn-secondary"><i class="bi bi-eye"></i>View</button>
                         </td>
                         {% endif %}
                       </tr>

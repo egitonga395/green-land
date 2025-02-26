@@ -1,4 +1,14 @@
+{% if empty %}
 <section class="bill col-lg-3 col-12" id="invoice_container">
+    <div class="container_1 d-sm-flex flex-column justify-content-center align-items-center">
+        <p class="h3">You have no orders return to shop to see our products!</p>
+        <a class="btn btn-warning border border-warning border-1 rounded"href="{% url 'shop:products' %} ">Shop now!</a>
+    </div>
+</section>
+{% else %}
+
+<section class="bill col-lg-3 col-12" id="invoice_container">
+    
     <div class="container_1 d-sm-flex flex-column justify-content-center align-items-center">
         <div class="invoice">
             <h2>Invoice</h2>
@@ -30,3 +40,5 @@
         
     </div>
 </section>
+
+{% endif %}

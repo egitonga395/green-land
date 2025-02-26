@@ -26,9 +26,9 @@
                         {% else %}
                         <td>{{ Transport.destination }}</td>
                         <td>{{ Transport.price }}</td>
-                        <td>
-                          <button formnovalidate name="edit" value="{{ Transport.destination }}">Edit</button>
-                          <button formnovalidate name="delete" value="{{ Transport.destination }}">Delete</button>
+                        <td class="d-flex justify-content-around align-items-center ">
+                          <button formnovalidate name="edit" value="{{ Transport.destination }}" class="btn btn-warning">Edit</button>
+                          <button formnovalidate name="delete" value="{{ Transport.destination }}" class="btn btn-danger">Delete</button>
                         </td>
                         {% endif %}
                       </tr>
