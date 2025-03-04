@@ -86,14 +86,14 @@ p{
     margin-top: 1em;
 }
 .addphotos>img{
-    width: 50%;
+    width: 25%;
     
 }
 
 @media screen and (max-width: 768px){
     
     .addphotos>img{
-        width: 75%;
+        width: 50%;
         
     }
 }
