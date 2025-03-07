@@ -19,8 +19,6 @@ class CustomUserManager(BaseUserManager):
         user.set_password(password)
         user.save(using=self._db)
         employer = Group.objects.get_or_create(name='Buyer')
-        
-
         return user
 
     def create_superuser(self, email, password, **extra_fields):

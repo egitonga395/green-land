@@ -44,125 +44,21 @@
                 </div>
                 </div>
     </section>  
-    <section class="shopping row  justify-content-center">
-        <div class="product">
-            <div>
-                <img src="" alt="">
-            </div>
-            <div class="details">
-                <p>American Cypress</p>
-                <p>Ksh. 1000</p>
-            </div>
-        </div>
-        <div class="product">
-            <div>
-                <img src="htmlpractice\istockphoto-482987325-612x612.jpg" alt="">
-            </div>
-            <div class="details">
-                <p>LandScaping</p>
-                <p>Ksh. 10000</p>
-            </div>
-        </div>
-        <div class="product">
-            <div>
-                <img src="45186561_958354954335242_9146592336728293376_n-01.jpeg" alt="">
-            </div>
-            <div class="details">
-                <p>Thicker Palm</p>
-                <p>Ksh. 2400</p>
-            </div>
-        </div>
-        <div class="product">
-            <div>
-                <img src="htmlpractice\istockphoto-482987325-612x612.jpg" alt="">
-            </div>
-            <div class="details">
-                <p>LandScaping</p>
-                <p>Ksh. 10000</p>
-            </div>
-        </div>
-        <div class="product">
-            <div>
-                <img src="45186561_958354954335242_9146592336728293376_n-01.jpeg" alt="">
-            </div>
-            <div class="details">
-                <p>Thicker Palm</p>
-                <p>Ksh. 2400</p>
-            </div>
-        </div>
-        <div class="product">
-            <div>
-                <img src="htmlpractice\istockphoto-482987325-612x612.jpg" alt="">
-            </div>
-            <div class="details">
-                <p>LandScaping</p>
-                <p>Ksh. 10000</p>
-            </div>
-        </div>
-        <div class="product">
-            <div>
-                <img src="static/image/45186561_958354954335242_9146592336728293376_n-01.jpeg" alt="">
-            </div>
-            <div class="details">
-                <p>Thicker Palm</p>
-                <p>Ksh. 2400</p>
-            </div>
-        </div>
-        <div class="product">
-            <div>
-                <img src="htmlpractice\istockphoto-482987325-612x612.jpg" alt="">
-            </div>
-            <div class="details">
-                <p>LandScaping</p>
-                <p>Ksh. 10000</p>
-            </div>
-        </div>
-        <div class="product">
-            <div>
-                <img src="45186561_958354954335242_9146592336728293376_n-01.jpeg" alt="">
-            </div>
-            <div class="details">
-                <p>Thicker Palm</p>
-                <p>Ksh. 2400</p>
-            </div>
-        </div><div class="product">
-            <div>
-                <img src="htmlpractice\istockphoto-482987325-612x612.jpg" alt="">
-            </div>
-            <div class="details">
-                <p>LandScaping</p>
-                <p>Ksh. 10000</p>
-            </div>
-        </div>
-        <div class="product">
-            <div>
-                <img src="45186561_958354954335242_9146592336728293376_n-01.jpeg" alt="">
-            </div>
-            <div class="details">
-                <p>Thicker Palm</p>
-                <p>Ksh. 2400</p>
-            </div>
-        </div><div class="product">
-            <div>
-                <img src="htmlpractice\istockphoto-482987325-612x612.jpg" alt="">
-            </div>
-            <div class="details">
-                <p>LandScaping</p>
-                <p>Ksh. 10000</p>
-            </div>
-        </div>
-        <div class="product">
-            <div>
-                <img src="45186561_958354954335242_9146592336728293376_n-01.jpeg" alt="">
-            </div>
-            <div class="details">
-                <p>Thicker Palm</p>
-                <p>Ksh. 2400</p>
-            </div>
-        </div>
+    <section class="shopping  justify-content-center d-flex gap-1 flex-wrap">
+        {% for product in products %}
+        <a href="{{ product.get_absolute_url }}"></a>
         
+        <div class="card" style="max-width: 10rem;">
+            <img src="{{ product.image.url }}" class="card-img-top object-fit-cover img-fluid rounded" alt="{{product.product_id}} " style="max-height: 20em;">
+            <div class="card-body">
+              <h5 class="card-title">{{product.name}}</h5>
+              <p class="card-text">Ksh. {{product.price}}</p>
+            </div>
+          </div>
+        </a>
+        {% endfor %}        
     </section>
-    <div class="readmore">
+    <div class="readmore d-flex justify-content-center">
         <a class="btn btn-warning rounded-pill" href="{% url 'shop:products' %}">Proceed to shop</a>
         
     </div>

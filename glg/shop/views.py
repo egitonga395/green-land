@@ -25,7 +25,8 @@ from lxml import etree
 import logging
 import os
 from django.conf import settings
-
+from django.http import JsonResponse
+import json
 
 # Create your views here.
 
@@ -132,7 +133,7 @@ def add_toCart(request, product_id):
             print("The cart is empty")
             
             new_cart_item = Cart.objects.create(item_name=Item_to_add, quantity = 1, order=open_order)
-            messages.error(request, "This item has been added to cart.")
+            messages.info(request, "This item has been added to cart.")
         # if the item exist in the order
         #therefore just increment
         else:
@@ -156,7 +157,7 @@ def add_toCart(request, product_id):
                     print("working on this!!")
                     new_cart_item = Cart.objects.create(item_name=Item_to_add, quantity = 1, order=open_order)
                     new_cart_item.save()
-                    messages.error(request, "This item has been added to cart.")
+                    messages.info(request, "This item has been added to cart.")
                 else:
                     count += 1 
 
@@ -164,7 +165,7 @@ def add_toCart(request, product_id):
     else:
             transport = Transport.objects.get(destination = "nowhere" )
             new_order = Order.objects.create(order_number=order_number(), buyer=user, status = "open", destitation=transport)
-            messages.error(request, "This item has been added to cart.")
+            messages.info(request, "This item has been added to cart.")
             new_cart_item =  Cart.objects.create(item_name=Item_to_add, quantity = 1, order=new_order)   
 
     # check if the user has
@@ -213,9 +214,10 @@ def get_data(request):
 
 
 
-            grand_total = open_order.invoice_total +  open_order.transport_price
+            open_order.grand_total = invoice_total +  open_order.transport_price
             print ("#$$$$")
             print(open_order.invoice_total )
+            print(open_order.grand_total)
             open_order.save()
             context = {"cart_items": cart_items, 
             "invoice_total": open_order.invoice_total, 
@@ -224,7 +226,7 @@ def get_data(request):
             "order_include_transport":Transport_form(initial={'destination': open_order.destitation}),
             "include_transport_check":Order_form(instance=open_order),
             "transport_price": open_order.transport_price,
-            "grand_total": grand_total}
+            "grand_total": open_order.grand_total}
             
             return context
         else:
@@ -294,6 +296,7 @@ def transport_bit(request, order_number):
         order.destitation = transport_obj
         print("The user wants to have the product transport to:")
         print(order.destitation)
+        print("The grandtotal is", order.grand_total)
         price_transport = transport_obj.price
         include_transport_check = Order_form(instance=order)   
         context={
@@ -340,6 +343,7 @@ def transport_bit(request, order_number):
             order.include_transport = False
             order.transport_price = 0
             order.grand_total = order.invoice_total + order.transport_price
+            print(order.grand_total)
             order.save()
             
             #the grand total is equal to the invoice because the transport price is 0 in the database
@@ -364,6 +368,8 @@ def purchase_form_data(request):
     order = Order.objects.filter( status="open").filter(buyer=request.user).first()
     payment_details = ProfileForm()
     ordered_items = order.cart_set.all()
+    print("***********")
+    print(order.grand_total)
     context = {
         "order": order,
         "ordered_items": ordered_items,
@@ -421,6 +427,7 @@ def processing_payment(request):
         #the order
         
         amount = open_order.grand_total
+        print("This is the amount:",amount)
         url = "http://127.0.0.1:8000/mpesa/submit/"
         data = {
             "phone_number": "{}".format(mpesa_number),
@@ -430,12 +437,11 @@ def processing_payment(request):
         print(data)
         q=requests.post(url, json=data)
         print("________________________________________")
+        print(q)
         context = purchase_form_data(request)
         context["payment_details"] = ProfileForm(request.POST)
         context["form_issuccessful"]=True
         return render(request, "shop/purchase_form.html", context)
-
-
     else:
         
         context = purchase_form_data(request)
@@ -450,21 +456,75 @@ def processing_payment(request):
 #checking if payment is complete
 @login_required(login_url='users:signin') 
 def is_payment_complete(request, order_number):
- 
+    
+    #we know that the first(the most recent) transaction  should be the one that shows success because other transactions are abadoned or rather not successful
     completed_payment = PaymentTransaction.objects.filter(is_successful=True, order_id=order_number).first()
     order = Order.objects.get(order_number=order_number)
+    # print(completed_payment.trans_id or None)
     context = {}
     print(completed_payment)
     if completed_payment == None:
+        # there are two cases 
+        # 1. the system has not updated the payment registered so check for the payment.
+        # 2. the order has an error so retry transaction or the user to do so
+        #pull first payment for that order and send a request for that payment if the first one is paid for then the order is complete
+        first_payment = PaymentTransaction.objects.filter(order_id=order_number).order_by("-date_created").first()
+        url = "http://127.0.0.1:8000/mpesa/check-online/"
+        data = {
+            "transaction_id": "{}".format(first_payment.id)
+        }
+        q=requests.post(url, json=data)
+        print("response after checking online")
+        print(q)
+        y = json.loads(q.content)
+        print(y)
+        if y["status"] == True:
+            print("the payment is successful")
+            order.status  =  "processing"
+            order.save()
+            context["complete"] = True
+            context["order"]  = order
+            return render(request, "shop/proceeding_button.html", context)
+        else:
+            print("the payment is not successful")
+            url = "http://127.0.0.1:8000/mpesa/retry/"
+            data = {
+            "transaction_id": "{}".format(first_payment.id)
+            }
+            q=requests.post(url, json=data)
+            print("response after retrying")
+            print(q)
+            
+            context["complete"] = False
+            context["order"]  = order
+            context["message"] = y["message"]
+            context["back"] = True
+            return render(request, "shop/proceeding_button.html", context)
+
+
+        
+
+        # for payment in all_payments:
+        #     print(payment)
+        #     print(payment.id, "_____________")
+        #     print("callback url second time")
+            # url = "http://127.0.0.1:8000//mpesa/confirm/"
+            # data = {
+            #     "transaction_id": "{}".format(payment.id) 
+            # }
+            # q=requests.post(url, json=data)
+            # print(q)        
+
         context["complete"] = False
         context["order"]  = order
         return render(request, "shop/proceeding_button.html", context)
     else:
+        #there is already an exixting transaction that is successful
         order = Order.objects.get(order_number=order_number)
         context["order"]  = order
         order.status  =  "processing"
         order.save()
-        print("wanted to find out if te order status is being changed")
+        print("wanted to find out if the order status is being changed")
         print(order)
         context["complete"] = True 
         return render(request, "shop/proceeding_button.html", context)
@@ -475,7 +535,10 @@ def order_succesful(request, order_number):
     order_number = Order.objects.get(order_number = order_number).order_number
     order_status = Order.objects.get(order_number = order_number).status
     print(order_status)
-    return render(request, "shop/ordersuccess.html", {"order_number": order_number, "order_status": order_status})
+    products = Item.objects.all()[0:5]
+    print(products)
+    context={"order_number": order_number, "order_status": order_status, "products": products}
+    return render(request, "shop/ordersuccess.html", context)
 
 
 

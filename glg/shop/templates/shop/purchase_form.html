@@ -63,9 +63,10 @@
                             <label for="mpesano" class="title">Mpesa no:</label>{{payment_details.mpesa_number}}
                         </div>
                         <div>
-                            <label for="mpesano" class="title">Amount:</label>{{order.grand_total}}{{payment_details.phone_number.errors}}
+                            <label for="mpesano" class="title">{{payment_details.phone_number.errors}}
                             <label for="phoneno" class="title">Phone no:</label>{{payment_details.phone_number}}
                             {{payment_details.non_field_errors}}
+
                         
                         
                     </div>

@@ -8,9 +8,24 @@
     {% if complete %}
     <a class="btn btn-primary" href="{% url 'shop:order_succesful' order.order_number %}" role="button">Proceed</a>
     {% else %}
-        <button  hx-get="{{order.order_number}}" hx-trigger="every 2s" hx-swap="outerHTML" class="btn btn-primary" type="button" disabled>
-            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-            Loading...
-        </button>
+        <div hx-get="{{order.order_number}}" hx-trigger="every 15s" hx-swap="outerHTML" class="container-fluid d-flex flex-column" >
+            {% if message %}
+                <span class="">
+                {{message}}
+                <span class=""> We have reinitiated the transaction.</span> <br>
+                Please wait for the payment to be processed. <br> Click <span>back</span> to get bak to the purchase form. <br>
+                </span>
+            {% endif %}
+            <div class="d-flex justify-content-around container-fluid">
+            {% if back %}
+                <a class="btn btn-danger"  href="{% url 'shop:purchase_form' %}"  role="button">Back</a>
+            {% endif %}
+            
+            <button   class="btn btn-primary" type="button" disabled>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Loading...
+            </button>
+        </div>
+    </div>
     {% endif %}
 {% endif %}

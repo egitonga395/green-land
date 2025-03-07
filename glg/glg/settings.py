@@ -34,8 +34,24 @@ SECRET_KEY = 'django-insecure-mbnyt@3iupo3cncd#uluz4wb02hym1zfa3bgt1pl=(bq+=)=(z
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', "ef10-102-212-236-209.ngrok-free.app"]
+CSRF_TRUSTED_ORIGINS = ["https://ef10-102-212-236-209.ngrok-free.app"]
+CORS_ALLOW_CREDENTIALS = True
 
-ALLOWED_HOSTS = []
+CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ALLOW_CREDENTIALS = True
+
+
+
+
+CORS_REPLACE_HTTPS_REFERER = True
+
+# CSRF_COOKIE_DOMAIN = '5619-102-212-236-163.ngrok-free'
+
+CORS_ORIGIN_WHITELIST = (
+    "https://ef10-102-212-236-209.ngrok-free.app",
+)
 
 
 # Application definition
@@ -60,7 +76,7 @@ MPESA_CONFIG = {
     'CONSUMER_KEY': 'xKfIPt144qAp2SkK9p0Q4g1b5QVpLRAN',
     'CONSUMER_SECRET': '2CNJGtUoeqN8n3Rr',
     'CERTIFICATE_FILE': None,
-    'HOST_NAME': 'https://558d-41-90-187-109.ngrok.io',
+    'HOST_NAME': 'https://ef10-102-212-236-209.ngrok-free.app',
     'PASS_KEY': 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919',
     'SAFARICOM_API': 'https://sandbox.safaricom.co.ke',
     'AUTH_URL': '/oauth/v1/generate?grant_type=client_credentials',

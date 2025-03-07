@@ -36,6 +36,10 @@ main{
 }
 .describing>h5:nth-child(2){max-width: 72%;}
 
+span{
+        font-weight:bold
+}
+
 
 
 

@@ -9,7 +9,7 @@ body
 {   
     
     background-color: rgba(255, 255, 255, 0.61);
-    overflow: hidden;
+    
 }
 
 
@@ -23,15 +23,7 @@ body
     justify-content: center;
     align-items: center;
 }
-.shopping{
 
-    display: flex;
-    gap: 1em;
-    margin: 0 1em 0 1em;
-    flex-wrap: wrap;
-    justify-content: center;
-
-}
 .product{
     display: flex;
     flex-direction: column;
