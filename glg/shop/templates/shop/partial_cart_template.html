@@ -17,7 +17,7 @@
         <div class="transport">
             <h2>Transport</h2>
             <div>
-                <form hx-get="transport-price-form/{{order_number}}", hx-swap = "outerHTML", hx-trigger="every 3s" hx-target="#invoice_container">
+                <form hx-get="transport-price-form/{{order_number}}", hx-swap = "outerHTML", hx-trigger="every 5s" hx-target="#invoice_container">
                     {% csrf_token %}
                     <p style="display: inline;">To:</p>
                     <!-- <input type="text" class="resize-text-box"> -->
