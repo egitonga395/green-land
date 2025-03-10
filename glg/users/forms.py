@@ -4,6 +4,13 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import Profile
 from django.core.exceptions import ValidationError
 
+
+
+
+class EmailForgotPasswordForm(forms.Form):
+    email = forms.EmailField(max_length=200, help_text='Required')
+
+
 class SignupForm(UserCreationForm):
     email = forms.EmailField(max_length=200, help_text='Required')
     

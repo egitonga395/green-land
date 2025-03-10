@@ -1,10 +1,15 @@
-from django.shortcuts import render
+
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import Group, Permission
-from .forms import SignupForm, SigninForm
+from .forms import SignupForm, SigninForm, EmailForgotPasswordForm, PasswordResetForm
 from .models import Profile, CustomUser
 from django.shortcuts import get_object_or_404
+
+
+
+
+
 
 # Create your views here.
 
@@ -62,3 +67,26 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect('Users:signin')
+
+
+def forgotPassword(request):
+    if request.POST:
+        email=request.POST.get("email")
+        print email
+        user = CustomUser.objects.get(email=email)
+        send_mail("Your PW", user.password, "egitonga395@gmail.com", [email])
+        print user
+        if(not user):
+            print "No user"
+            return render_to_response("forgotPassword.html")
+        else:   
+            return render_to_response("passwordRecovery.html")
+    return render_to_response('forgotPassword.html')
+
+
+
+    def randompaswordgenerator():
+        import random
+        import string
+        password = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for _ in range(8))
+        return password
